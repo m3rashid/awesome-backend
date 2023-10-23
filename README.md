@@ -2,55 +2,14 @@
 
 ### Features
 
-<details>
-  <summary>Authentication</summary>
+1. Authentication: JWT based, Google Login
+2. File Uploads: Resumable, Take photos from webcam, Image Editor, Preview Thumbnails, Screen Capture, Google Drive Plugin, One Drive Plugin, Dropbox Plugin, Unsplash Plugin
+3. Email: Sending Emails, Email Templates
+4. Monitoring: Error Tracking, Session Replays
+5. Analytics: Google Analytics, Google Tag Manager, Microsoft Clarity
+6. Dashboards: Dashboard Builder, Custom Widgets
 
-- JWT based
-- Google Login
-</details>
-
-<details>
-  <summary>File Uploads</summary>
-
-- Resumable
-- Take photos from webcam
-- Image Editor
-- Preview Thumbnails
-- Screen Capture
-- Google Drive Plugin
-- One Drive Plugin
-- Dropbox Plugin
-- Unsplash Plugin
-</details>
-
-<details>
-  <summary>Email</summary>
-
-- Sending Emails
-- Email Templates
-</details>
-
-<details>
-  <summary>Monitoring</summary>
-
-- Error Tracking
-- Session Replays
-</details>
-
-<details>
-  <summary>Analytics</summary>
-
-- Google Analytics
-- Google Tag Manager
-- Microsoft Clarity
-</details>
-
-<details>
-  <summary>Dashboards</summary>
-
-- Dashboard Builder
-- Custom Widgets
-</details>
+<hr />
 
 ### Backend
 
