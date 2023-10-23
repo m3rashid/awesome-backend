@@ -2,7 +2,7 @@ test:
 	go test ./... -cover
 
 run:
-	go run main.go
+	air
 
 build:
 	rm -rf bin/main
