@@ -2,6 +2,17 @@
 
 ### Backend
 
+<style>
+.foo table {
+		width: 100%;
+		border-collapse: collapse;
+		border-spacing: 0;
+		border: 1px solid #ccc;
+}
+</style>
+
+<div class="table">
+
 | Name       | Description              |
 | ---------- | ------------------------ |
 | Golang     | Language                 |
@@ -10,9 +21,12 @@
 | TusD       | Resumable File Uploads   |
 | MailerSend | Sending Mails            |
 | Sentry     | Error and Log management |
-|            |                          |
+
+</div>
 
 ### Frontend
+
+<div class="table">
 
 | Name                  | Description                         |
 | --------------------- | ----------------------------------- |
@@ -27,4 +41,5 @@
 | Microsoft Clarity     | Monitoring and session replays      |
 | Google tag manager    | Tracking and Monitoring             |
 | Google Analytics      | Analytics                           |
-|                       |                                     |
+
+</div>
