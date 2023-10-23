@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
@@ -29,6 +30,11 @@ func main() {
 		MaxAge:        3600,
 		CacheDuration: 10 * time.Second,
 	})
+
+	app.Use(favicon.New(favicon.Config{
+		File: "./public/icons/favicon.ico",
+		URL:  "/favicon.ico",
+	}))
 
 	app.Use(limiter.New(limiter.Config{
 		Max:               60,

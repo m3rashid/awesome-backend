@@ -65,7 +65,8 @@
 | Air        | Auto Reloading in Development |
 |            |                               |
 | _TODO_     |                               |
-| Auth       | Google Authentication         |
+| OAuth      | Google, Github                |
+| S3 Store   |                               |
 
 ### Frontend
 
