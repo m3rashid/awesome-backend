@@ -1,3 +1,8 @@
 .env*
 node_modules
-bin/
+bin/*
+!bin/.gitkeep
+tmp
+*.out
+*.pid
+*.sock
