@@ -1,12 +1,8 @@
-import {
-  FluentProvider,
-  teamsDarkTheme,
-  teamsLightTheme,
-} from '@fluentui/react-components';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { useThemeValue } from '../hooks/theme';
+import { useAppThemeConfigValue } from '../hooks/theme';
+import AntdProvider from './atoms/antdProvider';
 import Header from './header';
 
 export type RootContainerProps = React.PropsWithChildren & {
@@ -14,17 +10,19 @@ export type RootContainerProps = React.PropsWithChildren & {
 };
 
 const RootContainer: React.FC<RootContainerProps> = ({ children }) => {
-  const theme = useThemeValue();
+  const appThemeConfig = useAppThemeConfigValue();
 
   return (
-    <FluentProvider
-      theme={theme === 'light' ? teamsLightTheme : teamsDarkTheme}
-    >
-      <BrowserRouter>
+    <BrowserRouter>
+      <AntdProvider
+        theme={{}}
+        isDark={appThemeConfig.isDark}
+        isCompact={appThemeConfig.isCompact}
+      >
         <Header />
         {children}
-      </BrowserRouter>
-    </FluentProvider>
+      </AntdProvider>
+    </BrowserRouter>
   );
 };
 

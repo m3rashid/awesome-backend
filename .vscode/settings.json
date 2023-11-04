@@ -1,3 +1,24 @@
 {
-  "cSpell.words": ["bson", "fluentui", "gofiber", "joho", "tanstack", "Uppy"]
+  "cSpell.words": [
+    "antd",
+    "bson",
+    "cssinjs",
+    "fluentui",
+    "gofiber",
+    "joho",
+    "tanstack",
+    "Uppy"
+  ],
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
