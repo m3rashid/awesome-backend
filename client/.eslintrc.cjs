@@ -9,7 +9,7 @@ module.exports = {
 	],
 	ignorePatterns: ['dist', '.eslintrc.cjs'],
 	parser: '@typescript-eslint/parser',
-	plugins: ['react-refresh', '@tanstack/query'],
+	plugins: ['react-refresh', '@tanstack/query', 'simple-import-sort'],
 	rules: {
 		'react-refresh/only-export-components': [
 			'warn',
@@ -17,6 +17,11 @@ module.exports = {
 		],
 		'@typescript-eslint/no-unused-vars': 'warn',
 		"@tanstack/query/exhaustive-deps": "error",
-		"@tanstack/query/stable-query-client": "error"
+		"@tanstack/query/stable-query-client": "error",
+		'react-refresh/only-export-components': 'warn',
+		'@typescript-eslint/no-non-null-assertion': 'off',
+		'simple-import-sort/imports': 'error',
+		'simple-import-sort/exports': 'error',
+		'@typescript-eslint/no-explicit-any': 'off',
 	},
 }

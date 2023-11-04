@@ -1,8 +1,9 @@
-import React from 'react';
-import { RecoilRoot } from 'recoil';
-import ReactDOM from 'react-dom/client';
-
 import './index.css';
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { RecoilRoot } from 'recoil';
+
 import App from './App.tsx';
 import RootContainer from './components/rootContainer.tsx';
 
