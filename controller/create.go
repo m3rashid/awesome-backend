@@ -15,14 +15,14 @@ func Create[T interface{}](collectionName string, options map[string]interface{}
 		var document T
 		err := ctx.BodyParser(&document)
 		if err != nil {
-			ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		if options[SKIP_VALIDATION_KEY] == false {
 			validate := validator.New()
 			err = validate.Struct(document)
 			if err != nil {
-				ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 			}
 		}
 
@@ -31,11 +31,10 @@ func Create[T interface{}](collectionName string, options map[string]interface{}
 
 		result, err := collection.InsertOne(context.Background(), document)
 		if err != nil {
-			ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		fmt.Println(result)
-		ctx.Status(http.StatusCreated).JSON(fiber.Map{"id": result.InsertedID})
-		return nil
+		return ctx.Status(http.StatusCreated).JSON(fiber.Map{"id": result.InsertedID})
 	}
 }

@@ -13,7 +13,7 @@ func Get[T interface{}, SearchCriteria interface{}](collectionName string, optio
 		var searchCriteria SearchCriteria
 		err := ctx.BodyParser(&searchCriteria)
 		if err != nil {
-			ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		mongoClient := db.DBinstance()
@@ -23,13 +23,12 @@ func Get[T interface{}, SearchCriteria interface{}](collectionName string, optio
 		err = collection.FindOne(ctx.Context(), searchCriteria).Decode(&document)
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
-				ctx.Status(http.StatusNotFound).JSON(fiber.Map{"error": "document not found"})
+				return ctx.Status(http.StatusNotFound).JSON(fiber.Map{"error": "document not found"})
 			} else {
-				ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 			}
 		}
 
-		ctx.Status(http.StatusOK).JSON(document)
-		return nil
+		return ctx.Status(http.StatusOK).JSON(document)
 	}
 }

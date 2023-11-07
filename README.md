@@ -44,5 +44,3 @@
 | Google Analytics      | Analytics                           |
 |                       |                                     |
 | _TODO_                |                                     |
-
-<!-- github.com/thoas/go-funk -->

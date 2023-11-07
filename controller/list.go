@@ -13,7 +13,7 @@ func List[T interface{}](collectionName string) func(*fiber.Ctx) error {
 		var listBody ListBody
 		err := ctx.BodyParser(&listBody)
 		if err != nil {
-			ctx.Status(400).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(400).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		paginationOptions := listBody.PaginationOptions
@@ -40,18 +40,18 @@ func List[T interface{}](collectionName string) func(*fiber.Ctx) error {
 
 		cursor, err := collection.Find(ctx.Context(), searchCriteria, opts)
 		if err != nil {
-			ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		var results []T
 		err = cursor.All(ctx.Context(), &results)
 		if err != nil {
-			ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		docsCount, err := collection.CountDocuments(ctx.Context(), searchCriteria)
 		if err != nil {
-			ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		response := PaginationResponse[T]{
@@ -63,7 +63,6 @@ func List[T interface{}](collectionName string) func(*fiber.Ctx) error {
 			HasNextPage:     docsCount > (paginationOptions.Page * paginationOptions.Limit),
 			HasPreviousPage: paginationOptions.Page > 1,
 		}
-		ctx.Status(http.StatusOK).JSON(response)
-		return nil
+		return ctx.Status(http.StatusOK).JSON(response)
 	}
 }

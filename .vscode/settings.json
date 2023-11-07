@@ -6,6 +6,7 @@
     "fluentui",
     "gofiber",
     "joho",
+    "swaggo",
     "tanstack",
     "thoas",
     "Uppy"

@@ -1,32 +1,36 @@
 package modules
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
-	"github.com/m3rashid/awesome/modules/permission"
 	"github.com/m3rashid/awesome/utils"
 )
 
-type Controller = map[string]fiber.Handler
-
-type Module struct {
-	Name                string                        `json:"name"`
-	Permissions         []permission.ModulePermission `json:"permissions"`
-	AnonymousRoutes     Controller
-	AuthenticatedRoutes Controller
-}
-
 func RegisterRoutes(app *fiber.App, modules []Module) {
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
+	app.Get("/", func(ctx *fiber.Ctx) error {
+		return ctx.SendString("Hello, World!")
 	})
 
 	app.Get("/metrics", monitor.New(monitor.Config{
 		Title: os.Getenv("APP_NAME") + " - Metrics",
 	}))
+
+	app.Get("/configs", func(ctx *fiber.Ctx) error {
+		var configs []string
+		for _, module := range modules {
+			json, err := module.Stringify()
+			if err != nil {
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+					"error": "Error in getting config",
+				})
+			}
+			configs = append(configs, json)
+		}
+		return ctx.Status(http.StatusOK).JSON(configs)
+	})
 
 	for _, module := range modules {
 		for route, handler := range module.AuthenticatedRoutes {

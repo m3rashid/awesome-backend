@@ -1,15 +1,15 @@
 package auth
 
 import (
+	"github.com/m3rashid/awesome/controller"
 	"github.com/m3rashid/awesome/modules"
 	auth "github.com/m3rashid/awesome/modules/auth/schema"
-	permission "github.com/m3rashid/awesome/modules/permission"
 	search "github.com/m3rashid/awesome/modules/search/schema"
 )
 
 var AuthModule = modules.Module{
 	Name: "auth",
-	Permissions: []permission.ModulePermission{
+	Resources: []modules.Resource{
 		{
 			Name:         "user",
 			ResourceType: auth.USER_MODEL_NAME,
@@ -18,25 +18,26 @@ var AuthModule = modules.Module{
 				DescriptionKey: "email",
 				DisplayUrl:     "/user/:rId",
 			},
-			ActionPermissions:      permission.Permission{},
-			IndependentPermissions: permission.Permission{},
+			ActionPermissions:      modules.Permission{},
+			IndependentPermissions: modules.Permission{},
 		},
 		{
 			Name:          "profile",
 			ResourceType:  auth.PROFILE_MODEL_NAME,
 			ResourceIndex: search.ResourceIndex{},
-			ActionPermissions: permission.Permission{
-				"CAN_VIEW_PROFILE":   {},
-				"CAN_EDIT_PROFILE":   {},
-				"CAN_DELETE_PROFILE": {},
+			ActionPermissions: modules.Permission{
+				"CAN_VIEW_PROFILE",
+				"CAN_EDIT_PROFILE",
+				"CAN_DELETE_PROFILE",
 			},
-			IndependentPermissions: permission.Permission{
-				"CAN_CREATE_PROFILE": {},
+			IndependentPermissions: modules.Permission{
+				"CAN_CREATE_PROFILE",
 			},
 		},
 	},
 	AuthenticatedRoutes: modules.Controller{
-		"": AuthTest(),
+		"":       AuthTest(),
+		"/users": controller.List[auth.User](auth.USER_MODEL_NAME),
 	},
 	AnonymousRoutes: modules.Controller{
 		"/login":    Login(),
