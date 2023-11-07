@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -63,6 +64,7 @@ func List[T interface{}](collectionName string) func(*fiber.Ctx) error {
 			HasNextPage:     docsCount > (paginationOptions.Page * paginationOptions.Limit),
 			HasPreviousPage: paginationOptions.Page > 1,
 		}
+		fmt.Println(response)
 		return ctx.Status(http.StatusOK).JSON(response)
 	}
 }
