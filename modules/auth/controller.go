@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	validator "github.com/go-playground/validator/v10"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
 	auth "github.com/m3rashid/awesome/modules/auth/schema"
