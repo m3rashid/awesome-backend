@@ -1,8 +1,8 @@
 package controller
 
 const SKIP_VALIDATION_KEY = "skipValidation"
-const CREATED_AT_FIELD = "created_at"
-const UPDATED_AT_FIELD = "updated_at"
+const CREATED_AT_FIELD = "createdAt"
+const UPDATED_AT_FIELD = "updatedAt"
 
 type PaginationOptions struct {
 	Limit int64 `json:"limit"`
