@@ -5,8 +5,9 @@ import (
 )
 
 var SearchModule = modules.Module{
-	Name: "search",
-	AuthenticatedRoutes: modules.Controller{
+	Name:      "search",
+	Resources: []modules.Resource{},
+	ProtectedRoutes: modules.Controller{
 		"/search": HandleSearch(),
 	},
 	AnonymousRoutes: modules.Controller{},

@@ -31,9 +31,7 @@ func List[T interface{}](collectionName string) func(*fiber.Ctx) error {
 			searchCriteria = map[string]interface{}{}
 		}
 
-		mongoClient := db.DBinstance()
-		collection := db.OpenCollection(mongoClient, collectionName)
-
+		collection := db.GetCollection(collectionName)
 		opts := options.Find()
 		opts.SetSort(map[string]int{CREATED_AT_FIELD: -1})
 		opts.SetSkip(int64((paginationOptions.Page - 1) * paginationOptions.Limit))

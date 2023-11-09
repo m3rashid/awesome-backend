@@ -18,24 +18,13 @@ var AuthModule = modules.Module{
 				DescriptionKey: "email",
 				DisplayUrl:     "/user/:rId",
 			},
-			ActionPermissions:      modules.Permission{},
-			IndependentPermissions: modules.Permission{},
 		},
 		{
-			Name:          "profile",
-			ResourceType:  auth.PROFILE_MODEL_NAME,
-			ResourceIndex: search.ResourceIndex{},
-			ActionPermissions: modules.Permission{
-				"CAN_VIEW_PROFILE",
-				"CAN_EDIT_PROFILE",
-				"CAN_DELETE_PROFILE",
-			},
-			IndependentPermissions: modules.Permission{
-				"CAN_CREATE_PROFILE",
-			},
+			Name:         "profile",
+			ResourceType: auth.PROFILE_MODEL_NAME,
 		},
 	},
-	AuthenticatedRoutes: modules.Controller{
+	ProtectedRoutes: modules.Controller{
 		"/users": controller.List[auth.User](auth.USER_MODEL_NAME),
 		"":       AuthTest(),
 	},

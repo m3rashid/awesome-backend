@@ -16,9 +16,7 @@ func Get[T interface{}, SearchCriteria interface{}](collectionName string, optio
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		mongoClient := db.DBinstance()
-		collection := db.OpenCollection(mongoClient, collectionName)
-
+		collection := db.GetCollection(collectionName)
 		var document T
 		err = collection.FindOne(ctx.Context(), searchCriteria).Decode(&document)
 		if err != nil {

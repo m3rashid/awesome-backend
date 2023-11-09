@@ -12,22 +12,10 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/m3rashid/awesome/modules"
 	"github.com/m3rashid/awesome/modules/auth"
+	"github.com/m3rashid/awesome/modules/permission"
+	"github.com/m3rashid/awesome/modules/search"
 )
 
-// @title Swagger Example API
-// @version 1.0
-// @description This is a sample server Petstore server.
-// @termsOfService http://swagger.io/terms/
-
-// @contact.name API Support
-// @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
-
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-
-// @host petstore.swagger.io
-// @BasePath /v2
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -60,6 +48,8 @@ func main() {
 
 	modules.RegisterRoutes(app, []modules.Module{
 		auth.AuthModule,
+		permission.PermissionModule,
+		search.SearchModule,
 	})
 
 	log.Println("Server is running")

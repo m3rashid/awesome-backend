@@ -26,9 +26,7 @@ func Create[T interface{}](collectionName string, options map[string]interface{}
 			}
 		}
 
-		mongoClient := db.DBinstance()
-		collection := db.OpenCollection(mongoClient, collectionName)
-
+		collection := db.GetCollection(collectionName)
 		result, err := collection.InsertOne(context.Background(), document)
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})

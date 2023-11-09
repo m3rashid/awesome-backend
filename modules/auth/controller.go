@@ -31,8 +31,7 @@ func Login() fiber.Handler {
 		}
 
 		var user auth.User
-		mongoClient := db.DBinstance()
-		collection := db.OpenCollection(mongoClient, auth.USER_MODEL_NAME)
+		collection := db.GetCollection(auth.USER_MODEL_NAME)
 		err = collection.FindOne(ctx.Context(), bson.M{
 			"email": loginBody.Email,
 		}).Decode(&user)
@@ -61,8 +60,7 @@ func Register() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		log.Println("Registering User")
 
-		mongoClient := db.DBinstance()
-		collection := db.OpenCollection(mongoClient, auth.USER_MODEL_NAME)
+		collection := db.GetCollection(auth.USER_MODEL_NAME)
 
 		newUser := auth.User{}
 		err := ctx.BodyParser(&newUser)

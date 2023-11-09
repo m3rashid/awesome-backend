@@ -42,3 +42,8 @@ func OpenCollection(client *mongo.Client, collectionName string) *mongo.Collecti
 	var collection *mongo.Collection = client.Database(os.Getenv("MONGO_DB_NAME")).Collection(collectionName)
 	return collection
 }
+
+func GetCollection(collectionName string) *mongo.Collection {
+	client := DBinstance()
+	return OpenCollection(client, collectionName)
+}

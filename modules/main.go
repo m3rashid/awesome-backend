@@ -1,7 +1,6 @@
 package modules
 
 import (
-	"net/http"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,22 +17,10 @@ func RegisterRoutes(app *fiber.App, modules []Module) {
 		Title: os.Getenv("APP_NAME") + " - Metrics",
 	}))
 
-	app.Get("/configs", func(ctx *fiber.Ctx) error {
-		var configs []string
-		for _, module := range modules {
-			json, err := module.Stringify()
-			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
-					"error": "Error in getting config",
-				})
-			}
-			configs = append(configs, json)
-		}
-		return ctx.Status(http.StatusOK).JSON(configs)
-	})
+	app.Get("/configs", GetAppConfigs(modules))
 
 	for _, module := range modules {
-		for route, handler := range module.AuthenticatedRoutes {
+		for route, handler := range module.ProtectedRoutes {
 			app.Post("/api/"+module.Name+route, utils.CheckAuth(), handler)
 		}
 

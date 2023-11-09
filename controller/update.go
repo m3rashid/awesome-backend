@@ -32,9 +32,7 @@ func Update[T interface{}](collectionName string, options map[string]interface{}
 			}
 		}
 
-		mongoClient := db.DBinstance()
-		collection := db.OpenCollection(mongoClient, collectionName)
-
+		collection := db.GetCollection(collectionName)
 		err = collection.FindOneAndUpdate(ctx.Context(), searchCriteria, update).Err()
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
