@@ -7,6 +7,8 @@
     "fluentui",
     "gofiber",
     "joho",
+    "netinfo",
+    "Pressable",
     "swaggo",
     "tanstack",
     "thoas",
