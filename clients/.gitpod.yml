@@ -1,0 +1,13 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Init
+    init: >
+      pnpm install
+
+vscode:
+  extensions:
+    - streetsidesoftware.code-spell-checker
+    - dbaeumer.vscode-eslint
+    - bradlc.vscode-tailwindcss

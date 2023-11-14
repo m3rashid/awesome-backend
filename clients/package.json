@@ -1,0 +1,17 @@
+{
+  "name": "clients",
+  "version": "1.0.0",
+  "description": "Awesome frontend clients",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+	"private": true,
+  "author": "m3rashid <m3rashid.hussain@gmail.com>",
+	"workspaces": {
+		"packages": ["web", "packages/*", "scripts", "mobile"]
+	},
+  "devDependencies": {
+    "prettier": "^3.1.0",
+    "typescript": "^5.2.2"
+  }
+}
