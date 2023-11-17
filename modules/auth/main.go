@@ -9,6 +9,11 @@ import (
 
 var AuthModule = modules.Module{
 	Name: "auth",
+	Models: []interface{}{
+		&auth.User{},
+		&auth.Profile{},
+		&auth.UserGroup{},
+	},
 	Resources: []modules.Resource{
 		{
 			Name:         "user",

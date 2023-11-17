@@ -8,6 +8,9 @@ import (
 
 var DriveModule = modules.Module{
 	Name: "drive",
+	Models: []interface{}{
+		&drive.File{},
+	},
 	Resources: []modules.Resource{
 		{
 			Name:         "file",
@@ -15,8 +18,7 @@ var DriveModule = modules.Module{
 		},
 	},
 	ProtectedRoutes: modules.Controller{
-		"/all":    controller.List[drive.File](drive.FILE_MODEL_NAME),
-		"/create": controller.Create[drive.File](drive.FILE_MODEL_NAME, map[string]interface{}{"skip_validation": false}),
+		"/all": controller.List[drive.File](drive.FILE_MODEL_NAME),
 	},
 	AnonymousRoutes: modules.Controller{},
 }

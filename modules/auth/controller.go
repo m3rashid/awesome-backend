@@ -1,16 +1,15 @@
 package auth
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
-	auth "github.com/m3rashid/awesome/modules/auth/schema"
+	authSchema "github.com/m3rashid/awesome/modules/auth/schema"
 	"github.com/m3rashid/awesome/utils"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func Login() fiber.Handler {
@@ -30,21 +29,22 @@ func Login() fiber.Handler {
 			return ctx.Status(http.StatusBadRequest).SendString("Validation Error")
 		}
 
-		var user auth.User
-		collection := db.GetCollection(auth.USER_MODEL_NAME)
-		err = collection.FindOne(ctx.Context(), bson.M{
-			"email": loginBody.Email,
-		}).Decode(&user)
+		var user authSchema.User
+		db := db.GetDb()
+		err = db.Where("email = ?", loginBody.Email).First(&user).Error
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).SendString(err.Error())
+			log.Println(err)
+			return ctx.Status(http.StatusInternalServerError).SendString("Could Not Login, Please try again later")
 		}
+
+		fmt.Println(user)
 
 		passwordsMatched := VerifyPassword(user.Password, loginBody.Password)
 		if !passwordsMatched {
 			return ctx.Status(http.StatusUnauthorized).SendString("Credentials did not match")
 		}
 
-		token, err := utils.GenerateJWT(user.ID.String(), user.Email)
+		token, err := utils.GenerateJWT(user.ID, user.Email)
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
@@ -58,11 +58,7 @@ func Login() fiber.Handler {
 
 func Register() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		log.Println("Registering User")
-
-		collection := db.GetCollection(auth.USER_MODEL_NAME)
-
-		newUser := auth.User{}
+		newUser := authSchema.User{}
 		err := ctx.BodyParser(&newUser)
 		if err != nil {
 			log.Println(err)
@@ -71,26 +67,27 @@ func Register() fiber.Handler {
 
 		newUser.Deactivated = false
 		newUser.Deleted = false
-		newUser.Roles = []primitive.ObjectID{}
+		newUser.Roles = []uint{}
 
 		validator := validator.New()
 		err = validator.Struct(newUser)
 		if err != nil {
-			log.Println(err)
 			return ctx.Status(http.StatusBadRequest).SendString("Bad Request")
 		}
 
 		password := HashPassword(newUser.Password)
 		newUser.Password = password
 
-		res, err := collection.InsertOne(ctx.Context(), newUser)
+		db := db.GetDb()
+		res := db.Create(&newUser)
+
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).SendString("Could Not Register User, Please try again later")
 		}
 
 		return ctx.Status(http.StatusCreated).JSON(fiber.Map{
 			"message": "User Registered Successfully",
-			"userId":  res.InsertedID,
+			"userId":  res.RowsAffected,
 		})
 	}
 }

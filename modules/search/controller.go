@@ -1,13 +1,9 @@
 package search
 
 import (
-	"context"
-	"encoding/json"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
 	search "github.com/m3rashid/awesome/modules/search/schema"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func HandleSearch() fiber.Handler {
@@ -18,41 +14,16 @@ func HandleSearch() fiber.Handler {
 		if err := ctx.BodyParser(&searchBody); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Parse Body")
 		}
-
-		mongoClient := db.DBinstance()
-		collection := db.OpenCollection(mongoClient, search.RESOURCE_MODEL_NAME)
-
-		var results []search.Resource
-		cursor, err := collection.Find(context.Background(), primitive.M{
-			"$text": primitive.M{
-				"$search": searchBody.Text,
-			},
-		})
-		if err != nil {
-			return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Find Resources")
-		}
-
-		if err = cursor.All(context.TODO(), &results); err != nil {
-			panic(err)
-		}
-
-		jsonResults, err := json.Marshal(results)
-		if err != nil {
-			return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Marshal Results")
-		}
-
-		return ctx.Status(fiber.StatusOK).Send(jsonResults)
+		return ctx.Status(fiber.StatusOK).Send([]byte("Hello, World!"))
 	}
 }
 
 func CreateResource(
 	Name string,
-	ResourceID primitive.ObjectID,
+	ResourceID uint,
 	ResourceType string,
 	Description string,
-) (err error) {
-	mongoClient := db.DBinstance()
-	collection := db.OpenCollection(mongoClient, "search")
+) error {
 	newResource := search.Resource{
 		Name:         Name,
 		Description:  Description,
@@ -60,6 +31,6 @@ func CreateResource(
 		ResourceType: ResourceType,
 	}
 
-	_, err = collection.InsertOne(context.Background(), newResource)
-	return
+	db := db.GetDb()
+	return db.Create(&newResource).Error
 }

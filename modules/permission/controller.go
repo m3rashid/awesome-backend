@@ -6,14 +6,13 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	permission "github.com/m3rashid/awesome/modules/permission/schema"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CheckPermissionApi() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		checkBody := struct {
-			UserId   primitive.ObjectID            `json:"userId" validate:"required"`
-			ObjectId primitive.ObjectID            `json:"objectId" validate:"required"`
+			UserId   uint                          `json:"userId" validate:"required"`
+			ObjectId uint                          `json:"objectId" validate:"required"`
 			Relation permission.PermissionRelation `json:"relation" validate:"required"`
 		}{}
 

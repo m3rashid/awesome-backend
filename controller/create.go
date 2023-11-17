@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 
@@ -10,29 +9,29 @@ import (
 	"github.com/m3rashid/awesome/db"
 )
 
-func Create[T interface{}](collectionName string, options map[string]interface{}) func(*fiber.Ctx) error {
+func Create[T interface{}](options map[string]interface{}) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
-		var document T
-		err := ctx.BodyParser(&document)
+		var data T
+		err := ctx.BodyParser(&data)
 		if err != nil {
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		if options[SKIP_VALIDATION_KEY] == false {
 			validate := validator.New()
-			err = validate.Struct(document)
+			err = validate.Struct(data)
 			if err != nil {
 				return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 			}
 		}
 
-		collection := db.GetCollection(collectionName)
-		result, err := collection.InsertOne(context.Background(), document)
+		db := db.GetDb()
+		err = db.Create(&data).Error
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		fmt.Println(result)
-		return ctx.Status(http.StatusCreated).JSON(fiber.Map{"id": result.InsertedID})
+		fmt.Println(data)
+		return ctx.Status(http.StatusCreated).JSON(fiber.Map{"message": "Created Successfully"})
 	}
 }
