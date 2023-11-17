@@ -1,0 +1,8 @@
+{
+  "name": "@awesome/shared",
+  "version": "1.0.0",
+  "license": "MIT",
+	"dependencies": {
+    "react": "18.2.0"
+	}
+}

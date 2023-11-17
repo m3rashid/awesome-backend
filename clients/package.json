@@ -1,17 +1,14 @@
 {
-  "name": "clients",
-  "version": "1.0.0",
-  "description": "Awesome frontend clients",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": [],
-	"private": true,
-  "author": "m3rashid <m3rashid.hussain@gmail.com>",
-	"workspaces": {
-		"packages": ["web", "packages/*", "scripts", "mobile"]
-	},
-  "devDependencies": {
-    "prettier": "^3.1.0",
-    "typescript": "^5.2.2"
-  }
+ "name": "clients",
+ "version": "1.0.0",
+ "license": "MIT",
+ "scripts": {
+  "watch": "nodemon --watch shared/**/* --exec ./watch.sh",
+	"postinstall": "cd mobile && yarn && cd .. && ./watch.sh"
+ },
+ "private": true,
+ "workspaces": ["shared", "web"],
+ "devDependencies": {
+  "nodemon": "^3.0.1"
+ }
 }
