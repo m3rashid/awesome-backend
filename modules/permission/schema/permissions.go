@@ -14,8 +14,10 @@ const (
 )
 
 type Permission struct {
-	ID       primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" validate:""`
-	User     primitive.ObjectID `json:"user" bson:"user" validate:"required"`
-	Relation int64              `json:"relation" bson:"relation" validate:"required"`
-	Object   primitive.ObjectID `json:"object" bson:"object" validate:"required"`
+	ID            primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" validate:""`
+	User          primitive.ObjectID `json:"user" bson:"user" validate:"required"`
+	Relation      int64              `json:"relation" bson:"relation" validate:"required"`
+	Object        string             `json:"object" bson:"object" validate:"required"` // object (_id) or group
+	IsUserGroup   bool               `json:"isUserGroup" bson:"isUserGroup" validate:"required"`
+	IsObjectGroup bool               `json:"isObjectGroup" bson:"isObjectGroup" validate:"required"`
 }

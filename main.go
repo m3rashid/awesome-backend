@@ -12,6 +12,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/m3rashid/awesome/modules"
 	"github.com/m3rashid/awesome/modules/auth"
+	"github.com/m3rashid/awesome/modules/drive"
 	"github.com/m3rashid/awesome/modules/permission"
 	"github.com/m3rashid/awesome/modules/search"
 )
@@ -50,6 +51,7 @@ func main() {
 		auth.AuthModule,
 		permission.PermissionModule,
 		search.SearchModule,
+		drive.DriveModule,
 	})
 
 	log.Println("Server is running")
