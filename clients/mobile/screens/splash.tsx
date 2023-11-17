@@ -2,10 +2,13 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {RootStackParamList} from '../routes/types';
+import {usePerson} from '@awesome/shared';
 
 const Splash = ({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'splash'>): JSX.Element => {
+  const {p} = usePerson();
+  console.log(p);
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
