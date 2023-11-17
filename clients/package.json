@@ -1,14 +1,17 @@
 {
- "name": "clients",
- "version": "1.0.0",
- "license": "MIT",
- "scripts": {
-  "watch": "nodemon --watch shared/**/* --exec ./watch.sh",
-	"postinstall": "cd mobile && yarn && cd .. && ./watch.sh"
- },
- "private": true,
- "workspaces": ["shared", "web"],
- "devDependencies": {
-  "nodemon": "^3.0.1"
- }
+  "name": "clients",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "watch": "nodemon --watch shared/**/* --exec ./watch.sh",
+    "postinstall": "cd mobile && yarn && cd .. && ./watch.sh"
+  },
+  "private": true,
+  "workspaces": [
+    "shared",
+    "web"
+  ],
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
 }
