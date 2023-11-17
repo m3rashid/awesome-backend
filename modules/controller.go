@@ -7,7 +7,7 @@ import (
 	"github.com/thoas/go-funk"
 )
 
-func GetAppConfigs(modules []Module) fiber.Handler {
+func GetAppConfig(modules []Module) fiber.Handler {
 	GetRoutes := func(module Module, routeType string, noReturn bool) []string {
 		if noReturn {
 			return []string{}

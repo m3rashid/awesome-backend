@@ -1,49 +1,20 @@
 package db
 
 import (
-	"context"
-	"log"
-	"os"
-	"time"
-
-	"go.mongodb.org/mongo-driver/event"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func DBinstance() *mongo.Client {
-	cmdMonitor := &event.CommandMonitor{
-		Started: func(_ context.Context, evt *event.CommandStartedEvent) {
-			log.Print(evt.Command)
-		},
-	}
-
-	mongoDbUri := os.Getenv("MONGODB_URI")
-	log.Println("Connecting to MongoDB")
-
-	client, err := mongo.NewClient(options.Client().ApplyURI(mongoDbUri).SetMonitor(cmdMonitor))
+func GetDb() *gorm.DB {
+	dsn := "host=localhost user=genos password=genos dbname=awesome port=5432 sslmode=disable TimeZone=Asia/Kolkata"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	err = client.Connect(ctx)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Println("Connected to MongoDB !")
-	return client
+	return db
 }
 
-func OpenCollection(client *mongo.Client, collectionName string) *mongo.Collection {
-	var collection *mongo.Collection = client.Database(os.Getenv("MONGO_DB_NAME")).Collection(collectionName)
-	return collection
-}
-
-func GetCollection(collectionName string) *mongo.Collection {
-	client := DBinstance()
-	return OpenCollection(client, collectionName)
+func GormMigrate(models ...interface{}) {
+	db := GetDb()
+	db.AutoMigrate(models...)
 }

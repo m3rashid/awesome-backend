@@ -6,10 +6,9 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func Update[T interface{}](collectionName string, options map[string]interface{}) func(*fiber.Ctx) error {
+func Update[T interface{}](tableName string, options map[string]interface{}) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var updateBody UpdateBody
 		err := ctx.BodyParser(&updateBody)
@@ -32,14 +31,10 @@ func Update[T interface{}](collectionName string, options map[string]interface{}
 			}
 		}
 
-		collection := db.GetCollection(collectionName)
-		err = collection.FindOneAndUpdate(ctx.Context(), searchCriteria, update).Err()
+		db := db.GetDb()
+		err = db.Table(tableName).Where(searchCriteria).Updates(update).Error
 		if err != nil {
-			if err == mongo.ErrNoDocuments {
-				return ctx.Status(http.StatusNotFound).JSON(fiber.Map{"error": "document not found"})
-			} else {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-			}
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		return ctx.Status(http.StatusOK).JSON(fiber.Map{"message": "Document updated successfully"})

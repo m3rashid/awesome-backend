@@ -1,7 +1,5 @@
 package permission
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
-
 const PERMISSION_MODEL_NAME = "permissions"
 
 type PermissionRelation int64
@@ -14,10 +12,14 @@ const (
 )
 
 type Permission struct {
-	ID            primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" validate:""`
-	User          primitive.ObjectID `json:"user" bson:"user" validate:"required"`
-	Relation      int64              `json:"relation" bson:"relation" validate:"required"`
-	Object        string             `json:"object" bson:"object" validate:"required"` // object (_id) or group
-	IsUserGroup   bool               `json:"isUserGroup" bson:"isUserGroup" validate:"required"`
-	IsObjectGroup bool               `json:"isObjectGroup" bson:"isObjectGroup" validate:"required"`
+	ID            uint   `gorm:"primary_key" json:"id"`
+	User          uint   `json:"user" gorm:"column:user" validate:"required"`
+	Relation      int64  `json:"relation" gorm:"column:relation" validate:"required"`
+	Object        string `json:"object" gorm:"column:object" validate:"required"` // object (_id) or group
+	IsUserGroup   bool   `json:"isUserGroup" gorm:"column:isUserGroup" validate:"required"`
+	IsObjectGroup bool   `json:"isObjectGroup" gorm:"column:isObjectGroup" validate:"required"`
+}
+
+func (Permission) TableName() string {
+	return PERMISSION_MODEL_NAME
 }

@@ -5,16 +5,16 @@ const CREATED_AT_FIELD = "createdAt"
 const UPDATED_AT_FIELD = "updatedAt"
 
 type PaginationOptions struct {
-	Limit int64 `json:"limit"`
-	Page  int64 `json:"page"`
+	Limit int `json:"limit"`
+	Page  int `json:"page"`
 }
 
 type PaginationResponse[T interface{}] struct {
 	Docs            []T   `json:"docs"`
-	Count           int64 `json:"count"`
-	Limit           int64 `json:"limit"`
+	Count           int   `json:"count"`
+	Limit           int   `json:"limit"`
 	TotalDocs       int64 `json:"totalDocs"`
-	CurrentPage     int64 `json:"currentPage"`
+	CurrentPage     int   `json:"currentPage"`
 	HasNextPage     bool  `json:"hasNextPage"`
 	HasPreviousPage bool  `json:"hasPreviousPage"`
 }

@@ -2,6 +2,7 @@ package utils
 
 import (
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -14,11 +15,11 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateJWT(userId string, email string) (string, error) {
+func GenerateJWT(userId uint, email string) (string, error) {
 	expirationTime := time.Now().Add(30 * time.Minute)
 	claims := &Claims{
 		Email:  email,
-		UserID: userId,
+		UserID: strconv.FormatUint(uint64(userId), 10),
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},

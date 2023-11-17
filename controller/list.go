@@ -6,10 +6,9 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func List[T interface{}](collectionName string) func(*fiber.Ctx) error {
+func List[T interface{}](tableName string) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var listBody ListBody
 		err := ctx.BodyParser(&listBody)
@@ -31,24 +30,16 @@ func List[T interface{}](collectionName string) func(*fiber.Ctx) error {
 			searchCriteria = map[string]interface{}{}
 		}
 
-		collection := db.GetCollection(collectionName)
-		opts := options.Find()
-		opts.SetSort(map[string]int{CREATED_AT_FIELD: -1})
-		opts.SetSkip(int64((paginationOptions.Page - 1) * paginationOptions.Limit))
-		opts.SetLimit(int64(paginationOptions.Limit))
-
-		cursor, err := collection.Find(ctx.Context(), searchCriteria, opts)
-		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-		}
-
+		db := db.GetDb()
 		var results []T
-		err = cursor.All(ctx.Context(), &results)
+
+		err = db.Order("id").Limit(paginationOptions.Limit).Offset(int(paginationOptions.Page-1*paginationOptions.Limit)).Find(&results, searchCriteria).Error
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		docsCount, err := collection.CountDocuments(ctx.Context(), searchCriteria)
+		var docsCount int64
+		err = db.Table(tableName).Where(searchCriteria).Count(&docsCount).Error
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
@@ -56,10 +47,10 @@ func List[T interface{}](collectionName string) func(*fiber.Ctx) error {
 		response := PaginationResponse[T]{
 			Docs:            results,
 			Limit:           paginationOptions.Limit,
-			Count:           int64(len(results)),
+			Count:           int(len(results)),
 			TotalDocs:       docsCount,
 			CurrentPage:     paginationOptions.Page,
-			HasNextPage:     docsCount > (paginationOptions.Page * paginationOptions.Limit),
+			HasNextPage:     docsCount > int64(paginationOptions.Page*paginationOptions.Limit),
 			HasPreviousPage: paginationOptions.Page > 1,
 		}
 		fmt.Println(response)

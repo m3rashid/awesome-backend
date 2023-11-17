@@ -9,19 +9,24 @@ import (
 const EMAIL_MODEL_NAME = "emails"
 
 type Attachment struct {
-	Filename string `bson:"filename" json:"filename" validate:"required"`
-	Content  string `bson:"content" json:"content" validate:"required"`
+	db.BaseModel
+	Filename string `gorm:"column:filename" json:"filename" validate:"required"`
+	Content  string `gorm:"column:content" json:"content" validate:"required"`
 }
 
 type Email struct {
-	db.BaseSchema `bson:",inline"`
-	From          string       `bson:"from" json:"from" validate:"required,email"`
-	To            string       `bson:"to" json:"to" validate:"required,email"`
-	Subject       string       `bson:"subject" json:"subject" validate:"required"`
-	BodyText      string       `bson:"bodyText" json:"bodyText" validate:"required"`
-	BodyHTML      string       `bson:"bodyHTML" json:"bodyHTML" validate:"required"`
-	Attachments   []Attachment `bson:"attachments" json:"attachments" validate:""`
-	ReplyTo       string       `bson:"replyTo" json:"replyTo" validate:"email"`
+	db.BaseModel
+	From        string       `json:"from" gorm:"column:from" validate:"required,email"`
+	To          string       `json:"to" gorm:"column:to" validate:"required,email"`
+	Subject     string       `json:"subject" gorm:"column:subject" validate:"required"`
+	BodyText    string       `json:"bodyText" gorm:"column:bodyText" validate:"required"`
+	BodyHTML    string       `json:"bodyHTML" gorm:"column:bodyHTML" validate:"required"`
+	Attachments []Attachment `json:"attachments,omitempty" gorm:"column:attachments;type:jsonb" validate:""`
+	ReplyTo     string       `json:"replyTo" gorm:"column:replyTo" validate:"email"`
+}
+
+func (Email) TableName() string {
+	return EMAIL_MODEL_NAME
 }
 
 func NewEmail(from string, to string, subject string, bodyText string, bodyHtml string, replyTo string, attachments []Attachment) (*Email, error) {

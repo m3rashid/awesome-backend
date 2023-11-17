@@ -8,6 +8,9 @@ import (
 
 var PermissionModule = modules.Module{
 	Name: "permission",
+	Models: []interface{}{
+		&permission.Permission{},
+	},
 	Resources: []modules.Resource{
 		{
 			Name:         "permission",

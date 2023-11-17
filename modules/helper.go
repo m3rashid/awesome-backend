@@ -6,7 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	permission "github.com/m3rashid/awesome/modules/permission/schema"
 	search "github.com/m3rashid/awesome/modules/search/schema"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Controller = map[string]fiber.Handler
@@ -14,13 +13,14 @@ type Controller = map[string]fiber.Handler
 type Module struct {
 	Name            string
 	Resources       []Resource
+	Models          []interface{}
 	AnonymousRoutes Controller
 	ProtectedRoutes Controller
 }
 
 type Permission = map[string]struct {
 	Relation permission.PermissionRelation `json:"relation"`
-	Object   primitive.ObjectID            `json:"object"`
+	Object   uint                          `json:"object"`
 }
 
 type Resource struct {

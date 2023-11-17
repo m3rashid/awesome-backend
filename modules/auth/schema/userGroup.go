@@ -2,11 +2,15 @@ package auth
 
 import "github.com/m3rashid/awesome/db"
 
-const USER_GROUP_MODEL_NAME = "userGroups"
+const USER_GROUP_MODEL_NAME = "usergroups"
 
 type UserGroup struct {
-	db.BaseSchema `bson:",inline"`
-	GroupName     string `json:"groupName" bson:"groupName" validate:"required"`
-	Description   string `json:"description" bson:"description" validate:""`
-	Users         []User `json:"users" bson:"users" validate:""`
+	db.BaseModel
+	GroupName   string `json:"groupName" gorm:"column:groupName" validate:"required"`
+	Description string `json:"description" gorm:"column:description" validate:""`
+	Users       []uint `json:"users" gorm:"column:users;type:integer[]" validate:""`
+}
+
+func (UserGroup) TableName() string {
+	return USER_GROUP_MODEL_NAME
 }

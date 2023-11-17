@@ -8,6 +8,9 @@ import (
 
 var EmailModule = modules.Module{
 	Name: "emails",
+	Models: []interface{}{
+		&emails.Email{},
+	},
 	Resources: []modules.Resource{
 		{
 			Name:         "email",
@@ -15,8 +18,7 @@ var EmailModule = modules.Module{
 		},
 	},
 	ProtectedRoutes: modules.Controller{
-		"/":    controller.List[emails.Email](emails.EMAIL_MODEL_NAME),
-		"/add": controller.Create[emails.Email](emails.EMAIL_MODEL_NAME, map[string]interface{}{}),
+		"/": controller.List[emails.Email](emails.EMAIL_MODEL_NAME),
 	},
 	AnonymousRoutes: modules.Controller{},
 }
