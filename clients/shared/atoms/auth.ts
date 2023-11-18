@@ -11,6 +11,6 @@ export const authAtom = atom<AuthAtom | null>({
   default: null,
 });
 
-export const useAuthAtomValue = () => useRecoilValue(authAtom);
+export const useAuthValue = () => useRecoilValue(authAtom);
 
-export const useAuthAtomState = () => useRecoilState(authAtom);
+export const useAuthState = () => useRecoilState(authAtom);

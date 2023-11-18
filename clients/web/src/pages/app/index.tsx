@@ -1,10 +1,13 @@
+import { Typography } from 'antd';
 import React from 'react';
+
+import AuthWrapper from '../../components/authWrapper';
 
 const AppHome: React.FC = () => {
   return (
-    <>
-      <div>AppHome</div>
-    </>
+    <AuthWrapper>
+      <Typography.Text>AppHome</Typography.Text>
+    </AuthWrapper>
   );
 };
 

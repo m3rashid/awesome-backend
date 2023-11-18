@@ -15,8 +15,8 @@ const AppRoutes = () => {
     <BrowserRouter>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <Routes>
-          <Route path='/' Component={Home} />
-          <Route path='/auth'>
+          <Route path='' Component={Home} />
+          <Route path='auth'>
             <Route path='login' Component={Login} />
             <Route path='register' Component={Register} />
           </Route>

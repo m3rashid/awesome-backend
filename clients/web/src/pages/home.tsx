@@ -1,13 +1,10 @@
+import { Typography } from 'antd';
 import React from 'react';
 
-export type HomeProps = {
-  //
-};
-
-const Home: React.FC<HomeProps> = () => {
+const Home: React.FC = () => {
   return (
     <>
-      <div>Home</div>
+      <Typography.Text>Home</Typography.Text>
     </>
   );
 };

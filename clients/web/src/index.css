@@ -1,18 +1,11 @@
-* {
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-/* @tailwind base; */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+  }
+}
 
 .all-center {
   @apply flex justify-center items-center;

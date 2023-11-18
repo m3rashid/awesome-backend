@@ -1,26 +1,16 @@
-import { theme } from 'antd';
+import appConfig from '@awesome/shared/constants/appConfig';
 import React from 'react';
 
-import { useAppThemeConfigValue } from '../hooks/theme';
 import AntdProvider from './atoms/antdProvider';
 
 const AppRoutes = React.lazy(() => import('../routes'));
 
 const Bootstrap: React.FC = () => {
-  const appThemeConfig = useAppThemeConfigValue();
-  const {
-    token: { colorBgLayout },
-  } = theme.useToken();
-
   return (
-    <AntdProvider
-      theme={{}}
-      isDark={appThemeConfig.isDark}
-      isCompact={appThemeConfig.isCompact}
-    >
+    <AntdProvider>
       <div
         className='w-screen h-screen'
-        style={{ backgroundColor: colorBgLayout }}
+        style={{ backgroundColor: appConfig.colors.background }}
       >
         <AppRoutes />
       </div>

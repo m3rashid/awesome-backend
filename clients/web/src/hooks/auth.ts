@@ -1,3 +1,4 @@
+import { useAuthState } from '@awesome/shared/atoms/auth';
 import useLoading from '@awesome/shared/hooks/loading';
 import {
   LoginRequestBody,
@@ -9,37 +10,9 @@ import { notification } from 'antd';
 import { isAxiosError } from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  atom,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from 'recoil';
 import { useQueryParam } from 'use-query-params';
 
 import { service } from '../helpers/service';
-
-export type User = {
-  name: string;
-  email: string;
-};
-
-export type Auth = {
-  user: User | null;
-  token: string | null;
-};
-
-export const authAtom = atom<Auth>({
-  key: 'authAtom',
-  default: {
-    user: null,
-    token: null,
-  },
-});
-
-export const useAuthState = () => useRecoilState(authAtom);
-export const useAuthValue = () => useRecoilValue(authAtom);
-export const useSetAuth = () => useSetRecoilState(authAtom);
 
 export type LoginRegisterFormProps = {
   formType: 'login' | 'register';
@@ -66,7 +39,7 @@ export const useAuth = () => {
   };
 
   useEffect(() => {
-    if (auth.user) navigate(redirectUrl ? redirectUrl : '/app');
+    if (auth?.user) navigate(redirectUrl ? redirectUrl : '/app');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -81,6 +54,7 @@ export const useAuth = () => {
         description: `Hello ${res.data.user.name}`,
       });
       if (redirectUrl) navigate(redirectUrl);
+      else navigate('/app');
     } catch (err: any) {
       notification.error({
         message: 'Login failed',
@@ -97,6 +71,7 @@ export const useAuth = () => {
       const res = await registerService({ data: values });
       notification.success({ message: res.data.message });
       if (redirectUrl) navigate(redirectUrl);
+      else navigate('/app');
     } catch (err: any) {
       notification.error({
         message: 'Registration failed',
