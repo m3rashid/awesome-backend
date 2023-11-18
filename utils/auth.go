@@ -41,6 +41,8 @@ func CheckAuth() fiber.Handler {
 			return ctx.Status(fiber.StatusUnauthorized).SendString("No Authorization header provided")
 		}
 
+		clientToken = clientToken[7:]
+
 		token, err := jwt.ParseWithClaims(clientToken, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(os.Getenv("JWT_SECRET")), nil
 		})

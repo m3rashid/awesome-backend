@@ -1,4 +1,16 @@
 {
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   "cSpell.words": [
     "actionlogs",
     "antd",
@@ -24,17 +36,5 @@
     "thoas",
     "Uppy",
     "usergroups"
-  ],
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+  ]
 }

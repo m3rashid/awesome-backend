@@ -1,20 +1,15 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import {
+  RequestOptions,
+  service as sharedService,
+} from '@awesome/shared/helpers/service';
 
-type RequestOptions = Omit<AxiosRequestConfig, 'url' | 'baseURL'>;
-
-export const Service = <Res = any,>(
+export const service = <Res = any,>(
   url: string,
-  options: RequestOptions
-): Promise<AxiosResponse<Res>> => {
-  return axios<Res>({
-    url,
-    method: options.method || 'GET',
-    baseURL: import.meta.env.VITE_SERVER_HOST || '',
-    withCredentials: true,
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
+  options?: RequestOptions,
+  noBaseUrl?: boolean
+) => {
+  return sharedService<Res>(url, options || {}, {
+    noBaseURL: noBaseUrl,
+    token: localStorage.getItem('token') || undefined,
   });
 };
-
-export type Service<Res> = typeof Service<Res>;

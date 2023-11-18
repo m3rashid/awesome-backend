@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -28,6 +29,11 @@ func main() {
 		AppName:        os.Getenv("APP_NAME"),
 		RequestMethods: []string{"GET", "POST", "HEAD", "OPTIONS"},
 	})
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "http://localhost:3000",
+		AllowCredentials: true,
+	}))
 
 	app.Static("/public", "./public", fiber.Static{
 		MaxAge:        3600,

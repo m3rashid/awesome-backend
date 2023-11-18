@@ -1,11 +1,9 @@
 import React from 'react';
 
+import LoginRegisterForm from './authForm';
+
 const Login: React.FC = () => {
-  return (
-    <>
-      <div>Login</div>
-    </>
-  );
+  return <LoginRegisterForm formType='login' />;
 };
 
 export default Login;

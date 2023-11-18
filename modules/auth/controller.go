@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -19,13 +18,17 @@ func Login() fiber.Handler {
 		}{}
 		err := ctx.BodyParser(&loginBody)
 		if err != nil {
-			return ctx.Status(http.StatusBadRequest).SendString("Could Not Parse Body")
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+				"message": "Bad Request",
+			})
 		}
 
 		validate := validator.New()
 		err = validate.Struct(loginBody)
 		if err != nil {
-			return ctx.Status(http.StatusBadRequest).SendString("Validation Error")
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+				"message": "Validation Error",
+			})
 		}
 
 		var user User
@@ -33,19 +36,23 @@ func Login() fiber.Handler {
 		err = db.Where("email = ?", loginBody.Email).First(&user).Error
 		if err != nil {
 			log.Println(err)
-			return ctx.Status(http.StatusInternalServerError).SendString("Could Not Login, Please try again later")
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Could not find user",
+			})
 		}
-
-		fmt.Println(user)
 
 		passwordsMatched := VerifyPassword(user.Password, loginBody.Password)
 		if !passwordsMatched {
-			return ctx.Status(http.StatusUnauthorized).SendString("Credentials did not match")
+			return ctx.Status(http.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Credentials did not match",
+			})
 		}
 
 		token, err := utils.GenerateJWT(user.ID, user.Email)
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).SendString(err.Error())
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Could not generate token",
+			})
 		}
 
 		return ctx.Status(http.StatusOK).JSON(fiber.Map{
@@ -61,7 +68,9 @@ func Register() fiber.Handler {
 		err := ctx.BodyParser(&newUser)
 		if err != nil {
 			log.Println(err)
-			return ctx.Status(http.StatusBadRequest).SendString("Bad Request")
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+				"message": "Bad Request",
+			})
 		}
 
 		newUser.Deactivated = false
@@ -71,7 +80,9 @@ func Register() fiber.Handler {
 		validator := validator.New()
 		err = validator.Struct(newUser)
 		if err != nil {
-			return ctx.Status(http.StatusBadRequest).SendString("Bad Request")
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+				"message": "Bad Request",
+			})
 		}
 
 		password := HashPassword(newUser.Password)
@@ -81,24 +92,52 @@ func Register() fiber.Handler {
 		oldUser := User{}
 		err = db.Where("email = ?", newUser.Email).First(&oldUser).Error
 		if err == nil {
-			return ctx.Status(http.StatusConflict).SendString("User Already Exists")
+			return ctx.Status(http.StatusConflict).JSON(fiber.Map{
+				"message": "User already exists",
+			})
 		}
 
-		res := db.Create(&newUser)
-
+		err = db.Create(&newUser).Error
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).SendString("Could Not Register User, Please try again later")
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Could Not Register User, Please try again later",
+			})
 		}
 
 		return ctx.Status(http.StatusCreated).JSON(fiber.Map{
 			"message": "User Registered Successfully",
-			"userId":  res.RowsAffected,
 		})
 	}
 }
 
 func AuthTest() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		return ctx.Status(http.StatusOK).SendString("Authenticated")
+		if ctx.Locals("authorized") == nil || ctx.Locals("userId") == nil || ctx.Locals("email") == nil {
+			return ctx.Status(http.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Unauthorized",
+			})
+		}
+
+		var user User
+		db := db.GetDb()
+		err := db.Where("id = ?", ctx.Locals("userId")).First(&user).Error
+		if err != nil {
+			log.Println(err)
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Could not find user",
+			})
+		}
+
+		token, err := utils.GenerateJWT(user.ID, user.Email)
+		if err != nil {
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Could not generate token",
+			})
+		}
+
+		return ctx.Status(http.StatusOK).JSON(fiber.Map{
+			"user":  user,
+			"token": token,
+		})
 	}
 }

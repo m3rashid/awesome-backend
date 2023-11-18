@@ -1,9 +1,11 @@
 {
-  "name": "@awesome/shared",
-  "version": "1.0.0",
-  "license": "MIT",
+	"name": "@awesome/shared",
+	"version": "1.0.0",
+	"license": "MIT",
 	"private": true,
 	"dependencies": {
-		"react": "18.2.0"
+		"axios": "^1.6.2",
+		"react": "18.2.0",
+		"recoil": "^0.7.7"
 	}
 }

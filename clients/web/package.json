@@ -22,7 +22,6 @@
     "axios": "^1.5.1",
     "dayjs": "^1.11.10",
     "lodash-es": "^4.17.21",
-    "postcss-viewport-height-correction": "^1.1.1",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

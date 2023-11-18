@@ -1,13 +1,16 @@
+export type SqlID = number;
+
 export type ActionLog = {
-  _id: string;
+  id: SqlID;
   time: Date;
+  userId: SqlID;
+  action: 'create' | 'update' | 'delete';
+  objectId: string;
 };
 
 export type BaseSchema = {
-  _id: string;
+  id: SqlID;
   deleted: boolean;
-  createdBy: ActionLog;
-  updatedBy: ActionLog[];
 };
 
 export type User = BaseSchema & {
@@ -17,8 +20,8 @@ export type User = BaseSchema & {
   avatar: string;
   deactivated: boolean;
   password: string;
-  roles: Array<UserGroup | string>;
-  profile: string;
+  roles: Array<UserGroup | SqlID>;
+  profile: SqlID;
 };
 
 export type Profile = BaseSchema & {};
@@ -26,12 +29,30 @@ export type Profile = BaseSchema & {};
 export type UserGroup = BaseSchema & {
   groupName: string;
   description: string;
-  users: Array<User | string>;
+  users: Array<User | SqlID>;
 };
 
 export type Permission = {
-  _id: string;
-  user: string;
+  id: SqlID;
+  user: SqlID;
   relation: string;
-  object: string;
+  object: SqlID;
+  isUserGroup: boolean;
+  isObjectGroup: boolean;
+};
+
+export type File = BaseSchema & {
+  name: string;
+  type: string;
+  parent: string;
+  resourceUrl: string;
+  isFolder: boolean;
+};
+
+export type Resource = {
+  id: SqlID;
+  name: string;
+  description: string;
+  resourceType: string;
+  resourceId: SqlID;
 };
