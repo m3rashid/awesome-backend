@@ -2,12 +2,12 @@ package permission
 
 import (
 	"github.com/m3rashid/awesome/db"
-	permission "github.com/m3rashid/awesome/modules/permission/schema"
+	"github.com/m3rashid/awesome/modules/helpers"
 )
 
-func CheckPermission(userID uint, objectID uint, relation permission.PermissionRelation) bool {
+func CheckPermission(userID uint, objectID uint, relation helpers.PermissionRelation) bool {
 	db := db.GetDb()
-	p := permission.Permission{}
+	p := helpers.Permission{}
 	err := db.Model(&p).Where("user = ? AND object = ?", userID, objectID).Error
 	if err != nil {
 		return false

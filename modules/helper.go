@@ -4,8 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/gofiber/fiber/v2"
-	permission "github.com/m3rashid/awesome/modules/permission/schema"
-	search "github.com/m3rashid/awesome/modules/search/schema"
+	"github.com/m3rashid/awesome/modules/helpers"
 )
 
 type Controller = map[string]fiber.Handler
@@ -19,15 +18,15 @@ type Module struct {
 }
 
 type Permission = map[string]struct {
-	Relation permission.PermissionRelation `json:"relation"`
-	Object   uint                          `json:"object"`
+	Relation helpers.PermissionRelation `json:"relation"`
+	Object   uint                       `json:"object"`
 }
 
 type Resource struct {
-	Name          string               `json:"name"`
-	ResourceType  string               `json:"resourceType"`
-	ResourceIndex search.ResourceIndex `json:"resourceIndex"`
-	Permissions   Permission           `json:"permissions"`
+	Name          string                `json:"name"`
+	ResourceType  string                `json:"resourceType"`
+	ResourceIndex helpers.ResourceIndex `json:"resourceIndex"`
+	Permissions   Permission            `json:"permissions"`
 }
 
 func (m Module) Stringify() (string, error) {

@@ -8,7 +8,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
-	authSchema "github.com/m3rashid/awesome/modules/auth/schema"
 	"github.com/m3rashid/awesome/utils"
 )
 
@@ -29,7 +28,7 @@ func Login() fiber.Handler {
 			return ctx.Status(http.StatusBadRequest).SendString("Validation Error")
 		}
 
-		var user authSchema.User
+		var user User
 		db := db.GetDb()
 		err = db.Where("email = ?", loginBody.Email).First(&user).Error
 		if err != nil {
@@ -58,7 +57,7 @@ func Login() fiber.Handler {
 
 func Register() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		newUser := authSchema.User{}
+		newUser := User{}
 		err := ctx.BodyParser(&newUser)
 		if err != nil {
 			log.Println(err)
@@ -79,6 +78,12 @@ func Register() fiber.Handler {
 		newUser.Password = password
 
 		db := db.GetDb()
+		oldUser := User{}
+		err = db.Where("email = ?", newUser.Email).First(&oldUser).Error
+		if err == nil {
+			return ctx.Status(http.StatusConflict).SendString("User Already Exists")
+		}
+
 		res := db.Create(&newUser)
 
 		if err != nil {

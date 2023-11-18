@@ -2,13 +2,14 @@ package search
 
 import (
 	"github.com/m3rashid/awesome/modules"
-	search "github.com/m3rashid/awesome/modules/search/schema"
+	"github.com/m3rashid/awesome/modules/helpers"
 )
 
 var SearchModule = modules.Module{
 	Name: "search",
 	Models: []interface{}{
-		&search.Resource{},
+		&helpers.Resource{},
+		&helpers.ActionLog{},
 	},
 	Resources: []modules.Resource{},
 	ProtectedRoutes: modules.Controller{

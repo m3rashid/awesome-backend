@@ -3,22 +3,21 @@ package auth
 import (
 	"github.com/m3rashid/awesome/controller"
 	"github.com/m3rashid/awesome/modules"
-	auth "github.com/m3rashid/awesome/modules/auth/schema"
-	search "github.com/m3rashid/awesome/modules/search/schema"
+	"github.com/m3rashid/awesome/modules/helpers"
 )
 
 var AuthModule = modules.Module{
 	Name: "auth",
 	Models: []interface{}{
-		&auth.User{},
-		&auth.Profile{},
-		&auth.UserGroup{},
+		&User{},
+		&Profile{},
+		&UserGroup{},
 	},
 	Resources: []modules.Resource{
 		{
 			Name:         "user",
-			ResourceType: auth.USER_MODEL_NAME,
-			ResourceIndex: search.ResourceIndex{
+			ResourceType: USER_MODEL_NAME,
+			ResourceIndex: helpers.ResourceIndex{
 				NameKey:        "name",
 				DescriptionKey: "email",
 				DisplayUrl:     "/user/:rId",
@@ -26,11 +25,11 @@ var AuthModule = modules.Module{
 		},
 		{
 			Name:         "profile",
-			ResourceType: auth.PROFILE_MODEL_NAME,
+			ResourceType: PROFILE_MODEL_NAME,
 		},
 	},
 	ProtectedRoutes: modules.Controller{
-		"/users": controller.List[auth.User](auth.USER_MODEL_NAME),
+		"/users": controller.List[User](USER_MODEL_NAME),
 		"":       AuthTest(),
 	},
 	AnonymousRoutes: modules.Controller{

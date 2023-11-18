@@ -3,22 +3,22 @@ package permission
 import (
 	"github.com/m3rashid/awesome/controller"
 	"github.com/m3rashid/awesome/modules"
-	permission "github.com/m3rashid/awesome/modules/permission/schema"
+	"github.com/m3rashid/awesome/modules/helpers"
 )
 
 var PermissionModule = modules.Module{
 	Name: "permission",
 	Models: []interface{}{
-		&permission.Permission{},
+		&helpers.Permission{},
 	},
 	Resources: []modules.Resource{
 		{
 			Name:         "permission",
-			ResourceType: permission.PERMISSION_MODEL_NAME,
+			ResourceType: helpers.PERMISSION_MODEL_NAME,
 		},
 	},
 	ProtectedRoutes: modules.Controller{
-		"/all": controller.List[permission.Permission](permission.PERMISSION_MODEL_NAME),
+		"/all": controller.List[helpers.Permission](helpers.PERMISSION_MODEL_NAME),
 	},
 	AnonymousRoutes: modules.Controller{
 		"/check": CheckPermissionApi(),

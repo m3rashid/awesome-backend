@@ -5,15 +5,15 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	permission "github.com/m3rashid/awesome/modules/permission/schema"
+	"github.com/m3rashid/awesome/modules/helpers"
 )
 
 func CheckPermissionApi() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		checkBody := struct {
-			UserId   uint                          `json:"userId" validate:"required"`
-			ObjectId uint                          `json:"objectId" validate:"required"`
-			Relation permission.PermissionRelation `json:"relation" validate:"required"`
+			UserId   uint                       `json:"userId" validate:"required"`
+			ObjectId uint                       `json:"objectId" validate:"required"`
+			Relation helpers.PermissionRelation `json:"relation" validate:"required"`
 		}{}
 
 		err := c.BodyParser(&checkBody)

@@ -3,7 +3,7 @@ package search
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
-	search "github.com/m3rashid/awesome/modules/search/schema"
+	"github.com/m3rashid/awesome/modules/helpers"
 )
 
 func HandleSearch() fiber.Handler {
@@ -24,7 +24,7 @@ func CreateResource(
 	ResourceType string,
 	Description string,
 ) error {
-	newResource := search.Resource{
+	newResource := helpers.Resource{
 		Name:         Name,
 		Description:  Description,
 		ResourceID:   ResourceID,
