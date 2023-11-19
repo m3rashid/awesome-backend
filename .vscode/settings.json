@@ -11,6 +11,17 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "yarn.lock",
+    "go.sum",
+    "firebase.js",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders"
+  ],
   "cSpell.words": [
     "actionlogs",
     "antd",
