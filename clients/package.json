@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "watch": "nodemon --watch shared/**/* --exec ./watch.sh",
+    "watch": "nodemon --exec ./watch.sh --watch shared/**/*",
     "postinstall": "cd mobile && yarn && cd .. && ./watch.sh"
   },
   "private": true,

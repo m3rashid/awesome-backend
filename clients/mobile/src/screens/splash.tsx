@@ -5,7 +5,6 @@ import {AppStackParamList} from '../routes/types';
 import {Text} from '@gluestack-ui/themed';
 import appConfig from '@awesome/shared/constants/appConfig';
 import useAuth from '../hooks/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Splash = (
   props: NativeStackScreenProps<AppStackParamList, 'splash'>,
@@ -14,11 +13,10 @@ const Splash = (
   const setupApp = async () => {
     try {
       await checkAuth();
-      props.navigation.replace('home');
+      props.navigation.replace('app-home');
     } catch (err: any) {
       setAuth(null);
-      props.navigation.replace('login');
-      await AsyncStorage.removeItem('token');
+      props.navigation.replace('auth-login');
     }
   };
 

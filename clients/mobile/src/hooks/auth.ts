@@ -1,11 +1,12 @@
 import {useAuthState} from '@awesome/shared/atoms/auth';
 import useLoading from '@awesome/shared/hooks/loading';
+import {zodValidate} from '@awesome/shared/helpers/zodError';
 import {
   LoginResponse,
   RegisterResponse,
-  LoginRequestBody,
-  RegisterRequestBody,
   InitResponse,
+  loginRequestBodySchema,
+  registerRequestBodySchema,
 } from '@awesome/shared/types/api/auth';
 import {service} from '../helpers/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,54 +19,47 @@ const useAuth = () => {
 
   const [auth, setAuth] = useAuthState();
   const {loading, start, stop} = useLoading();
-
-  const [email, setEmail] = useState<{value: string; error: any}>({
-    value: '',
-    error: null,
+  const [formValues, setFormValues] = useState({
+    name: '',
+    email: '',
+    password: '',
   });
-  const [name, setName] = useState<{value: string; error: any}>({
-    value: '',
-    error: null,
-  });
-  const [password, setPassword] = useState<{value: string; error: any}>({
-    value: '',
-    error: null,
-  });
-
-  const _loginService = service<LoginResponse>('/api/anonymous/auth/login', {
-    method: 'POST',
-  });
-
-  const _registerService = service<RegisterResponse>(
-    '/api/anonymous/auth/register',
-    {method: 'POST'},
-  );
-
-  const _checkAuthService = service<InitResponse>('/api/auth', {
-    method: 'POST',
-  });
+  const defaultError = {name: '', email: '', password: ''};
+  const [errors, setErrors] = useState(defaultError);
 
   const checkAuth = async () => {
-    const checkAuthService = await _checkAuthService;
+    const checkAuthService = await service<InitResponse>('/api/auth', {
+      method: 'POST',
+    });
     const res = await checkAuthService();
     setAuth({user: res.data.user, token: res.data.token});
     await AsyncStorage.setItem('token', res.data.token);
   };
 
   const handleLogin = async () => {
-    const values: LoginRequestBody = {
-      email: email.value,
-      password: password.value,
-    };
-
     try {
-      const loginService = await _loginService;
       start('login');
-      const res = await loginService({data: values});
+      const issues = zodValidate(loginRequestBodySchema, formValues, [
+        'email',
+        'password',
+      ]);
+
+      if (issues) {
+        setErrors(p => ({...p, ...issues}));
+        setTimeout(() => setErrors(defaultError), 5000);
+        return;
+      }
+
+      const loginService = await service<LoginResponse>(
+        '/api/anonymous/auth/login',
+        {method: 'POST'},
+      );
+      const res = await loginService({data: formValues});
       setAuth({user: res.data.user, token: res.data.token});
       await AsyncStorage.setItem('token', res.data.token);
-      navigate('home');
+      navigate('app-home');
     } catch (err: any) {
+      console.log(err);
       setAuth(null);
       await AsyncStorage.removeItem('token');
     } finally {
@@ -73,36 +67,45 @@ const useAuth = () => {
     }
   };
 
-  const register = async () => {
-    const values: RegisterRequestBody = {
-      email: email.value,
-      password: password.value,
-      name: name.value,
-    };
+  const handleRegister = async () => {
     try {
-      const registerService = await _registerService;
       start('register');
-      await registerService({data: values});
+      const issues = zodValidate(registerRequestBodySchema, formValues, [
+        'name',
+        'email',
+        'password',
+      ]);
+
+      if (issues) {
+        setErrors(p => ({...p, ...issues}));
+        setTimeout(() => setErrors(defaultError), 5000);
+        return;
+      }
+
+      const registerService = await service<RegisterResponse>(
+        '/api/anonymous/auth/register',
+        {method: 'POST'},
+      );
+      await registerService({data: formValues});
       await handleLogin();
     } catch (err: any) {
+      console.log(err);
     } finally {
       stop('register');
     }
   };
 
   return {
-    email,
-    setEmail,
-    password,
-    setPassword,
-    name,
-    setName,
+    formValues,
+    errors,
+    setFormValues,
     auth,
     handleLogin,
     loading,
     setAuth,
-    register,
+    handleRegister,
     checkAuth,
+    navigate,
   };
 };
 

@@ -6,6 +6,7 @@ import Splash from '../screens/splash';
 import {AppStackParamList} from './types';
 import AppHome from '../screens/app/home';
 import Login from '../screens/auth/login';
+import Register from '../screens/auth/register';
 
 const AppStack = createNativeStackNavigator<AppStackParamList>();
 
@@ -16,8 +17,9 @@ const Routes = (): JSX.Element => {
         initialRouteName="splash"
         screenOptions={{headerShown: false}}>
         <AppStack.Screen name="splash" component={Splash} />
-        <AppStack.Screen name="home" component={AppHome} />
-        <AppStack.Screen name="login" component={Login} />
+        <AppStack.Screen name="app-home" component={AppHome} />
+        <AppStack.Screen name="auth-login" component={Login} />
+        <AppStack.Screen name="auth-register" component={Register} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

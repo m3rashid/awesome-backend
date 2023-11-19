@@ -13,7 +13,7 @@
     "@ant-design/charts": "^1.4.2",
     "@ant-design/cssinjs": "^1.17.2",
     "@ant-design/icons": "^5.2.6",
-		"@awesome/shared": "1.0.0",
+    "@awesome/shared": "1.0.0",
     "@loadable/component": "^5.15.3",
     "@tanstack/react-query": "^5.0.0",
     "@tanstack/react-query-devtools": "^5.0.3",
@@ -28,7 +28,8 @@
     "react-router-dom": "^6.17.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
-    "use-query-params": "^2.2.1"
+    "use-query-params": "^2.2.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.0.0",
