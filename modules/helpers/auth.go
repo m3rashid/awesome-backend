@@ -1,9 +1,7 @@
-package utils
+package helpers
 
 import (
 	"os"
-	"strconv"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
@@ -13,25 +11,6 @@ type Claims struct {
 	Email  string `json:"email"`
 	UserID string `json:"userId"`
 	jwt.RegisteredClaims
-}
-
-func GenerateJWT(userId uint, email string) (string, error) {
-	expirationTime := time.Now().Add(30 * time.Minute)
-	claims := &Claims{
-		Email:  email,
-		UserID: strconv.FormatUint(uint64(userId), 10),
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(expirationTime),
-		},
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
-	if err != nil {
-		return "", err
-	}
-
-	return tokenString, nil
 }
 
 func CheckAuth() fiber.Handler {

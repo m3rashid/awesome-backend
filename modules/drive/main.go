@@ -16,8 +16,12 @@ var DriveModule = modules.Module{
 			ResourceType: FILE_MODEL_NAME,
 		},
 	},
-	ProtectedRoutes: modules.Controller{
-		"/all": controller.List[File](FILE_MODEL_NAME),
+	ProtectedRoutes: modules.RouteConfig{
+		"/all": {
+			Description: "List all files",
+			Controller:  controller.List[File](FILE_MODEL_NAME),
+			Tests:       []modules.TestRoute{},
+		},
 	},
-	AnonymousRoutes: modules.Controller{},
+	AnonymousRoutes: modules.RouteConfig{},
 }

@@ -2,7 +2,12 @@ package auth
 
 import (
 	"log"
+	"os"
+	"strconv"
+	"time"
 
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/m3rashid/awesome/modules/helpers"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -24,4 +29,23 @@ func VerifyPassword(hashedPassword string, password string) bool {
 	}
 
 	return check
+}
+
+func GenerateJWT(userId uint, email string) (string, error) {
+	expirationTime := time.Now().Add(30 * time.Minute)
+	claims := &helpers.Claims{
+		Email:  email,
+		UserID: strconv.FormatUint(uint64(userId), 10),
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(expirationTime),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, nil
 }

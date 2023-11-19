@@ -4,33 +4,37 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/thoas/go-funk"
 )
 
 func GetAppConfig(modules []Module) fiber.Handler {
-	GetRoutes := func(module Module, routeType string, noReturn bool) []string {
+	type Routes map[string]string
+
+	GetRoutes := func(module Module, routeType string, noReturn bool) Routes {
 		if noReturn {
-			return []string{}
+			return map[string]string{}
 		}
 
+		routes := make(map[string]string)
 		if routeType == "protected" {
-			return funk.Map(module.ProtectedRoutes, func(route string, _ fiber.Handler) string {
-				return "/api/" + module.Name + route
-			}).([]string)
+			for route, routeConfig := range module.ProtectedRoutes {
+				routes["/api/"+module.Name+route] = routeConfig.Description
+			}
 		} else if routeType == "anonymous" {
-			return funk.Map(module.AnonymousRoutes, func(route string, _ fiber.Handler) string {
-				return "/api/anonymous/" + module.Name + route
-			}).([]string)
+			for route, routeConfig := range module.AnonymousRoutes {
+				routes["/api/anonymous/"+module.Name+route] = routeConfig.Description
+			}
 		}
-		return []string{}
+
+		return routes
 	}
 
 	return func(ctx *fiber.Ctx) error {
+
 		type ModuleConfig struct {
 			Name            string     `json:"name"`
 			Resources       []Resource `json:"resources"`
-			ProtectedRoutes []string   `json:"protectedRoutes,omitempty"`
-			AnonymousRoutes []string   `json:"anonymousRoutes,omitempty"`
+			ProtectedRoutes Routes     `json:"protectedRoutes,omitempty"`
+			AnonymousRoutes Routes     `json:"anonymousRoutes,omitempty"`
 		}
 
 		var allModules []ModuleConfig
@@ -39,7 +43,7 @@ func GetAppConfig(modules []Module) fiber.Handler {
 				Name:            module.Name,
 				Resources:       module.Resources,
 				ProtectedRoutes: GetRoutes(module, "protected", !(ctx.Query("protected_routes") == "true")),
-				AnonymousRoutes: GetRoutes(module, "anonymous", !(ctx.Query("anon_routes") == "true")),
+				AnonymousRoutes: GetRoutes(module, "anonymous", !(ctx.Query("anonymous_routes") == "true")),
 			})
 		}
 

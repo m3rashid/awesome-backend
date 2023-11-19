@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -16,6 +17,7 @@ import (
 	"github.com/m3rashid/awesome/modules/drive"
 	"github.com/m3rashid/awesome/modules/permission"
 	"github.com/m3rashid/awesome/modules/search"
+	"github.com/m3rashid/awesome/utils"
 )
 
 func main() {
@@ -53,12 +55,22 @@ func main() {
 
 	app.Use(logger.New())
 
-	modules.RegisterRoutes(app, []modules.Module{
+	allModules := []modules.Module{
 		auth.AuthModule,
 		permission.PermissionModule,
 		search.SearchModule,
 		drive.DriveModule,
-	})
+	}
+
+	modules.RegisterRoutes(app, allModules)
+
+	appShutDown := utils.HandleCmdArgs(app, allModules)
+
+	if appShutDown {
+		fmt.Println("Server is gracefully shutting down")
+		app.ShutdownWithTimeout(time.Millisecond * 100)
+		return
+	}
 
 	log.Println("Server is running")
 	app.Listen(":" + os.Getenv("SERVER_PORT"))

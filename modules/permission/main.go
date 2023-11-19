@@ -17,10 +17,18 @@ var PermissionModule = modules.Module{
 			ResourceType: helpers.PERMISSION_MODEL_NAME,
 		},
 	},
-	ProtectedRoutes: modules.Controller{
-		"/all": controller.List[helpers.Permission](helpers.PERMISSION_MODEL_NAME),
+	ProtectedRoutes: modules.RouteConfig{
+		"/all": {
+			Description: "List all permissions",
+			Controller:  controller.List[helpers.Permission](helpers.PERMISSION_MODEL_NAME),
+			Tests:       []modules.TestRoute{},
+		},
 	},
-	AnonymousRoutes: modules.Controller{
-		"/check": CheckPermissionApi(),
+	AnonymousRoutes: modules.RouteConfig{
+		"/check": {
+			Description: "Check permission",
+			Controller:  CheckPermissionApi(),
+			Tests:       []modules.TestRoute{},
+		},
 	},
 }

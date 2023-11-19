@@ -7,7 +7,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
-	"github.com/m3rashid/awesome/utils"
 )
 
 func Login() fiber.Handler {
@@ -48,7 +47,7 @@ func Login() fiber.Handler {
 			})
 		}
 
-		token, err := utils.GenerateJWT(user.ID, user.Email)
+		token, err := GenerateJWT(user.ID, user.Email)
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Could not generate token",
@@ -128,7 +127,7 @@ func AuthTest() fiber.Handler {
 			})
 		}
 
-		token, err := utils.GenerateJWT(user.ID, user.Email)
+		token, err := GenerateJWT(user.ID, user.Email)
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Could not generate token",

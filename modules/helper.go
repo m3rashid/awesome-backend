@@ -7,14 +7,26 @@ import (
 	"github.com/m3rashid/awesome/modules/helpers"
 )
 
-type Controller = map[string]fiber.Handler
+type TestRoute struct {
+	Method             string
+	Description        string
+	ExpectedStatusCode int
+	ExpectedBody       interface{}
+	RequestBody        interface{}
+}
+
+type RouteConfig = map[string]struct {
+	Controller  fiber.Handler
+	Description string
+	Tests       []TestRoute
+}
 
 type Module struct {
 	Name            string
 	Resources       []Resource
 	Models          []interface{}
-	AnonymousRoutes Controller
-	ProtectedRoutes Controller
+	AnonymousRoutes RouteConfig
+	ProtectedRoutes RouteConfig
 }
 
 type Permission = map[string]struct {

@@ -16,8 +16,12 @@ var EmailModule = modules.Module{
 			ResourceType: EMAIL_MODEL_NAME,
 		},
 	},
-	ProtectedRoutes: modules.Controller{
-		"/": controller.List[Email](EMAIL_MODEL_NAME),
+	ProtectedRoutes: modules.RouteConfig{
+		"/": {
+			Description: "List all emails",
+			Controller:  controller.List[Email](EMAIL_MODEL_NAME),
+			Tests:       []modules.TestRoute{},
+		},
 	},
-	AnonymousRoutes: modules.Controller{},
+	AnonymousRoutes: modules.RouteConfig{},
 }

@@ -1,19 +1,19 @@
 package modules
 
 import (
+	"fmt"
+	"net/http/httptest"
 	"os"
+	"strings"
+
+	"encoding/json"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
-	"github.com/m3rashid/awesome/db"
-	"github.com/m3rashid/awesome/utils"
+	"github.com/m3rashid/awesome/modules/helpers"
 )
 
 func RegisterRoutes(app *fiber.App, modules []Module) {
-	for _, module := range modules {
-		db.GormMigrate(module.Models...)
-	}
-
 	app.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.SendString("Hello, World!")
 	})
@@ -26,11 +26,51 @@ func RegisterRoutes(app *fiber.App, modules []Module) {
 
 	for _, module := range modules {
 		for route, handler := range module.ProtectedRoutes {
-			app.Post("/api/"+module.Name+route, utils.CheckAuth(), handler)
+			app.Post("/api/"+module.Name+route, helpers.CheckAuth(), handler.Controller)
 		}
 
 		for route, handler := range module.AnonymousRoutes {
-			app.Post("/api/anonymous/"+module.Name+route, handler)
+			app.Post("/api/anonymous/"+module.Name+route, handler.Controller)
 		}
 	}
+}
+
+func SetupTests(app *fiber.App, modules []Module) {
+	type AllTests = map[string][]TestRoute
+	allTests := make(AllTests)
+
+	for _, module := range modules {
+		for route, handler := range module.ProtectedRoutes {
+			allTests["/api/"+module.Name+route] = handler.Tests
+		}
+
+		for route, handler := range module.AnonymousRoutes {
+			allTests["/api/anonymous/"+module.Name+route] = handler.Tests
+		}
+	}
+
+	fmt.Println(allTests)
+
+	for route, tests := range allTests {
+		for _, test := range tests {
+			jsonBytes, err := json.Marshal(test.RequestBody)
+			if err != nil {
+				panic(fmt.Sprintf("ERROR in marshalling to JSON %s", err))
+			}
+
+			req := httptest.NewRequest(test.Method, route, strings.NewReader(string(jsonBytes)))
+			res, err := app.Test(req, 5, 10)
+			if err != nil {
+				panic(err)
+			}
+
+			fmt.Println(res)
+			if res.StatusCode != test.ExpectedStatusCode {
+				panic("Status code does not match, test failed")
+			}
+		}
+	}
+
+	fmt.Println("\n\nAll tests passed")
+	fmt.Println("All modules are working fine")
 }

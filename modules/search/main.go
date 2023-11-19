@@ -12,8 +12,12 @@ var SearchModule = modules.Module{
 		&helpers.ActionLog{},
 	},
 	Resources: []modules.Resource{},
-	ProtectedRoutes: modules.Controller{
-		"/search": HandleSearch(),
+	ProtectedRoutes: modules.RouteConfig{
+		"/search": {
+			Description: "Search",
+			Controller:  HandleSearch(),
+			Tests:       []modules.TestRoute{},
+		},
 	},
-	AnonymousRoutes: modules.Controller{},
+	AnonymousRoutes: modules.RouteConfig{},
 }

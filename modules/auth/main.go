@@ -28,12 +28,28 @@ var AuthModule = modules.Module{
 			ResourceType: PROFILE_MODEL_NAME,
 		},
 	},
-	ProtectedRoutes: modules.Controller{
-		"/users": controller.List[User](USER_MODEL_NAME),
-		"":       AuthTest(),
+	ProtectedRoutes: modules.RouteConfig{
+		"/users": {
+			Description: "List all users",
+			Controller:  controller.List[User](USER_MODEL_NAME),
+			Tests:       GetAllUsersTests,
+		},
+		"": {
+			Description: "Test auth",
+			Controller:  AuthTest(),
+			Tests:       AuthTestTests,
+		},
 	},
-	AnonymousRoutes: modules.Controller{
-		"/login":    Login(),
-		"/register": Register(),
+	AnonymousRoutes: modules.RouteConfig{
+		"/login": {
+			Description: "Login",
+			Controller:  Login(),
+			Tests:       LoginTests,
+		},
+		"/register": {
+			Description: "Register",
+			Controller:  Register(),
+			Tests:       RegisterTests,
+		},
 	},
 }
