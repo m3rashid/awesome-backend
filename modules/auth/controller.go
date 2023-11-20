@@ -75,7 +75,6 @@ func Register() fiber.Handler {
 
 		newUser.Deactivated = false
 		newUser.Deleted = false
-		newUser.Roles = []uint{}
 
 		validator := validator.New()
 		err = validator.Struct(newUser)
