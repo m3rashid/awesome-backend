@@ -18,7 +18,6 @@ var EmailModule = modules.Module{
 		"/all": {
 			Description: "List all emails",
 			Controller:  controller.List[models.Email](models.EMAIL_MODEL_NAME),
-			Tests:       []modules.TestRoute{},
 			Permissions: modules.RoutePermissions{
 				"email": modules.LIST,
 			},

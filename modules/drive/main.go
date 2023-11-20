@@ -18,7 +18,6 @@ var DriveModule = modules.Module{
 		"/all": {
 			Description: "List all files",
 			Controller:  controller.List[models.DriveFile](models.DRIVE_FILE_MODEL_NAME),
-			Tests:       []modules.TestRoute{},
 			Permissions: modules.RoutePermissions{
 				"driveFile": modules.LIST,
 			},

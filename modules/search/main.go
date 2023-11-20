@@ -17,7 +17,6 @@ var SearchModule = modules.Module{
 		"/": {
 			Description: "Search",
 			Controller:  HandleSearch(),
-			Tests:       []modules.TestRoute{},
 		},
 	},
 }

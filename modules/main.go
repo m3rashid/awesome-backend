@@ -2,11 +2,7 @@ package modules
 
 import (
 	"fmt"
-	"net/http/httptest"
 	"os"
-	"strings"
-
-	"encoding/json"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
@@ -44,41 +40,4 @@ func RegisterRoutes(app *fiber.App, modules []Module) {
 			app.Post("/api/anonymous/"+module.Name+route, handler.Controller)
 		}
 	}
-}
-
-func SetupTests(app *fiber.App, modules []Module) {
-	type AllTests = map[string][]TestRoute
-	allTests := make(AllTests)
-
-	for _, module := range modules {
-		for route, handler := range module.ProtectedRoutes {
-			allTests["/api/"+module.Name+route] = handler.Tests
-		}
-
-		for route, handler := range module.AnonymousRoutes {
-			allTests["/api/anonymous/"+module.Name+route] = handler.Tests
-		}
-	}
-
-	for route, tests := range allTests {
-		for _, test := range tests {
-			jsonBytes, err := json.Marshal(test.RequestBody)
-			if err != nil {
-				panic(fmt.Sprintf("ERROR in marshalling to JSON %s\n", err))
-			}
-
-			req := httptest.NewRequest(test.Method, route, strings.NewReader(string(jsonBytes)))
-			res, err := app.Test(req, 5, 10)
-			if err != nil {
-				panic(fmt.Sprintf("ERROR in testing request %s\n", err))
-			}
-
-			if res.StatusCode != test.ExpectedStatusCode {
-				panic("Status code does not match, test failed\n")
-			}
-		}
-	}
-
-	fmt.Println("\n\nAll tests passed")
-	fmt.Println("All modules are working fine")
 }

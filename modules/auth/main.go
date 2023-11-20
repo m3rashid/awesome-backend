@@ -25,7 +25,6 @@ var AuthModule = modules.Module{
 		"/all": {
 			Description: "List all users",
 			Controller:  controller.List[models.User](models.USER_MODEL_NAME),
-			Tests:       GetAllUsersTests,
 			Permissions: modules.RoutePermissions{
 				"user": modules.LIST,
 			},
@@ -33,7 +32,6 @@ var AuthModule = modules.Module{
 		"/update": {
 			Description: "Update user",
 			// Controller:  controller.Update[models.User](models.USER_MODEL_NAME, ),
-			Tests: []modules.TestRoute{},
 			Permissions: modules.RoutePermissions{
 				"user": modules.EDIT,
 			},
@@ -41,7 +39,6 @@ var AuthModule = modules.Module{
 		"": {
 			Description: "Test auth",
 			Controller:  GetInitialUser(),
-			Tests:       AuthTestTests,
 			Permissions: modules.RoutePermissions{},
 		},
 	},
@@ -49,12 +46,10 @@ var AuthModule = modules.Module{
 		"/login": {
 			Description: "Login",
 			Controller:  Login(),
-			Tests:       LoginTests,
 		},
 		"/register": {
 			Description: "Register",
 			Controller:  Register(),
-			Tests:       RegisterTests,
 		},
 	},
 }

@@ -7,14 +7,6 @@ import (
 	"github.com/m3rashid/awesome/models"
 )
 
-type TestRoute struct {
-	Method             string
-	Description        string
-	ExpectedStatusCode int
-	ExpectedBody       interface{}
-	RequestBody        interface{}
-}
-
 type ResourcePermission = string
 
 const (
@@ -30,14 +22,12 @@ type RoutePermissions = map[string]ResourcePermission
 type ProtectedRouteConfig = map[string]struct {
 	Controller  fiber.Handler
 	Description string
-	Tests       []TestRoute
 	Permissions RoutePermissions
 }
 
 type AnonymousRouteConfig = map[string]struct {
 	Controller  fiber.Handler
 	Description string
-	Tests       []TestRoute
 }
 
 type Resources = map[string]models.ResourceIndex

@@ -11,37 +11,13 @@ import (
 )
 
 func GetDb() *gorm.DB {
-	var dsn string
-
-	if os.Getenv("SERVER_MODE") == "test" {
-		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
-			os.Getenv("TEST_DB_HOST"),
-			os.Getenv("TEST_DB_USER"),
-			os.Getenv("TEST_DB_PASSWORD"),
-			os.Getenv("TEST_DB_NAME"),
-			os.Getenv("TEST_DB_PORT"),
-		)
-	} else if os.Getenv("SERVER_MODE") == "dev" {
-		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
-			os.Getenv("DEV_DB_HOST"),
-			os.Getenv("DEV_DB_USER"),
-			os.Getenv("DEV_DB_PASSWORD"),
-			os.Getenv("DEV_DB_NAME"),
-			os.Getenv("DEV_DB_PORT"),
-		)
-	} else if os.Getenv("SERVER_MODE") == "prod" {
-		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
-			os.Getenv("PROD_DB_HOST"),
-			os.Getenv("PROD_DB_USER"),
-			os.Getenv("PROD_DB_PASSWORD"),
-			os.Getenv("PROD_DB_NAME"),
-			os.Getenv("PROD_DB_PORT"),
-		)
-	} else {
-		panic("Invalid server mode")
-	}
-
-	fmt.Println("Connecting to database...", dsn)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
+		os.Getenv("DB_PORT"),
+	)
 
 	sqlDB, err := sql.Open("pgx", dsn)
 	if err != nil {
