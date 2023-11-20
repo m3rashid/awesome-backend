@@ -15,15 +15,15 @@ var DriveModule = modules.Module{
 		{
 			Name:         "file",
 			ResourceType: models.DRIVE_FILE_MODEL_NAME,
-			Permissions:  []modules.PermissionPolicy{},
+			Permissions:  modules.ResourcePermissions{},
 		},
 	},
-	ProtectedRoutes: modules.RouteConfig{
+	ProtectedRoutes: modules.ProtectedRouteConfig{
 		"/all": {
 			Description: "List all files",
 			Controller:  controller.List[models.DriveFile](models.DRIVE_FILE_MODEL_NAME),
 			Tests:       []modules.TestRoute{},
 		},
 	},
-	AnonymousRoutes: modules.RouteConfig{},
+	AnonymousRoutes: modules.AnonymousRouteConfig{},
 }

@@ -15,15 +15,15 @@ var EmailModule = modules.Module{
 		{
 			Name:         "email",
 			ResourceType: models.EMAIL_MODEL_NAME,
-			Permissions:  []modules.PermissionPolicy{},
+			Permissions:  modules.ResourcePermissions{},
 		},
 	},
-	ProtectedRoutes: modules.RouteConfig{
+	ProtectedRoutes: modules.ProtectedRouteConfig{
 		"/": {
 			Description: "List all emails",
 			Controller:  controller.List[models.Email](models.EMAIL_MODEL_NAME),
 			Tests:       []modules.TestRoute{},
 		},
 	},
-	AnonymousRoutes: modules.RouteConfig{},
+	AnonymousRoutes: modules.AnonymousRouteConfig{},
 }

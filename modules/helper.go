@@ -15,33 +15,37 @@ type TestRoute struct {
 	RequestBody        interface{}
 }
 
-type PermissionPolicy struct {
-	Action string `json:"action"`
-	Object string `json:"object"`
-}
+type ResourcePermissions = []string
+type RoutePermissions = map[string]ResourcePermissions
 
-type RouteConfig = map[string]struct {
+type ProtectedRouteConfig = map[string]struct {
 	Controller  fiber.Handler
 	Description string
 	Tests       []TestRoute
-	Permissions []PermissionPolicy
+	Permissions RoutePermissions
 	// permissions are defined on that route for more granular control
 	// TODO: Permissions are not yet implemented
+}
+
+type AnonymousRouteConfig = map[string]struct {
+	Controller  fiber.Handler
+	Description string
+	Tests       []TestRoute
 }
 
 type Module struct {
 	Name            string
 	Resources       []Resource
 	Models          []interface{}
-	AnonymousRoutes RouteConfig
-	ProtectedRoutes RouteConfig
+	AnonymousRoutes AnonymousRouteConfig
+	ProtectedRoutes ProtectedRouteConfig
 }
 
 type Resource struct {
 	Name          string               `json:"name"`
 	ResourceType  string               `json:"resourceType"`
 	ResourceIndex models.ResourceIndex `json:"resourceIndex"`
-	Permissions   []PermissionPolicy   `json:"permissions"`
+	Permissions   ResourcePermissions  `json:"permissions"`
 	// all permissions are defined on resource to make it easier to manage
 	// all available permissions on that resource must be defined here
 }

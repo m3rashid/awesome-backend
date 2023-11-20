@@ -109,7 +109,7 @@ func Register() fiber.Handler {
 	}
 }
 
-func AuthTest() fiber.Handler {
+func GetInitialUser() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		if ctx.Locals("authorized") == nil || ctx.Locals("userId") == nil || ctx.Locals("email") == nil {
 			return ctx.Status(http.StatusUnauthorized).JSON(fiber.Map{

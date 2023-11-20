@@ -22,27 +22,31 @@ var AuthModule = modules.Module{
 				DescriptionKey: "email",
 				DisplayUrl:     "/user/:rId",
 			},
-			Permissions: []modules.PermissionPolicy{},
+			Permissions: modules.ResourcePermissions{"create", "edit", "delete", "view", "viewAll"},
 		},
 		{
 			Name:         "profile",
 			ResourceType: models.PROFILE_MODEL_NAME,
-			Permissions:  []modules.PermissionPolicy{},
+			Permissions:  modules.ResourcePermissions{"create", "edit", "view", "delete", "viewAll"},
 		},
 	},
-	ProtectedRoutes: modules.RouteConfig{
+	ProtectedRoutes: modules.ProtectedRouteConfig{
 		"/users": {
 			Description: "List all users",
 			Controller:  controller.List[models.User](models.USER_MODEL_NAME),
 			Tests:       GetAllUsersTests,
+			Permissions: modules.RoutePermissions{
+				"user": {"viewAll"},
+			},
 		},
 		"": {
 			Description: "Test auth",
-			Controller:  AuthTest(),
+			Controller:  GetInitialUser(),
 			Tests:       AuthTestTests,
+			Permissions: modules.RoutePermissions{},
 		},
 	},
-	AnonymousRoutes: modules.RouteConfig{
+	AnonymousRoutes: modules.AnonymousRouteConfig{
 		"/login": {
 			Description: "Login",
 			Controller:  Login(),
