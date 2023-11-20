@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,7 +15,6 @@ func HandleCmdArgs(app *fiber.App, allModules []modules.Module, casbin *permissi
 		return false
 	}
 
-	isSeed := Includes[string](cmdArguments, "seed")
 	isMigrate := Includes[string](cmdArguments, "migrate")
 
 	allModels := []interface{}{}
@@ -26,15 +24,6 @@ func HandleCmdArgs(app *fiber.App, allModules []modules.Module, casbin *permissi
 
 	if isMigrate {
 		db.GormMigrate(allModels...)
-	}
-
-	if isSeed {
-		db.Seed(allModels...)
-		err := casbin.SeedDefaultPermissions()
-		if err != nil {
-			fmt.Println("error in seeding default permissions")
-			panic(err)
-		}
 	}
 
 	return true
