@@ -22,10 +22,12 @@ var AuthModule = modules.Module{
 				DescriptionKey: "email",
 				DisplayUrl:     "/user/:rId",
 			},
+			Permissions: []modules.PermissionPolicy{},
 		},
 		{
 			Name:         "profile",
 			ResourceType: PROFILE_MODEL_NAME,
+			Permissions:  []modules.PermissionPolicy{},
 		},
 	},
 	ProtectedRoutes: modules.RouteConfig{

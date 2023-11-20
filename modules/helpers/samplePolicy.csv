@@ -1,0 +1,6 @@
+p, alice, inventory, edit
+p, bob, inventory, view
+p, paul, admin, edit
+
+g, inventory, inventory_items
+g, inventory, inventory_photos

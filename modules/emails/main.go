@@ -14,6 +14,7 @@ var EmailModule = modules.Module{
 		{
 			Name:         "email",
 			ResourceType: EMAIL_MODEL_NAME,
+			Permissions:  []modules.PermissionPolicy{},
 		},
 	},
 	ProtectedRoutes: modules.RouteConfig{

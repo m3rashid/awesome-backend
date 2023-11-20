@@ -15,7 +15,7 @@ import (
 	"github.com/m3rashid/awesome/modules"
 	"github.com/m3rashid/awesome/modules/auth"
 	"github.com/m3rashid/awesome/modules/drive"
-	"github.com/m3rashid/awesome/modules/permission"
+	"github.com/m3rashid/awesome/modules/helpers"
 	"github.com/m3rashid/awesome/modules/search"
 	"github.com/m3rashid/awesome/utils"
 )
@@ -27,11 +27,12 @@ func main() {
 	}
 
 	app := fiber.New(fiber.Config{
-		CaseSensitive:  true,
-		AppName:        os.Getenv("APP_NAME"),
-		RequestMethods: []string{"GET", "POST", "HEAD", "OPTIONS"},
-		Concurrency:    256 * 1024 * 1024,
-		ServerHeader:   os.Getenv("APP_NAME"),
+		CaseSensitive:         true,
+		AppName:               os.Getenv("APP_NAME"),
+		RequestMethods:        []string{"GET", "POST", "HEAD", "OPTIONS"},
+		Concurrency:           256 * 1024 * 1024,
+		ServerHeader:          os.Getenv("APP_NAME"),
+		DisableStartupMessage: true,
 		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
 			if e, ok := err.(*fiber.Error); ok {
@@ -42,6 +43,17 @@ func main() {
 				"message": err.Error(),
 			})
 		},
+	})
+
+	casbin := helpers.InitCasbin()
+	err = casbin.SeedDefaultPermissions()
+	if err != nil {
+		fmt.Println("error in seeding default permissions")
+		panic(err)
+	}
+	app.Use(func(c *fiber.Ctx) error {
+		c.Locals("casbin", casbin)
+		return c.Next()
 	})
 
 	app.Use(cors.New(cors.Config{
@@ -69,7 +81,6 @@ func main() {
 
 	allModules := []modules.Module{
 		auth.AuthModule,
-		permission.PermissionModule,
 		search.SearchModule,
 		drive.DriveModule,
 	}

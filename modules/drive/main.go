@@ -14,6 +14,7 @@ var DriveModule = modules.Module{
 		{
 			Name:         "file",
 			ResourceType: FILE_MODEL_NAME,
+			Permissions:  []modules.PermissionPolicy{},
 		},
 	},
 	ProtectedRoutes: modules.RouteConfig{

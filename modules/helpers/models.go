@@ -2,30 +2,6 @@ package helpers
 
 import "time"
 
-const PERMISSION_MODEL_NAME = "permissions"
-
-type PermissionRelation int64
-
-const (
-	READ   PermissionRelation = 1
-	WRITE  PermissionRelation = 2
-	UPDATE PermissionRelation = 4
-	OWNER  PermissionRelation = 8
-)
-
-type Permission struct {
-	ID            uint   `gorm:"primary_key" json:"id"`
-	User          uint   `json:"user" gorm:"column:user;not null" validate:"required"`
-	Relation      int64  `json:"relation" gorm:"column:relation;not null" validate:"required"`
-	Object        string `json:"object" gorm:"column:object;not null" validate:"required"` // object (_id) or group
-	IsUserGroup   bool   `json:"isUserGroup" gorm:"column:isUserGroup;not null;default:false" validate:"required"`
-	IsObjectGroup bool   `json:"isObjectGroup" gorm:"column:isObjectGroup;not null;default:false" validate:"required"`
-}
-
-func (Permission) TableName() string {
-	return PERMISSION_MODEL_NAME
-}
-
 const RESOURCE_MODEL_NAME = "resources"
 
 type Resource struct {
