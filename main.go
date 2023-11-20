@@ -47,11 +47,6 @@ func main() {
 	})
 
 	casbin := permissions.InitCasbin()
-	err = casbin.SeedDefaultPermissions()
-	if err != nil {
-		fmt.Println("error in seeding default permissions")
-		panic(err)
-	}
 	app.Use(func(c *fiber.Ctx) error {
 		c.Locals("casbin", casbin)
 		return c.Next()
@@ -89,8 +84,7 @@ func main() {
 
 	modules.RegisterRoutes(app, allModules)
 
-	appShutDown := utils.HandleCmdArgs(app, allModules)
-
+	appShutDown := utils.HandleCmdArgs(app, allModules, casbin)
 	if appShutDown {
 		fmt.Println("Server is gracefully shutting down")
 		app.ShutdownWithTimeout(time.Millisecond * 100)

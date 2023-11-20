@@ -29,6 +29,7 @@
     "bradlc",
     "bson",
     "casbin",
+    "casbinrule",
     "casbinrules",
     "createdb",
     "cssinjs",

@@ -14,7 +14,7 @@ func RegisterRoutes(app *fiber.App, modules []Module) {
 	app.Get("/", func(ctx *fiber.Ctx) error {
 		// sample casbin usage
 		casbin := ctx.Locals("casbin").(*permissions.Casbin)
-		ok, err := casbin.Enforcer.Enforce("3", "/", "view")
+		ok, err := casbin.Enforcer.Enforce("3", "/", "edit")
 		if err != nil {
 			fmt.Println("casbin error", err)
 			return ctx.Status(500).SendString(err.Error())

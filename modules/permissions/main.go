@@ -10,23 +10,28 @@ import (
 )
 
 type Casbin struct {
-	Enforcer *casbin.CachedEnforcer
+	Enforcer *casbin.Enforcer
 }
 
 func InitCasbin() *Casbin {
-	permissionsFile, err := filepath.Abs("modules/permissions/model.conf")
+	modelConfigFile, err := filepath.Abs("modules/permissions/model.conf")
 	if err != nil {
 		fmt.Println("casbin init error, config file not found")
 		panic(err)
 	}
 
-	enforcer, err := casbin.NewCachedEnforcer(permissionsFile)
+	gormAdapter, err := gormadapter.NewAdapterByDB(db.GetDb())
+	if err != nil {
+		fmt.Println("casbin init error, cannot create adapter")
+		panic(err)
+	}
+
+	enforcer, err := casbin.NewEnforcer(modelConfigFile, gormAdapter)
 	if err != nil {
 		fmt.Println("casbin init error, cannot create enforcer")
 		panic(err)
 	}
 
-	gormadapter.NewAdapterByDB(db.GetDb())
 	enforcer.LoadPolicy()
 	return &Casbin{Enforcer: enforcer}
 }
@@ -36,7 +41,7 @@ func (c *Casbin) AddPolicy(sub, obj, act string) error {
 	if err != nil {
 		return err
 	}
-	return c.Enforcer.InvalidateCache()
+	return c.Enforcer.SavePolicy()
 }
 
 func (c *Casbin) RemovePolicy(sub, obj, act string) error {
@@ -44,7 +49,7 @@ func (c *Casbin) RemovePolicy(sub, obj, act string) error {
 	if err != nil {
 		return err
 	}
-	return c.Enforcer.InvalidateCache()
+	return c.Enforcer.SavePolicy()
 }
 
 func (c *Casbin) AddPolicies(rules []struct{ sub, obj, act string }) error {
@@ -54,7 +59,7 @@ func (c *Casbin) AddPolicies(rules []struct{ sub, obj, act string }) error {
 			return err
 		}
 	}
-	return c.Enforcer.InvalidateCache()
+	return c.Enforcer.SavePolicy()
 }
 
 func (c *Casbin) RemovePolicies(rules []struct{ sub, obj, act string }) error {
@@ -64,7 +69,7 @@ func (c *Casbin) RemovePolicies(rules []struct{ sub, obj, act string }) error {
 			return err
 		}
 	}
-	return c.Enforcer.InvalidateCache()
+	return c.Enforcer.SavePolicy()
 }
 
 func (c *Casbin) SeedDefaultPermissions() error {
