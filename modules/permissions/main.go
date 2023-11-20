@@ -1,4 +1,4 @@
-package helpers
+package permissions
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ type Casbin struct {
 }
 
 func InitCasbin() *Casbin {
-	permissionsFile, err := filepath.Abs("modules/helpers/permission.conf")
+	permissionsFile, err := filepath.Abs("modules/permissions/model.conf")
 	if err != nil {
 		fmt.Println("casbin init error, config file not found")
 		panic(err)

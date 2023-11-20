@@ -15,7 +15,8 @@ import (
 	"github.com/m3rashid/awesome/modules"
 	"github.com/m3rashid/awesome/modules/auth"
 	"github.com/m3rashid/awesome/modules/drive"
-	"github.com/m3rashid/awesome/modules/helpers"
+	"github.com/m3rashid/awesome/modules/emails"
+	"github.com/m3rashid/awesome/modules/permissions"
 	"github.com/m3rashid/awesome/modules/search"
 	"github.com/m3rashid/awesome/utils"
 )
@@ -45,7 +46,7 @@ func main() {
 		},
 	})
 
-	casbin := helpers.InitCasbin()
+	casbin := permissions.InitCasbin()
 	err = casbin.SeedDefaultPermissions()
 	if err != nil {
 		fmt.Println("error in seeding default permissions")
@@ -81,8 +82,9 @@ func main() {
 
 	allModules := []modules.Module{
 		auth.AuthModule,
-		search.SearchModule,
 		drive.DriveModule,
+		emails.EmailModule,
+		search.SearchModule,
 	}
 
 	modules.RegisterRoutes(app, allModules)

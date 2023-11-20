@@ -7,6 +7,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
+	"github.com/m3rashid/awesome/models"
 )
 
 func Login() fiber.Handler {
@@ -30,7 +31,7 @@ func Login() fiber.Handler {
 			})
 		}
 
-		var user User
+		var user models.User
 		db := db.GetDb()
 		err = db.Where("email = ?", loginBody.Email).First(&user).Error
 		if err != nil {
@@ -63,7 +64,7 @@ func Login() fiber.Handler {
 
 func Register() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		newUser := User{}
+		newUser := models.User{}
 		err := ctx.BodyParser(&newUser)
 		if err != nil {
 			log.Println(err)
@@ -88,7 +89,7 @@ func Register() fiber.Handler {
 		newUser.Password = password
 
 		db := db.GetDb()
-		oldUser := User{}
+		oldUser := models.User{}
 		err = db.Where("email = ?", newUser.Email).First(&oldUser).Error
 		if err == nil {
 			return ctx.Status(http.StatusConflict).JSON(fiber.Map{
@@ -117,7 +118,7 @@ func AuthTest() fiber.Handler {
 			})
 		}
 
-		var user User
+		var user models.User
 		db := db.GetDb()
 		err := db.Where("id = ?", ctx.Locals("userId")).First(&user).Error
 		if err != nil {

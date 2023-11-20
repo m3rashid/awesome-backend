@@ -17,8 +17,8 @@ func HandleCmdArgs(app *fiber.App, allModules []modules.Module) (shutDown bool) 
 	}
 
 	isTest := Includes[string](cmdArguments, "test")
-	isMigrate := Includes[string](cmdArguments, "migrate")
 	isSeed := Includes[string](cmdArguments, "seed")
+	isMigrate := Includes[string](cmdArguments, "migrate")
 
 	testDbName := os.Getenv("TEST_DB_NAME")
 
@@ -33,7 +33,7 @@ func HandleCmdArgs(app *fiber.App, allModules []modules.Module) (shutDown bool) 
 			fmt.Println("Error creating test database")
 		}
 
-		os.Setenv("TESTING", "true")
+		os.Setenv("SERVER_MODE", "test")
 	}
 
 	var allModels []interface{}

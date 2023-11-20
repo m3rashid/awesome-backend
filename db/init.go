@@ -12,7 +12,8 @@ import (
 
 func GetDb() *gorm.DB {
 	var dsn string
-	if os.Getenv("TESTING") == "true" {
+
+	if os.Getenv("SERVER_MODE") == "test" {
 		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
 			os.Getenv("TEST_DB_HOST"),
 			os.Getenv("TEST_DB_USER"),
@@ -20,17 +21,25 @@ func GetDb() *gorm.DB {
 			os.Getenv("TEST_DB_NAME"),
 			os.Getenv("TEST_DB_PORT"),
 		)
-	} else {
+	} else if os.Getenv("SERVER_MODE") == "dev" {
 		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
-			os.Getenv("DB_HOST"),
-			os.Getenv("DB_USER"),
-			os.Getenv("DB_PASSWORD"),
-			os.Getenv("DB_NAME"),
-			os.Getenv("DB_PORT"),
+			os.Getenv("DEV_DB_HOST"),
+			os.Getenv("DEV_DB_USER"),
+			os.Getenv("DEV_DB_PASSWORD"),
+			os.Getenv("DEV_DB_NAME"),
+			os.Getenv("DEV_DB_PORT"),
 		)
+	} else if os.Getenv("SERVER_MODE") == "prod" {
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
+			os.Getenv("PROD_DB_HOST"),
+			os.Getenv("PROD_DB_USER"),
+			os.Getenv("PROD_DB_PASSWORD"),
+			os.Getenv("PROD_DB_NAME"),
+			os.Getenv("PROD_DB_PORT"),
+		)
+	} else {
+		panic("Invalid server mode")
 	}
-
-	fmt.Println("Connecting to database...", dsn)
 
 	sqlDB, err := sql.Open("pgx", dsn)
 	if err != nil {
@@ -40,23 +49,22 @@ func GetDb() *gorm.DB {
 	sqlDB.SetMaxOpenConns(100)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
-	gormDB, err := gorm.Open(postgres.New(postgres.Config{
-		Conn: sqlDB,
-	}), &gorm.Config{})
-
+	gormDB, err := gorm.Open(postgres.New(postgres.Config{Conn: sqlDB}), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
+
 	return gormDB
 }
 
 func GormMigrate(models ...interface{}) {
 	fmt.Println("Migrating models...")
 	db := GetDb()
-	db.AutoMigrate(models...)
+	err := db.AutoMigrate(models...)
+	if err != nil {
+		fmt.Printf("Error migrating models: %v", err)
+		return
+	}
+
 	fmt.Println("Migration completed, Migrated " + fmt.Sprint(len(models)) + " models")
-}
-
-func T() {
-
 }

@@ -11,12 +11,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/m3rashid/awesome/modules/helpers"
+	"github.com/m3rashid/awesome/modules/permissions"
 )
 
 func RegisterRoutes(app *fiber.App, modules []Module) {
 	app.Get("/", func(ctx *fiber.Ctx) error {
 		// sample casbin usage
-		casbin := ctx.Locals("casbin").(*helpers.Casbin)
+		casbin := ctx.Locals("casbin").(*permissions.Casbin)
 		ok, err := casbin.Enforcer.Enforce("3", "/", "view")
 		if err != nil {
 			fmt.Println("casbin error", err)

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/m3rashid/awesome/modules/helpers"
+	"github.com/m3rashid/awesome/models"
 )
 
 type TestRoute struct {
@@ -38,10 +38,10 @@ type Module struct {
 }
 
 type Resource struct {
-	Name          string                `json:"name"`
-	ResourceType  string                `json:"resourceType"`
-	ResourceIndex helpers.ResourceIndex `json:"resourceIndex"`
-	Permissions   []PermissionPolicy    `json:"permissions"`
+	Name          string               `json:"name"`
+	ResourceType  string               `json:"resourceType"`
+	ResourceIndex models.ResourceIndex `json:"resourceIndex"`
+	Permissions   []PermissionPolicy   `json:"permissions"`
 	// all permissions are defined on resource to make it easier to manage
 	// all available permissions on that resource must be defined here
 }

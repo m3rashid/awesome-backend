@@ -2,25 +2,26 @@ package emails
 
 import (
 	"github.com/m3rashid/awesome/controller"
+	"github.com/m3rashid/awesome/models"
 	"github.com/m3rashid/awesome/modules"
 )
 
 var EmailModule = modules.Module{
 	Name: "emails",
 	Models: []interface{}{
-		&Email{},
+		&models.Email{},
 	},
 	Resources: []modules.Resource{
 		{
 			Name:         "email",
-			ResourceType: EMAIL_MODEL_NAME,
+			ResourceType: models.EMAIL_MODEL_NAME,
 			Permissions:  []modules.PermissionPolicy{},
 		},
 	},
 	ProtectedRoutes: modules.RouteConfig{
 		"/": {
 			Description: "List all emails",
-			Controller:  controller.List[Email](EMAIL_MODEL_NAME),
+			Controller:  controller.List[models.Email](models.EMAIL_MODEL_NAME),
 			Tests:       []modules.TestRoute{},
 		},
 	},

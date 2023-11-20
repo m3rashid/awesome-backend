@@ -1,9 +1,11 @@
 package search
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
-	"github.com/m3rashid/awesome/modules/helpers"
+	"github.com/m3rashid/awesome/models"
 )
 
 func HandleSearch() fiber.Handler {
@@ -23,8 +25,8 @@ func CreateResource(
 	ResourceID uint,
 	ResourceType string,
 	Description string,
-) error {
-	newResource := helpers.Resource{
+) {
+	newResource := models.Resource{
 		Name:         Name,
 		Description:  Description,
 		ResourceID:   ResourceID,
@@ -32,5 +34,10 @@ func CreateResource(
 	}
 
 	db := db.GetDb()
-	return db.Create(&newResource).Error
+	go func() {
+		err := db.Create(&newResource).Error
+		if err != nil {
+			fmt.Println("Error Creating Resource with")
+		}
+	}()
 }

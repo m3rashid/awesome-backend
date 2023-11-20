@@ -1,10 +1,10 @@
-package drive
+package models
 
 import "github.com/m3rashid/awesome/db"
 
-const FILE_MODEL_NAME = "files"
+const DRIVE_FILE_MODEL_NAME = "drivefiles"
 
-type File struct {
+type DriveFile struct {
 	db.BaseModel
 	Name        string `json:"name" gorm:"column:name;not null" validate:"required"`
 	Type        string `json:"type" gorm:"column:type;not null" validate:"required"`
@@ -13,6 +13,6 @@ type File struct {
 	IsFolder    bool   `json:"isFolder" gorm:"column:isFolder;not null" validate:"required"`
 }
 
-func (File) TableName() string {
-	return FILE_MODEL_NAME
+func (DriveFile) TableName() string {
+	return DRIVE_FILE_MODEL_NAME
 }
