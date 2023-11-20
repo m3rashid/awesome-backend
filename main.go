@@ -30,6 +30,18 @@ func main() {
 		CaseSensitive:  true,
 		AppName:        os.Getenv("APP_NAME"),
 		RequestMethods: []string{"GET", "POST", "HEAD", "OPTIONS"},
+		Concurrency:    256 * 1024 * 1024,
+		ServerHeader:   os.Getenv("APP_NAME"),
+		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+			code := fiber.StatusInternalServerError
+			if e, ok := err.(*fiber.Error); ok {
+				code = e.Code
+			}
+			return ctx.Status(code).JSON(fiber.Map{
+				"success": false,
+				"message": err.Error(),
+			})
+		},
 	})
 
 	app.Use(cors.New(cors.Config{
