@@ -13,30 +13,29 @@ var AuthModule = modules.Module{
 		&models.Profile{},
 		&models.UserGroup{},
 	},
-	Resources: []modules.Resource{
-		{
-			Name:         "user",
-			ResourceType: models.USER_MODEL_NAME,
-			ResourceIndex: models.ResourceIndex{
-				NameKey:        "name",
-				DescriptionKey: "email",
-				DisplayUrl:     "/user/:rId",
-			},
-			Permissions: modules.ResourcePermissions{"create", "edit", "delete", "view", "viewAll"},
+	Resources: modules.Resources{
+		models.USER_MODEL_NAME: models.ResourceIndex{
+			NameKey:        "name",
+			DescriptionKey: "email",
+			DisplayUrl:     "/user/:rId",
 		},
-		{
-			Name:         "profile",
-			ResourceType: models.PROFILE_MODEL_NAME,
-			Permissions:  modules.ResourcePermissions{"create", "edit", "view", "delete", "viewAll"},
-		},
+		models.PROFILE_MODEL_NAME: models.ResourceIndex{},
 	},
 	ProtectedRoutes: modules.ProtectedRouteConfig{
-		"/users": {
+		"/all": {
 			Description: "List all users",
 			Controller:  controller.List[models.User](models.USER_MODEL_NAME),
 			Tests:       GetAllUsersTests,
 			Permissions: modules.RoutePermissions{
-				"user": {"viewAll"},
+				"user": modules.LIST,
+			},
+		},
+		"/update": {
+			Description: "Update user",
+			// Controller:  controller.Update[models.User](models.USER_MODEL_NAME, ),
+			Tests: []modules.TestRoute{},
+			Permissions: modules.RoutePermissions{
+				"user": modules.EDIT,
 			},
 		},
 		"": {

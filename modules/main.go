@@ -60,24 +60,21 @@ func SetupTests(app *fiber.App, modules []Module) {
 		}
 	}
 
-	fmt.Println(allTests)
-
 	for route, tests := range allTests {
 		for _, test := range tests {
 			jsonBytes, err := json.Marshal(test.RequestBody)
 			if err != nil {
-				panic(fmt.Sprintf("ERROR in marshalling to JSON %s", err))
+				panic(fmt.Sprintf("ERROR in marshalling to JSON %s\n", err))
 			}
 
 			req := httptest.NewRequest(test.Method, route, strings.NewReader(string(jsonBytes)))
 			res, err := app.Test(req, 5, 10)
 			if err != nil {
-				panic(err)
+				panic(fmt.Sprintf("ERROR in testing request %s\n", err))
 			}
 
-			fmt.Println(res)
 			if res.StatusCode != test.ExpectedStatusCode {
-				panic("Status code does not match, test failed")
+				panic("Status code does not match, test failed\n")
 			}
 		}
 	}

@@ -34,6 +34,7 @@
     "cssinjs",
     "dbaeumer",
     "dbname",
+    "drivefile",
     "drivefiles",
     "dropdb",
     "emailattachments",

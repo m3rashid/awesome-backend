@@ -41,7 +41,7 @@ func HandleCmdArgs(app *fiber.App, allModules []modules.Module) (shutDown bool) 
 		allModels = append(allModels, module.Models...)
 	}
 
-	if isMigrate {
+	if isTest || isMigrate {
 		db.GormMigrate(allModels...)
 	}
 

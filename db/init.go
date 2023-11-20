@@ -41,6 +41,8 @@ func GetDb() *gorm.DB {
 		panic("Invalid server mode")
 	}
 
+	fmt.Println("Connecting to database...", dsn)
+
 	sqlDB, err := sql.Open("pgx", dsn)
 	if err != nil {
 		panic(err)

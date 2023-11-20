@@ -11,18 +11,17 @@ var EmailModule = modules.Module{
 	Models: []interface{}{
 		&models.Email{},
 	},
-	Resources: []modules.Resource{
-		{
-			Name:         "email",
-			ResourceType: models.EMAIL_MODEL_NAME,
-			Permissions:  modules.ResourcePermissions{},
-		},
+	Resources: modules.Resources{
+		models.EMAIL_MODEL_NAME: models.ResourceIndex{},
 	},
 	ProtectedRoutes: modules.ProtectedRouteConfig{
-		"/": {
+		"/all": {
 			Description: "List all emails",
 			Controller:  controller.List[models.Email](models.EMAIL_MODEL_NAME),
 			Tests:       []modules.TestRoute{},
+			Permissions: modules.RoutePermissions{
+				"email": modules.LIST,
+			},
 		},
 	},
 	AnonymousRoutes: modules.AnonymousRouteConfig{},

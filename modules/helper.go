@@ -15,16 +15,23 @@ type TestRoute struct {
 	RequestBody        interface{}
 }
 
-type ResourcePermissions = []string
-type RoutePermissions = map[string]ResourcePermissions
+type ResourcePermission = string
+
+const (
+	CREATE ResourcePermission = "create"
+	EDIT   ResourcePermission = "edit"
+	DELETE ResourcePermission = "delete"
+	VIEW   ResourcePermission = "view"
+	LIST   ResourcePermission = "list"
+)
+
+type RoutePermissions = map[string]ResourcePermission
 
 type ProtectedRouteConfig = map[string]struct {
 	Controller  fiber.Handler
 	Description string
 	Tests       []TestRoute
 	Permissions RoutePermissions
-	// permissions are defined on that route for more granular control
-	// TODO: Permissions are not yet implemented
 }
 
 type AnonymousRouteConfig = map[string]struct {
@@ -33,27 +40,23 @@ type AnonymousRouteConfig = map[string]struct {
 	Tests       []TestRoute
 }
 
+type Resources = map[string]models.ResourceIndex
+
 type Module struct {
 	Name            string
-	Resources       []Resource
+	Resources       Resources
 	Models          []interface{}
 	AnonymousRoutes AnonymousRouteConfig
 	ProtectedRoutes ProtectedRouteConfig
 }
 
-type Resource struct {
-	Name          string               `json:"name"`
-	ResourceType  string               `json:"resourceType"`
-	ResourceIndex models.ResourceIndex `json:"resourceIndex"`
-	Permissions   ResourcePermissions  `json:"permissions"`
-	// all permissions are defined on resource to make it easier to manage
-	// all available permissions on that resource must be defined here
-}
+// map of db model name to resourceIndex
 
 func (m Module) Stringify() (string, error) {
 	obj := struct {
-		Name      string     `json:"name"`
-		Resources []Resource `json:"resources"`
+		Name      string        `json:"name"`
+		Resources Resources     `json:"resources"`
+		Models    []interface{} `json:"models"`
 	}{Name: m.Name, Resources: m.Resources}
 	jsonObj, err := json.Marshal(obj)
 	return string(jsonObj), err

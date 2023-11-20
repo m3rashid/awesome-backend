@@ -9,17 +9,17 @@ import (
 func GetAppConfig(modules []Module) fiber.Handler {
 	type Routes map[string]string
 
-	GetRoutes := func(module Module, routeType string, noReturn bool) Routes {
+	GetRoutes := func(module Module, query string, noReturn bool) Routes {
 		if noReturn {
 			return map[string]string{}
 		}
 
 		routes := make(map[string]string)
-		if routeType == "protected" {
+		if query == "protected" {
 			for route, routeConfig := range module.ProtectedRoutes {
 				routes["/api/"+module.Name+route] = routeConfig.Description
 			}
-		} else if routeType == "anonymous" {
+		} else if query == "anonymous" {
 			for route, routeConfig := range module.AnonymousRoutes {
 				routes["/api/anonymous/"+module.Name+route] = routeConfig.Description
 			}
@@ -31,10 +31,10 @@ func GetAppConfig(modules []Module) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 
 		type ModuleConfig struct {
-			Name            string     `json:"name"`
-			Resources       []Resource `json:"resources"`
-			ProtectedRoutes Routes     `json:"protectedRoutes,omitempty"`
-			AnonymousRoutes Routes     `json:"anonymousRoutes,omitempty"`
+			Name            string    `json:"name"`
+			Resources       Resources `json:"resources"`
+			ProtectedRoutes Routes    `json:"protectedRoutes,omitempty"`
+			AnonymousRoutes Routes    `json:"anonymousRoutes,omitempty"`
 		}
 
 		var allModules []ModuleConfig
