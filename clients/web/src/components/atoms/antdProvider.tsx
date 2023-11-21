@@ -1,6 +1,6 @@
 import { StyleProvider } from '@ant-design/cssinjs';
 import appConfig from '@awesome/shared/constants/appConfig';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, theme as antdTheme } from 'antd';
 import { ConfigProviderProps } from 'antd/es/config-provider';
 import React from 'react';
 
@@ -10,6 +10,7 @@ const AntdProvider: React.FC<Props> = ({ children, theme, ...props }) => (
   <ConfigProvider
     theme={{
       ...theme,
+      algorithm: antdTheme.compactAlgorithm,
       token: {
         ...(theme?.token || {}),
         fontFamily: 'Inter, sans-serif',

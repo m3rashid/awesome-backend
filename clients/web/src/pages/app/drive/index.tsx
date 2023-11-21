@@ -2,12 +2,12 @@ import React from 'react';
 
 import PageContainer from '../../../components/pageContainer';
 
-const Users: React.FC = () => {
+const Drive: React.FC = () => {
   return (
-    <PageContainer>
-      <div>Users</div>
+    <PageContainer header={{ title: 'Drive' }}>
+      <div>Drive</div>
     </PageContainer>
   );
 };
 
-export default Users;
+export default Drive;

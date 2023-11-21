@@ -1,18 +1,13 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 
 import Header from './header';
 
-export type RootContainerProps = React.PropsWithChildren & {
-  //
-};
-
-const RootContainer: React.FC<RootContainerProps> = ({ children }) => {
+const RootContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <BrowserRouter>
+    <div className='w-screen'>
       <Header />
-      {children}
-    </BrowserRouter>
+      <div className='p-2 pt-[40px]'>{children}</div>
+    </div>
   );
 };
 

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import AuthWrapper from '../../../components/authWrapper';
+import PageContainer from '../../../components/pageContainer';
 
 const Workspaces: React.FC = () => {
   return (
-    <AuthWrapper>
+    <PageContainer>
       <div>Workspaces</div>
-    </AuthWrapper>
+    </PageContainer>
   );
 };
 

@@ -1,13 +1,13 @@
 import { Typography } from 'antd';
 import React from 'react';
 
-import AuthWrapper from '../../components/authWrapper';
+import PageContainer from '../../components/pageContainer';
 
 const AppHome: React.FC = () => {
   return (
-    <AuthWrapper>
+    <PageContainer header={{ title: 'App Home' }}>
       <Typography.Text>AppHome</Typography.Text>
-    </AuthWrapper>
+    </PageContainer>
   );
 };
 

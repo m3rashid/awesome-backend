@@ -2,6 +2,8 @@ import { useAuthValue } from '@awesome/shared/atoms/auth';
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import RootContainer from './rootContainer';
+
 const AuthWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
   const auth = useAuthValue();
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ const AuthWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
   }, []);
 
   if (!auth?.user) return null;
-  return <>{children}</>;
+  return <RootContainer>{children}</RootContainer>;
 };
 
 export default AuthWrapper;
