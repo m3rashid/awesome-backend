@@ -5,11 +5,11 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
-	"github.com/m3rashid/awesome/modules"
+	"github.com/m3rashid/awesome/module"
 	"github.com/m3rashid/awesome/modules/permissions"
 )
 
-func HandleCmdArgs(app *fiber.App, allModules []modules.Module, casbin *permissions.Casbin) bool {
+func HandleCmdArgs(app *fiber.App, allModules []module.Module, casbin *permissions.Casbin) bool {
 	cmdArguments := os.Args[1:]
 	if len(cmdArguments) == 0 {
 		return false

@@ -2,18 +2,18 @@ package search
 
 import (
 	"github.com/m3rashid/awesome/models"
-	"github.com/m3rashid/awesome/modules"
+	"github.com/m3rashid/awesome/module"
 )
 
-var SearchModule = modules.Module{
+var SearchModule = module.Module{
 	Name: "search",
 	Models: []interface{}{
 		&models.Resource{},
 		&models.ActionLog{},
 	},
-	Resources:       modules.Resources{},
-	ProtectedRoutes: modules.ProtectedRouteConfig{},
-	AnonymousRoutes: modules.AnonymousRouteConfig{
+	Resources:       module.Resources{},
+	ProtectedRoutes: module.ProtectedRouteConfig{},
+	AnonymousRoutes: module.AnonymousRouteConfig{
 		"/": {
 			Description: "Search",
 			Controller:  HandleSearch(),
