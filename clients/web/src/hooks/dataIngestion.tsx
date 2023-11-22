@@ -1,11 +1,11 @@
 import { atom, useRecoilState } from 'recoil';
 import { StringParam, useQueryParams, withDefault } from 'use-query-params';
 
-import { DataIngestor, dataIngestorStep } from '../constants/dataIngestion';
-
-const dataIngestorDefault: DataIngestor = {
-  step: 0,
-};
+import {
+  DataIngestor,
+  dataIngestorDefault,
+  dataIngestorStep,
+} from '../constants/dataIngestion';
 
 const dataIngestorAtom = atom<DataIngestor>({
   key: 'dataIngestor',
@@ -23,9 +23,14 @@ const useDataIngestion = () => {
     setDataIngestor((p) => ({ ...p, step: stepIndex }));
   };
 
+  const changeDataModel = (model: Record<string, string>) => {
+    setDataIngestor({ ...dataIngestorDefault, model });
+  };
+
   return {
     dataIngestor,
     changeStep,
+    changeDataModel,
   };
 };
 

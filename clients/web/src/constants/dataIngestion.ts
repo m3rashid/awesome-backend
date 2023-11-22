@@ -14,6 +14,12 @@ export type DataIngestorStep = (typeof dataIngestorStep)[number];
 
 export type DataIngestor = {
   step: number;
+  model: Record<string, string> | null;
+};
+
+export const dataIngestorDefault: DataIngestor = {
+  step: 0,
+  model: null,
 };
 
 export const dataModelSteps: Record<DataIngestorStep, any> = {
