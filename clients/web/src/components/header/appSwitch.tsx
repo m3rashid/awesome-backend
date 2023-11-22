@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Loader from '../atoms/loader';
 
-const AppSwitchDrawerContents = lazy(() => import('./appSwitchDrawerContents'));
+const AppSwitchDrawerContents = lazy(() => import('./appList'));
 
 const AppsSvg = (props: { baseColor: string; hoverColor: string }) => {
   const [color, setColor] = useState(props.baseColor);
@@ -46,11 +46,12 @@ const AppSwitch: React.FC = () => {
       <Drawer
         {...{
           open,
-          onClose: () => setOpen((p) => !p),
+          width: 320,
           styles: {
-            header: { display: 'none' },
             body: { padding: 8 },
+            header: { display: 'none' },
           },
+          onClose: () => setOpen((p) => !p),
         }}
       >
         <Suspense fallback={<Loader />}>

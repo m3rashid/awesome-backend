@@ -31,7 +31,7 @@ const PageContainer: React.FC<PageContainerProps> = ({
               <Typography.Title
                 level={3}
                 type='secondary'
-                className='m-0 p-0 my-1 mb-2'
+                style={{ marginBottom: 8, marginTop: 8 }}
               >
                 {header.title}
               </Typography.Title>

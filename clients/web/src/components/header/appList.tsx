@@ -46,13 +46,14 @@ const AppSwitchDrawerContents: React.FC<AppSwitchDrawerContentsProps> = ({
             </div>
             <Typography.Text>{routeConfig.description}</Typography.Text>
 
-            <div className='flex gap-4 flex-wrap'>
+            <div className='flex flex-wrap'>
               {routeConfig.children &&
                 routeConfig.children.map((child) => {
                   return (
                     <Typography.Link
                       strong
                       key={child.route}
+                      className='mr-5'
                       onClick={() => onRouteClick(child.route)}
                     >
                       {child.name}
