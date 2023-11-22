@@ -1,6 +1,6 @@
+import { Service } from '@awesome/shared/helpers/service';
 import { CardProps, FormInstance, TableProps } from 'antd';
 
-import { Service } from '../../helpers/service';
 import { PaginatedList } from '../defaults/pagination';
 import { PageContainerProps } from '../pageContainer';
 // import { PageContainerProps } from '../PageContainer';

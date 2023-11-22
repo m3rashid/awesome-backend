@@ -1,29 +1,29 @@
 import { Resource } from '@awesome/shared/types/schema';
 import { debounce } from 'lodash-es';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
+// import { useNavigate } from 'react-router-dom';
 import { service } from '../../helpers/service';
 
-const renderTitle = (title: string, count: number) => (
-  <div className='flex justify-between mt-5'>
-    {title}
-    <span>{count}</span>
-  </div>
-);
+// const renderTitle = (title: string, count: number) => (
+//   <div className='flex justify-between mt-5'>
+//     {title}
+//     <span>{count}</span>
+//   </div>
+// );
 
-const renderItem = (resource: Resource) => ({
-  value: resource.resourceId,
-  label: (
-    <div key={resource.id}>
-      <p className='p-0 m-0'>{resource.name}</p>
-      <p className='text-sm text-gray-600 m-0 p-0'>{resource.description}</p>
-    </div>
-  ),
-});
+// const renderItem = (resource: Resource) => ({
+//   value: resource.resourceId,
+//   label: (
+//     <div key={resource.id}>
+//       <p className='p-0 m-0'>{resource.name}</p>
+//       <p className='text-sm text-gray-600 m-0 p-0'>{resource.description}</p>
+//     </div>
+//   ),
+// });
 
 const useSearch = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const getResourcesApi = service<Resource[]>('/api/search');
   const [searchText, setSearchText] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
@@ -46,6 +46,7 @@ const useSearch = () => {
   };
   const openModal = () => setModalOpen(true);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getResources = useCallback(
     debounce(async (value) => {
       if (!value) return;
@@ -75,7 +76,9 @@ const useSearch = () => {
     []
   );
 
-  const onSelect = (selectedRid: string) => {};
+  const onSelect = () =>
+    // selectedRid: string
+    {};
 
   const onSearchTextChange = (value: string) => {
     setSearchText(value);

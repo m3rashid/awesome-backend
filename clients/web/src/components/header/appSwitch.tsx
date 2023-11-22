@@ -1,8 +1,10 @@
-import { Card, Drawer, theme, Typography } from 'antd';
-import React, { useState } from 'react';
+import { Drawer, theme } from 'antd';
+import React, { lazy, Suspense, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { appPaths } from '../../constants/paths';
+import Loader from '../atoms/loader';
+
+const AppSwitchDrawerContents = lazy(() => import('./appSwitchDrawerContents'));
 
 const AppsSvg = (props: { baseColor: string; hoverColor: string }) => {
   const [color, setColor] = useState(props.baseColor);
@@ -35,11 +37,6 @@ const AppSwitch: React.FC = () => {
   const { token } = theme.useToken();
   const [open, setOpen] = useState(false);
 
-  const onRouteClick = (route: string) => {
-    navigate(route);
-    setOpen(false);
-  };
-
   return (
     <>
       <div onClick={() => setOpen((p) => !p)} className='cursor-pointer'>
@@ -56,62 +53,14 @@ const AppSwitch: React.FC = () => {
           },
         }}
       >
-        <Typography.Title
-          level={3}
-          type='secondary'
-          style={{ marginTop: 0, marginLeft: 8 }}
-        >
-          Apps and Services
-        </Typography.Title>
-
-        {appPaths.map((routeConfig) => {
-          return (
-            <Card
-              key={routeConfig.route}
-              style={{ marginBottom: '1rem' }}
-              bodyStyle={{
-                padding: 8,
-                paddingLeft: 16,
-                paddingRight: 16,
-                cursor: 'pointer',
-              }}
-            >
-              <div
-                className='flex items-center gap-2'
-                onClick={() => onRouteClick(routeConfig.route)}
-              >
-                <routeConfig.icon
-                  style={{ fontSize: 16, margin: 0, padding: 0 }}
-                />
-
-                <Typography.Title level={4} style={{ margin: 0, padding: 0 }}>
-                  {routeConfig.name}
-                </Typography.Title>
-              </div>
-              <Typography.Text>{routeConfig.description}</Typography.Text>
-
-              <div className='flex gap-4 flex-wrap'>
-                {routeConfig.children &&
-                  routeConfig.children.map((child) => {
-                    return (
-                      <Typography.Link
-                        strong
-                        key={child.route}
-                        onClick={() => onRouteClick(child.route)}
-                      >
-                        {child.name}
-                      </Typography.Link>
-                    );
-                  })}
-              </div>
-            </Card>
-          );
-        })}
-        {/* {Object.entries(appPaths).map(([routeKey, routeConfig]) => {
-          return (
-            
-          );
-        })} */}
+        <Suspense fallback={<Loader />}>
+          <AppSwitchDrawerContents
+            onRouteClick={(route: string) => {
+              navigate(route);
+              setOpen(false);
+            }}
+          />
+        </Suspense>
       </Drawer>
     </>
   );

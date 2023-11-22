@@ -1,13 +1,16 @@
 import { UserOutlined } from '@ant-design/icons';
+import { useAuthState } from '@awesome/shared/atoms/auth';
 import { Dropdown, MenuProps } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const UserActions: React.FC = () => {
   const navigate = useNavigate();
+  const setAuth = useAuthState()[1];
 
   const logout = () => {
     window.localStorage.removeItem('token');
+    setAuth(null);
     navigate('/');
   };
 
