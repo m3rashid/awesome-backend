@@ -3,24 +3,24 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
-const Home = lazy(() => import('./pages/home'));
-const AppHome = lazy(() => import('./pages/app'));
-const NotFound = lazy(() => import('./pages/404'));
-const Drive = lazy(() => import('./pages/app/drive'));
-const Login = lazy(() => import('./pages/auth/login'));
-const Users = lazy(() => import('./pages/app/iam/users'));
-const Leads = lazy(() => import('./pages/app/crm/leads'));
-const Register = lazy(() => import('./pages/auth/register'));
-const Posts = lazy(() => import('./pages/app/community/posts'));
-const Topics = lazy(() => import('./pages/app/community/Topics'));
-const Campaigns = lazy(() => import('./pages/app/crm/campaigns'));
-const Workspaces = lazy(() => import('./pages/app/iam/workspaces'));
-const UserGroups = lazy(() => import('./pages/app/iam/userGroups'));
-const DataIngestor = lazy(() => import('./components/dataIngestor'));
-const LeadDetails = lazy(() => import('./pages/app/crm/leadDetails'));
-const PortalSettings = lazy(() => import('./pages/app/settings/portal'));
-const ShowDriveFile = lazy(() => import('./pages/app/drive/showDriveFile'));
-const PostDetails = lazy(() => import('./pages/app/community/postDetails'));
+const Home = lazy(() => import('../../pages/home'));
+const AppHome = lazy(() => import('../../pages/app'));
+const NotFound = lazy(() => import('../../pages/404'));
+const Drive = lazy(() => import('../../pages/app/drive'));
+const DataIngestor = lazy(() => import('../dataIngestor'));
+const Login = lazy(() => import('../../pages/auth/login'));
+const Users = lazy(() => import('../../pages/app/iam/users'));
+const Leads = lazy(() => import('../../pages/app/crm/leads'));
+const Register = lazy(() => import('../../pages/auth/register'));
+const Posts = lazy(() => import('../../pages/app/community/posts'));
+const Topics = lazy(() => import('../../pages/app/community/Topics'));
+const Campaigns = lazy(() => import('../../pages/app/crm/campaigns'));
+const Workspaces = lazy(() => import('../../pages/app/iam/workspaces'));
+const UserGroups = lazy(() => import('../../pages/app/iam/userGroups'));
+const LeadDetails = lazy(() => import('../../pages/app/crm/leadDetails'));
+const PortalSettings = lazy(() => import('../../pages/app/settings/portal'));
+const ShowDriveFile = lazy(() => import('../../pages/app/drive/showDriveFile'));
+const PostDetails = lazy(() => import('../../pages/app/community/postDetails'));
 
 const AppRoutes = () => {
   return (

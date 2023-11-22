@@ -1,11 +1,11 @@
 import appConfig from '@awesome/shared/constants/appConfig';
 import React from 'react';
 
-import AntdProvider from './atoms/antdProvider';
+import AntdProvider from '../atoms/antdProvider';
 
-const AppRoutes = React.lazy(() => import('../routes'));
+const AppRoutes = React.lazy(() => import('./routes'));
 
-const Bootstrap: React.FC = () => {
+const Init: React.FC = () => {
   return (
     <AntdProvider>
       <div
@@ -18,4 +18,4 @@ const Bootstrap: React.FC = () => {
   );
 };
 
-export default Bootstrap;
+export default Init;

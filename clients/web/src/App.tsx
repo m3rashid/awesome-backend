@@ -6,7 +6,7 @@ import { RecoilRoot } from 'recoil';
 import Loader from './components/atoms/loader';
 import { service } from './helpers/service';
 
-const Bootstrap = React.lazy(() => import('./components/bootstrap'));
+const Init = React.lazy(() => import('./components/init'));
 
 const App: React.FC = () => {
   const initService = service<InitResponse>('/api/auth', { method: 'POST' });
@@ -40,7 +40,7 @@ const App: React.FC = () => {
           set(authAtom, initRes.data ? initRes.data : null);
         }}
       >
-        <Bootstrap />
+        <Init />
       </RecoilRoot>
     </Suspense>
   );
