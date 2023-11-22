@@ -1,4 +1,4 @@
-package modules
+package module
 
 import (
 	"encoding/json"
@@ -20,12 +20,14 @@ const (
 type RoutePermissions = map[string]ResourcePermission
 
 type ProtectedRouteConfig = map[string]struct {
+	HttpMethod  string // default POST
 	Controller  fiber.Handler
 	Description string
 	Permissions RoutePermissions
 }
 
 type AnonymousRouteConfig = map[string]struct {
+	HttpMethod  string
 	Controller  fiber.Handler
 	Description string
 }

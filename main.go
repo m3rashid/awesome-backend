@@ -12,10 +12,11 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
-	"github.com/m3rashid/awesome/modules"
+	"github.com/m3rashid/awesome/module"
 	"github.com/m3rashid/awesome/modules/auth"
 	"github.com/m3rashid/awesome/modules/drive"
 	"github.com/m3rashid/awesome/modules/emails"
+	"github.com/m3rashid/awesome/modules/helpers"
 	"github.com/m3rashid/awesome/modules/permissions"
 	"github.com/m3rashid/awesome/modules/search"
 	"github.com/m3rashid/awesome/utils"
@@ -75,14 +76,15 @@ func main() {
 
 	app.Use(logger.New())
 
-	allModules := []modules.Module{
+	allModules := []module.Module{
 		auth.AuthModule,
 		drive.DriveModule,
 		emails.EmailModule,
 		search.SearchModule,
 	}
 
-	modules.RegisterRoutes(app, allModules)
+	module.RegisterRoutes(app, allModules)
+	drive.RegisterDriveRoutes(app, helpers.CheckAuth)
 
 	appShutDown := utils.HandleCmdArgs(app, allModules, casbin)
 	if appShutDown {

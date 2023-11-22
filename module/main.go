@@ -1,4 +1,4 @@
-package modules
+package module
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ func RegisterRoutes(app *fiber.App, modules []Module) {
 	app.Get("/", func(ctx *fiber.Ctx) error {
 		// sample casbin usage
 		casbin := ctx.Locals("casbin").(*permissions.Casbin)
-		ok, err := casbin.Enforcer.Enforce("3", "/", "edit")
+		ok, err := casbin.Enforcer.Enforce("3", "/", "view")
 		if err != nil {
 			fmt.Println("casbin error", err)
 			return ctx.Status(500).SendString(err.Error())
@@ -33,11 +33,17 @@ func RegisterRoutes(app *fiber.App, modules []Module) {
 
 	for _, module := range modules {
 		for route, handler := range module.ProtectedRoutes {
-			app.Post("/api/"+module.Name+route, helpers.CheckAuth(), handler.Controller)
+			if handler.HttpMethod == "" {
+				handler.HttpMethod = "POST"
+			}
+			app.Add(handler.HttpMethod, "/api/"+module.Name+route, helpers.CheckAuth(), handler.Controller)
 		}
 
 		for route, handler := range module.AnonymousRoutes {
-			app.Post("/api/anonymous/"+module.Name+route, handler.Controller)
+			if handler.HttpMethod == "" {
+				handler.HttpMethod = "POST"
+			}
+			app.Add(handler.HttpMethod, "/api/anonymous/"+module.Name+route, handler.Controller)
 		}
 	}
 }

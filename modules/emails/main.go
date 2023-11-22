@@ -3,25 +3,25 @@ package emails
 import (
 	"github.com/m3rashid/awesome/controller"
 	"github.com/m3rashid/awesome/models"
-	"github.com/m3rashid/awesome/modules"
+	"github.com/m3rashid/awesome/module"
 )
 
-var EmailModule = modules.Module{
+var EmailModule = module.Module{
 	Name: "emails",
 	Models: []interface{}{
 		&models.Email{},
 	},
-	Resources: modules.Resources{
+	Resources: module.Resources{
 		models.EMAIL_MODEL_NAME: models.ResourceIndex{},
 	},
-	ProtectedRoutes: modules.ProtectedRouteConfig{
+	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/all": {
 			Description: "List all emails",
 			Controller:  controller.List[models.Email](models.EMAIL_MODEL_NAME),
-			Permissions: modules.RoutePermissions{
-				"email": modules.LIST,
+			Permissions: module.RoutePermissions{
+				"email": module.LIST,
 			},
 		},
 	},
-	AnonymousRoutes: modules.AnonymousRouteConfig{},
+	AnonymousRoutes: module.AnonymousRouteConfig{},
 }
