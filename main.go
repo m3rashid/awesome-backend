@@ -84,7 +84,7 @@ func main() {
 	}
 
 	module.RegisterRoutes(app, allModules)
-	drive.RegisterDriveRoutes(app, helpers.CheckAuth())
+	drive.RegisterDriveRoutes(app, helpers.CheckAuth)
 
 	appShutDown := utils.HandleCmdArgs(app, allModules, casbin)
 	if appShutDown {
