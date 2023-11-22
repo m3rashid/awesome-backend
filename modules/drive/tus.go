@@ -20,6 +20,7 @@ func GetTusHandler(app *fiber.App) *tusd.UnroutedHandler {
 		Bucket:             os.Getenv("AWS_s3_BUCKET_NAME"),
 		TemporaryDirectory: uploadPath,
 		Service:            s3Client(),
+		MaxObjectSize:      500 * 1024 * 1024, // 500MB
 	}
 
 	composer := tusd.NewStoreComposer()

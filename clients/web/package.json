@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --port 3000 --host",
     "build": "tsc && vite build",
-		"serve": "serve -s dist",
+    "serve": "serve -s dist",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -19,6 +19,11 @@
     "@tanstack/react-query": "^5.8.4",
     "@tanstack/react-query-devtools": "^5.8.4",
     "@tauri-apps/api": "^1.5.1",
+    "@uppy/core": "^3.7.1",
+    "@uppy/drop-target": "^2.0.2",
+    "@uppy/file-input": "^3.0.4",
+    "@uppy/status-bar": "^3.2.5",
+    "@uppy/tus": "^3.4.0",
     "antd": "^5.11.2",
     "axios": "^1.6.2",
     "dayjs": "^1.11.10",
