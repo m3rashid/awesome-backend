@@ -12,11 +12,7 @@ const AppSwitchDrawerContents: React.FC<AppSwitchDrawerContentsProps> = ({
 }) => {
   return (
     <>
-      <Typography.Title
-        level={3}
-        type='secondary'
-        style={{ marginTop: 0, marginLeft: 8 }}
-      >
+      <Typography.Title level={3} type='secondary' style={{ marginLeft: 8 }}>
         Apps and Services
       </Typography.Title>
 
@@ -40,9 +36,7 @@ const AppSwitchDrawerContents: React.FC<AppSwitchDrawerContentsProps> = ({
                 style={{ fontSize: 16, margin: 0, padding: 0 }}
               />
 
-              <Typography.Title level={4} style={{ margin: 0, padding: 0 }}>
-                {routeConfig.name}
-              </Typography.Title>
+              <Typography.Title level={4}>{routeConfig.name}</Typography.Title>
             </div>
             <Typography.Text>{routeConfig.description}</Typography.Text>
 

@@ -17,7 +17,7 @@ func GetTusHandler(app *fiber.App) *tusd.UnroutedHandler {
 	}
 
 	store := s3store.S3Store{
-		Bucket:             os.Getenv("AWS_s3_BUCKET_NAME"),
+		Bucket:             os.Getenv("AWS_S3_BUCKET_NAME"),
 		TemporaryDirectory: uploadPath,
 		Service:            s3Client(),
 		MaxObjectSize:      500 * 1024 * 1024, // 500MB

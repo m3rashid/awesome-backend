@@ -30,11 +30,9 @@ const BrandHeader: FC<BrandHeaderProps> = ({
 
         {!onlyLogo && (
           <>
-            <Typography.Title level={3} style={{ margin: 0 }}>
-              {appConfig.name}
-            </Typography.Title>
+            <Typography.Title level={3}>{appConfig.name}</Typography.Title>
 
-            <Typography.Title level={5} type='secondary' style={{ margin: 0 }}>
+            <Typography.Title level={5} type='secondary'>
               {appConfig.tagline}
             </Typography.Title>
           </>

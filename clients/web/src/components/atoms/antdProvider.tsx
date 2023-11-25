@@ -18,6 +18,8 @@ const AntdProvider: React.FC<Props> = ({ children, theme, ...props }) => (
       },
       components: {
         Typography: {
+          margin: 0,
+          padding: 0,
           colorLink: appConfig.colors.primary,
         },
         Button: {

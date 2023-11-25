@@ -279,7 +279,7 @@ const DriveUpload: React.FC<DriveUploadProps> = () => {
                 <Typography.Link>
                   <InboxOutlined size={42} className='text-5xl' />
                 </Typography.Link>
-                <Typography.Title level={4} className='m-0 p-0 mt-4'>
+                <Typography.Title level={4} className='mt-4'>
                   Click or drag file to this area to upload
                 </Typography.Title>
               </div>

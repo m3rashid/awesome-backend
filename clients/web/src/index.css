@@ -15,3 +15,11 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+div.ant-notification-notice {
+  padding: 8px 12px !important;
+  border-radius: 2px !important;
+}
+.ant-notification-notice-message {
+  margin-bottom: 4px !important;
+}
