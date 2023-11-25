@@ -3,6 +3,7 @@
 @tailwind utilities;
 @layer base {
   html {
+    @apply hide-scrollbar;
     font-family: 'Inter', sans-serif;
   }
 }
@@ -14,6 +15,9 @@
 .hide-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 div.ant-notification-notice {

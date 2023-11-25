@@ -13,6 +13,14 @@ type DriveFile struct {
 	IsFolder    bool   `json:"isFolder" gorm:"column:isFolder;not null" validate:"required"`
 }
 
-func (DriveFile) TableName() string {
+var DriveFileTableSchemaMap = map[string]string{
+	"name":        "string",
+	"type":        "string",
+	"parent":      "number",
+	"resourceUrl": "string",
+	"isFolder":    "boolean",
+}
+
+func (*DriveFile) TableName() string {
 	return DRIVE_FILE_MODEL_NAME
 }

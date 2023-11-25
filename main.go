@@ -14,6 +14,9 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/m3rashid/awesome/module"
 	"github.com/m3rashid/awesome/modules/auth"
+	"github.com/m3rashid/awesome/modules/community"
+	"github.com/m3rashid/awesome/modules/crm"
+	"github.com/m3rashid/awesome/modules/dashboard"
 	"github.com/m3rashid/awesome/modules/drive"
 	"github.com/m3rashid/awesome/modules/emails"
 	"github.com/m3rashid/awesome/modules/helpers"
@@ -69,7 +72,7 @@ func main() {
 	}))
 
 	app.Use(limiter.New(limiter.Config{
-		Max:               60,
+		Max:               100,
 		Expiration:        1 * time.Minute,
 		LimiterMiddleware: limiter.SlidingWindow{},
 	}))
@@ -77,10 +80,13 @@ func main() {
 	app.Use(logger.New())
 
 	allModules := []module.Module{
+		crm.CRMModule,
+		community.CommunityModule,
 		auth.AuthModule,
 		drive.DriveModule,
 		emails.EmailModule,
 		search.SearchModule,
+		dashboard.DashboardModule,
 	}
 
 	module.RegisterRoutes(app, allModules)

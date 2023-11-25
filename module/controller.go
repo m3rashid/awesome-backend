@@ -1,82 +1,39 @@
 package module
 
 import (
-	"net/http"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/m3rashid/awesome/models"
+	"github.com/m3rashid/awesome/modules/permissions"
 )
 
-func GetAppConfig(modules []Module) fiber.Handler {
-	type Routes [][]string
-
-	GetRoutes := func(module Module, query string, noReturn bool) Routes {
-		routes := [][]string{}
-		if noReturn {
-			return routes
-		}
-
-		if query == "protected" {
-			for route, routeConfig := range module.ProtectedRoutes {
-				if routeConfig.HttpMethod == "" {
-					routeConfig.HttpMethod = "POST"
-				}
-				routes = append(routes, []string{
-					routeConfig.HttpMethod,
-					"/api/" + module.Name + route,
-					routeConfig.Description,
-				})
-			}
-
-			routes = append(routes, [][]string{
-				{"DELETE", "/api/files/stop", "stop the upload"},
-				{"GET", "/api/files/download", "download file"},
-				{"HEAD", "/api/files/head", "get the head of the file"},
-				{"PATCH", "/api/files/patch", "patch file"},
-				{"POST", "/api/files/upload", "upload file"},
-				{"POST", "/api/files/upload-v2", "upload file with v2"},
-			}...)
-
-		} else if query == "anonymous" {
-			for route, routeConfig := range module.AnonymousRoutes {
-				if routeConfig.HttpMethod == "" {
-					routeConfig.HttpMethod = "POST"
-				}
-				routes = append(routes, []string{
-					routeConfig.HttpMethod,
-					"/api/anonymous/" + module.Name + route,
-					routeConfig.Description,
-				})
-			}
-
-			routes = append(routes, [][]string{
-				{"GET", "/", "get the root"},
-				{"GET", "/configs", "get the configs, use params protected_routes=true to get protected routes also and anonymous_routes=true to get anonymous routes"},
-				{"GET", "/metrics", "get the metrics"},
-			}...)
-		}
-
-		return routes
-	}
-
+func GetModels() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-
-		type ModuleConfig struct {
-			Name            string    `json:"name"`
-			Resources       Resources `json:"resources"`
-			ProtectedRoutes Routes    `json:"protectedRoutes,omitempty"`
-			AnonymousRoutes Routes    `json:"anonymousRoutes,omitempty"`
+		models := []map[string]string{
+			models.ActionLogTableSchemaMap,
+			models.DriveFileTableSchemaMap,
+			models.EmailTableSchemaMap,
+			models.ProfileTableSchemaMap,
+			models.UserTableSchemaMap,
 		}
 
-		var allModules []ModuleConfig
-		for _, module := range modules {
-			allModules = append(allModules, ModuleConfig{
-				Name:            module.Name,
-				Resources:       module.Resources,
-				ProtectedRoutes: GetRoutes(module, "protected", !(ctx.Query("protected_routes") == "true")),
-				AnonymousRoutes: GetRoutes(module, "anonymous", !(ctx.Query("anonymous_routes") == "true")),
-			})
-		}
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"models": models})
+	}
+}
 
-		return ctx.Status(http.StatusOK).JSON(allModules)
+func GetIndex() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		// sample casbin usage
+		casbin := ctx.Locals("casbin").(*permissions.Casbin)
+		ok, err := casbin.Enforcer.Enforce("3", "/", "view")
+		if err != nil {
+			fmt.Println("casbin error", err)
+			return ctx.Status(500).SendString(err.Error())
+		}
+		if !ok {
+			return ctx.Status(403).SendString("You are not allowed to view this page")
+		}
+		return ctx.SendString("Hello, World!")
 	}
 }

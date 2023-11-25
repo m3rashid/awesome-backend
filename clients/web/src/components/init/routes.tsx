@@ -22,6 +22,7 @@ const DataIngestor = lazy(() => import('../../pages/app/tools/dataIngestor'));
 const FormDesigner = lazy(() => import('../../pages/app/tools/formDesigner'));
 const ShowDriveFile = lazy(() => import('../../pages/app/drive/showDriveFile'));
 const PostDetails = lazy(() => import('../../pages/app/community/postDetails'));
+const ServerMetrics = lazy(() => import('../../pages/app/tools/serverMetrics'));
 const DashboardBuilder = lazy(
   () => import('../../pages/app/tools/dashboardBuilder')
 );
@@ -82,6 +83,7 @@ const AppRoutes = () => {
               <Route path='data-ingestor' Component={DataIngestor} />
               <Route path='form-designer' Component={FormDesigner} />
               <Route path='dashboard-builder' Component={DashboardBuilder} />
+              <Route path='server-metrics' Component={ServerMetrics} />
             </Route>
 
             <Route path='settings'>

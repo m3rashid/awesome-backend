@@ -17,7 +17,6 @@ var AuthModule = module.Module{
 		models.USER_MODEL_NAME: models.ResourceIndex{
 			NameKey:        "name",
 			DescriptionKey: "email",
-			DisplayUrl:     "/user/:rId",
 		},
 		models.PROFILE_MODEL_NAME: models.ResourceIndex{},
 	},

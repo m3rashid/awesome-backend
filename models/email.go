@@ -19,7 +19,16 @@ type Email struct {
 	ReplyTo     string      `json:"replyTo" gorm:"column:replyTo" validate:"email"`
 }
 
-func (Email) TableName() string {
+var EmailTableSchemaMap = map[string]string{
+	"from":     "string",
+	"to":       "string",
+	"subject":  "string",
+	"bodyText": "string",
+	"bodyHTML": "string",
+	"replyTo":  "string",
+}
+
+func (*Email) TableName() string {
 	return EMAIL_MODEL_NAME
 }
 

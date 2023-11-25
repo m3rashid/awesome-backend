@@ -26,16 +26,12 @@ const PageContainer: React.FC<PageContainerProps> = ({
     <AuthWrapper>
       <div className=''>
         {header && !noHeader && (
-          <div className='pb-0 flex justify-between items-center'>
-            {header.title && (
-              <Typography.Title
-                level={3}
-                type='secondary'
-                style={{ marginBottom: 8, marginTop: 8 }}
-              >
+          <div className='pb-2 flex justify-between items-center'>
+            {header.title ? (
+              <Typography.Title level={3} type='secondary'>
                 {header.title}
               </Typography.Title>
-            )}
+            ) : null}
             {header.extra ? <div>{header.extra}</div> : null}
           </div>
         )}
