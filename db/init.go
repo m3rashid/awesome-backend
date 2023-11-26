@@ -6,23 +6,25 @@ import (
 	"os"
 	"time"
 
+	"github.com/Pacific73/gorm-cache/cache"
+	"github.com/Pacific73/gorm-cache/config"
+	"github.com/go-redis/redis/v8"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func GetDb() *gorm.DB {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
+	sqlDB, err := sql.Open("pgx", fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
 		os.Getenv("DB_PORT"),
-	)
-
-	sqlDB, err := sql.Open("pgx", dsn)
+	))
 	if err != nil {
 		panic(err)
 	}
+
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetMaxOpenConns(100)
 	sqlDB.SetConnMaxLifetime(time.Hour)
@@ -32,6 +34,33 @@ func GetDb() *gorm.DB {
 		panic(err)
 	}
 
+	redisClient := redis.NewClient(&redis.Options{
+		Addr: fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT")),
+	})
+
+	cache, err := cache.NewGorm2Cache(&config.CacheConfig{
+		CacheLevel:           config.CacheLevelAll,
+		CacheStorage:         config.CacheStorageRedis,
+		RedisConfig:          cache.NewRedisConfigWithClient(redisClient),
+		InvalidateWhenUpdate: true,  // when you create/update/delete objects, invalidate cache
+		CacheTTL:             10000, // 10s
+		CacheMaxItemCnt:      20,    // if length of objects retrieved one single time exceeds this number, then don't cache
+	})
+
+	if err != nil {
+		fmt.Println("Error creating caching layer: ", err)
+		// panic(err)
+		return gormDB
+	}
+
+	err = gormDB.Use(cache)
+	if err != nil {
+		fmt.Println("Error using caching layer: ", err)
+		// panic(err)
+		return gormDB
+	}
+
+	// cache.AttachToDB(db)
 	return gormDB
 }
 
