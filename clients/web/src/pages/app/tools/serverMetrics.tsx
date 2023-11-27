@@ -2,7 +2,7 @@ import { Area, AreaConfig } from '@ant-design/charts';
 import { Card, Skeleton, Typography } from 'antd';
 import React from 'react';
 
-import WidgetContainer from '../../../components/atoms/widgetContainer';
+import WidgetContainer from '../../../components/dashboardBuilder/widgetContainer';
 import PageContainer from '../../../components/pageContainer';
 import useMetrics from '../../../hooks/serverMetrics';
 

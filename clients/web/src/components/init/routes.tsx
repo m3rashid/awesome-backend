@@ -17,9 +17,9 @@ const Campaigns = lazy(() => import('../../pages/app/crm/campaigns'));
 const Workspaces = lazy(() => import('../../pages/app/iam/workspaces'));
 const UserGroups = lazy(() => import('../../pages/app/iam/userGroups'));
 const LeadDetails = lazy(() => import('../../pages/app/crm/leadDetails'));
+const FormBuilder = lazy(() => import('../../pages/app/tools/formBuilder'));
 const PortalSettings = lazy(() => import('../../pages/app/settings/portal'));
 const DataIngestor = lazy(() => import('../../pages/app/tools/dataIngestor'));
-const FormDesigner = lazy(() => import('../../pages/app/tools/formDesigner'));
 const ShowDriveFile = lazy(() => import('../../pages/app/drive/showDriveFile'));
 const PostDetails = lazy(() => import('../../pages/app/community/postDetails'));
 const ServerMetrics = lazy(() => import('../../pages/app/tools/serverMetrics'));
@@ -80,8 +80,8 @@ const AppRoutes = () => {
 
             <Route path='tools'>
               <Route path='' element={<Navigate to='data-ingestor' />} />
+              <Route path='form-builder' Component={FormBuilder} />
               <Route path='data-ingestor' Component={DataIngestor} />
-              <Route path='form-designer' Component={FormDesigner} />
               <Route path='dashboard-builder' Component={DashboardBuilder} />
               <Route path='server-metrics' Component={ServerMetrics} />
             </Route>

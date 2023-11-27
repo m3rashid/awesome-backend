@@ -62,8 +62,8 @@ export const appPaths: AppPath[] = [
     name: 'App Tools',
     description: 'Setup your workspace efficiently',
     children: [
+      { name: 'Form Builder', route: '/app/tools/form-builder' },
       { name: 'Data Ingestor', route: '/app/tools/data-ingestor' },
-      { name: 'Form Designer', route: '/app/tools/form-designer' },
       { name: 'Dashboard Builder', route: '/app/tools/dashboard-builder' },
       { name: 'Server Metrics', route: '/app/tools/server-metrics' },
     ],

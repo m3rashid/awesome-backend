@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
 import { atom } from 'recoil';
 
-import {
-  DashboardBuilder,
-  dashboardBuilderDefault,
-} from '../constants/dashboardBuilder';
-import { service } from '../helpers/service';
+import { service } from '../../helpers/service';
+import { DashboardBuilder, dashboardBuilderDefault } from './constants';
 
 const dashboardBuilderAtom = atom<DashboardBuilder>({
   key: 'dashboardBuilder',
