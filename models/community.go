@@ -23,9 +23,8 @@ type Post struct {
 	db.BaseModel
 	Title      string     `json:"title" gorm:"column:title" validate:""`
 	Body       string     `json:"body" gorm:"column:body;not null" validate:"required"`
-	User       User       `json:"user" gorm:"foreignKey:id" validate:"required"`
-	Topic      Topic      `json:"topic" gorm:"foreignKey:id" validate:"required"`
-	Comments   []Comment  `json:"comments" gorm:"foreignKey:postId"`
+	User       *User      `json:"user" gorm:"references:id" validate:"required"`
+	Topic      *Topic     `json:"topic" gorm:"references:id" validate:"required"`
 	ToxicScore float64    `json:"toxicScore" gorm:"column:toxicScore" validate:""`
 	Status     PostStatus `json:"status" gorm:"column:status;default:pending" validate:""`
 }
@@ -39,8 +38,8 @@ type Comment struct {
 	db.BaseModel
 	PostID     uint          `json:"post_id" gorm:"column:postId;not null" validate:"required"`
 	Body       string        `json:"body" gorm:"column:body;not null" validate:"required"`
-	User       User          `json:"user" gorm:"foreignKey:id" validate:"required"`
-	RepliedTo  *Comment      `json:"repliedTo" gorm:"foreignKey:id"`
+	User       *User         `json:"user" gorm:"references:id" validate:"required"`
+	RepliedTo  *Comment      `json:"repliedTo" gorm:"references:id"`
 	ToxicScore float64       `json:"toxicScore" gorm:"column:toxicScore" validate:""`
 	Status     CommentStatus `json:"status" gorm:"column:status;default:pending" validate:""`
 }

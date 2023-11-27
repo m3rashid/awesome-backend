@@ -8,24 +8,24 @@ const USER_GROUP_MODEL_NAME = "usergroups"
 
 type User struct {
 	db.BaseModel
-	Name        string  `json:"name" gorm:"column:name;not null" validate:"required"`
-	Email       string  `json:"email" gorm:"column:email;unique;not null" validate:"required,email"`
-	Phone       string  `json:"phone,omitempty" gorm:"column:phone" validate:""`
-	Avatar      string  `json:"avatar,omitempty" gorm:"column:avatar" validate:""`
-	Deactivated bool    `json:"deactivated" gorm:"column:deactivated" validate:""`
-	Password    string  `json:"password" gorm:"column:password;not null" validate:"required"`
-	ProfileID   Profile `json:"profileId" gorm:"foreignKey:id" validate:""`
+	Name        string `json:"name" gorm:"column:name;not null" validate:"required"`
+	Email       string `json:"email" gorm:"column:email;unique;not null" validate:"required,email"`
+	Phone       string `json:"phone,omitempty" gorm:"column:phone" validate:""`
+	Avatar      string `json:"avatar,omitempty" gorm:"column:avatar" validate:""`
+	Deactivated bool   `json:"deactivated" gorm:"column:deactivated" validate:""`
+	Password    string `json:"password" gorm:"column:password;not null" validate:"required"`
 }
 
 type Profile struct {
 	db.BaseModel
+	UserID *User `json:"userId" gorm:"references:id" validate:""`
 }
 
 type UserGroup struct {
 	db.BaseModel
-	GroupName   string `json:"groupName" gorm:"column:groupName;not null;unique" validate:"required"`
-	Description string `json:"description" gorm:"column:description" validate:""`
-	Users       []User `json:"users" gorm:"many2many:roleusers" validate:""`
+	GroupName   string  `json:"groupName" gorm:"column:groupName;not null;unique" validate:"required"`
+	Description string  `json:"description" gorm:"column:description" validate:""`
+	Users       []*User `json:"users" gorm:"many2many:roleusers" validate:""`
 }
 
 var UserTableSchemaMap = map[string]string{

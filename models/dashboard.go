@@ -27,10 +27,10 @@ type DashboardWidget struct {
 
 type Dashboard struct {
 	db.BaseModel
-	Name        string            `json:"name" gorm:"column:name;not null" validate:"required"`
-	Description string            `json:"description" gorm:"column:description" validate:""`
-	Widgets     []DashboardWidget `json:"widgets" gorm:"foreignKey:id"`
-	Status      DashboardStatus   `json:"status" gorm:"column:status;default:pending" validate:""`
+	Name        string             `json:"name" gorm:"column:name;not null" validate:"required"`
+	Description string             `json:"description" gorm:"column:description" validate:""`
+	Widgets     []*DashboardWidget `json:"widgets" gorm:"references:id"`
+	Status      DashboardStatus    `json:"status" gorm:"column:status;default:pending" validate:""`
 }
 
 func (*DashboardWidget) TableName() string {
