@@ -22,6 +22,7 @@ import {
 } from 'antd/es/date-picker';
 import { PasswordProps, TextAreaProps } from 'antd/es/input';
 import React from 'react';
+import { FC } from 'react';
 
 export type WidgetNameWithProps =
   | { widgetName: 'text-input'; widgetProps?: InputProps }
@@ -73,10 +74,9 @@ export interface FormRenderProps {
   formProps: Record<string, string | number>;
 }
 
-export type DesignerMode = 'edit' | 'preview' | 'json';
-export type DesignerAtom = {
-  mode: DesignerMode;
-  elements: FormElementInstance[];
-  selectedElement: FormElementInstance | null;
-  formProps: Record<string, string | number>;
-};
+export const widgetMap: Record<
+  SupportedWidget & Omit<string, SupportedWidget>,
+  { widget: FC; fieldTransformer?: (field: any) => FC }
+> = {};
+
+export const widgetKeys = Object.keys(widgetMap);

@@ -1,25 +1,7 @@
-import { MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { nanoid } from 'nanoid';
-import { atom, useRecoilState } from 'recoil';
 
-import {
-  DesignerAtom,
-  DesignerMode,
-  FormBuilderMeta,
-  FormElementInstance,
-} from './constants';
-
-const designerLeftAtom = atom<DesignerAtom>({
-  key: 'designerAtom',
-  default: {
-    elements: [],
-    mode: 'edit',
-    selectedElement: null,
-    formProps: {},
-  },
-});
-
-const useDesignerState = () => useRecoilState(designerLeftAtom);
+import { DesignerMode, useDesignerState } from './atom';
+import { FormBuilderMeta, FormElementInstance } from './builder/constants';
 
 const findElementById = (
   key: string,
@@ -75,27 +57,12 @@ const removeElementById = (
   }, []);
 };
 
-const useDesigner = () => {
+const useFormbuilder = () => {
   const [designer, setDesigner] = useDesignerState();
 
   const onDragEnd = (e: any) => {
     console.log('onDragEnd', e);
   };
-
-  const mouseSensor = useSensor(MouseSensor, {
-    activationConstraint: {
-      distance: 10, // 10px
-    },
-  });
-
-  const touchSensor = useSensor(TouchSensor, {
-    activationConstraint: {
-      delay: 300,
-      tolerance: 5,
-    },
-  });
-
-  const sensors = useSensors(mouseSensor, touchSensor);
 
   const addElement = (element: Omit<FormElementInstance, 'key'>) => {
     setDesigner((prev) => {
@@ -152,7 +119,6 @@ const useDesigner = () => {
 
   return {
     setMode,
-    sensors,
     onDragEnd,
     addElement,
     setElements,
@@ -168,4 +134,4 @@ const useDesigner = () => {
   };
 };
 
-export default useDesigner;
+export default useFormbuilder;

@@ -57,6 +57,16 @@ export const appPaths: AppPath[] = [
     ],
   },
   {
+    route: '/app/forms',
+    icon: UserAddOutlined,
+    name: 'Forms & Surveys',
+    description: 'Create and manage your forms and surveys',
+    children: [
+      { name: 'Forms', route: '/app/forms' },
+      { name: 'Designer', route: '/app/forms/designer' },
+    ],
+  },
+  {
     route: '/app/tools',
     icon: ToolOutlined,
     name: 'App Tools',

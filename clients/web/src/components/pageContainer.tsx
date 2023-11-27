@@ -23,21 +23,21 @@ const PageContainer: React.FC<PageContainerProps> = ({
   children,
 }) => {
   return (
-    <AuthWrapper>
-      <div className=''>
-        {header && !noHeader && (
-          <div className='pb-2 flex justify-between items-center'>
-            {header.title ? (
-              <Typography.Title level={3} type='secondary'>
-                {header.title}
-              </Typography.Title>
-            ) : null}
-            {header.extra ? <div>{header.extra}</div> : null}
-          </div>
-        )}
-        {children}
-      </div>
-    </AuthWrapper>
+    // <AuthWrapper>
+    <div className=''>
+      {header && !noHeader && (
+        <div className='pb-2 flex justify-between items-center'>
+          {header.title ? (
+            <Typography.Title level={3} type='secondary'>
+              {header.title}
+            </Typography.Title>
+          ) : null}
+          {header.extra ? <div>{header.extra}</div> : null}
+        </div>
+      )}
+      {children}
+    </div>
+    // 	</AuthWrapper>
   );
 };
 

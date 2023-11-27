@@ -6,6 +6,7 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 const Home = lazy(() => import('../../pages/home'));
 const AppHome = lazy(() => import('../../pages/app'));
 const NotFound = lazy(() => import('../../pages/404'));
+const Forms = lazy(() => import('../../pages/app/forms'));
 const Drive = lazy(() => import('../../pages/app/drive'));
 const Login = lazy(() => import('../../pages/auth/login'));
 const Users = lazy(() => import('../../pages/app/iam/users'));
@@ -16,8 +17,9 @@ const Topics = lazy(() => import('../../pages/app/community/Topics'));
 const Campaigns = lazy(() => import('../../pages/app/crm/campaigns'));
 const Workspaces = lazy(() => import('../../pages/app/iam/workspaces'));
 const UserGroups = lazy(() => import('../../pages/app/iam/userGroups'));
+const FormbuilderForm = lazy(() => import('../../pages/app/forms/form'));
 const LeadDetails = lazy(() => import('../../pages/app/crm/leadDetails'));
-const FormBuilder = lazy(() => import('../../pages/app/tools/formBuilder'));
+const FormBuilderPage = lazy(() => import('../../pages/app/forms/builder'));
 const PortalSettings = lazy(() => import('../../pages/app/settings/portal'));
 const DataIngestor = lazy(() => import('../../pages/app/tools/dataIngestor'));
 const ShowDriveFile = lazy(() => import('../../pages/app/drive/showDriveFile'));
@@ -80,15 +82,20 @@ const AppRoutes = () => {
 
             <Route path='tools'>
               <Route path='' element={<Navigate to='data-ingestor' />} />
-              <Route path='form-builder' Component={FormBuilder} />
               <Route path='data-ingestor' Component={DataIngestor} />
               <Route path='dashboard-builder' Component={DashboardBuilder} />
               <Route path='server-metrics' Component={ServerMetrics} />
             </Route>
 
+            <Route path='forms'>
+              <Route path='' Component={Forms} />
+              <Route path='builder' Component={FormBuilderPage} />
+              <Route path=':formId' Component={FormbuilderForm} />
+            </Route>
+
             <Route path='settings'>
               <Route path='' element={<Navigate to='general' />} />
-              <Route path='general' Component={PortalSettings} />
+              <Route path='general' Component={PortalSettings} />R
             </Route>
           </Route>
           <Route path='*' Component={NotFound} />
