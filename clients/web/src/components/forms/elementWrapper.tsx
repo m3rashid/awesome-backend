@@ -14,7 +14,7 @@ const ElementWrapper: React.FC<ElementWrapperProps> = (props) => {
   return (
     <div
       onClick={() => selectElement(props.id)}
-      className='p-2 border-2 gap-2 rounded-md flex cursor-pointer'
+      className='p-2 border-2 gap-2 rounded-sm flex cursor-pointer'
     >
       {props.children}
 

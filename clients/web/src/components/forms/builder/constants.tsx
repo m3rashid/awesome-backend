@@ -1,15 +1,11 @@
 import {
-  ButtonProps,
   CheckboxProps,
-  ColProps,
   FormItemProps,
-  FormProps,
   ImageProps,
   InputNumberProps,
   InputProps,
   RadioGroupProps,
   RadioProps,
-  RowProps,
   SelectProps,
   SwitchProps,
   TimePickerProps,
@@ -28,7 +24,7 @@ export type WidgetNameWithProps =
   | { widgetName: 'text-input'; widgetProps?: InputProps }
   | { widgetName: 'password-input'; widgetProps?: PasswordProps }
   | { widgetName: 'number-input'; widgetProps?: InputNumberProps }
-  | { widgetName: 'button'; widgetProps?: ButtonProps }
+  // | { widgetName: 'button'; widgetProps?: ButtonProps }
   | { widgetName: 'textarea'; widgetProps?: TextAreaProps }
   | { widgetName: 'checkbox'; widgetProps?: CheckboxProps }
   | { widgetName: 'checkbox-group'; widgetProps?: CheckboxGroupProps }
@@ -42,11 +38,11 @@ export type WidgetNameWithProps =
   | { widgetName: 'year-picker'; widgetProps?: any }
   | { widgetName: 'switch'; widgetProps?: SwitchProps }
   | { widgetName: 'select'; widgetProps?: SelectProps }
-  | { widgetName: 'image'; widgetProps?: ImageProps }
-  | { widgetName: 'row'; widgetProps?: RowProps }
-  | { widgetName: 'col'; widgetProps?: ColProps }
-  | { widgetName: 'form-item'; widgetProps?: FormItemProps }
-  | { widgetName: 'form'; widgetProps?: FormProps<any> & { children?: any } };
+  | { widgetName: 'image'; widgetProps?: ImageProps };
+// | { widgetName: 'row'; widgetProps?: RowProps }
+// | { widgetName: 'col'; widgetProps?: ColProps }
+// | { widgetName: 'form-item'; widgetProps?: FormItemProps }
+// | { widgetName: 'form'; widgetProps?: FormProps<any> & { children?: any } };
 
 export type SupportedWidget = WidgetNameWithProps['widgetName'];
 
@@ -71,7 +67,6 @@ export type FormBuilderMeta = FormElementInstance[];
 
 export interface FormRenderProps {
   meta: FormBuilderMeta;
-  formProps: Record<string, string | number>;
 }
 
 export const widgetMap: Record<

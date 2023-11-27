@@ -1,14 +1,10 @@
 import {
-  Button,
   Checkbox,
-  Col,
   DatePicker,
-  Form,
   Image,
   Input,
   InputNumber,
   Radio,
-  Row,
   Select,
   Switch,
 } from 'antd';
@@ -33,7 +29,7 @@ type FormBuilder = FC<FormRenderProps> & {
 };
 
 const FormBuilder: FormBuilder = (props) => {
-  return <FormRenderer meta={props.meta} formProps={props.formProps} />;
+  return <FormRenderer meta={props.meta} />;
 };
 
 FormBuilder.register = (widgetName) => (Widget, fieldTransformer) => {
@@ -54,7 +50,7 @@ FormBuilder.useForceUpdate = () => {
 };
 
 FormBuilder.register('text-input')(Input);
-FormBuilder.register('button')(Button);
+// FormBuilder.register('button')(Button);
 FormBuilder.register('number-input')(InputNumber);
 FormBuilder.register('password-input')(Input.Password);
 FormBuilder.register('textarea')(Input.TextArea);
@@ -75,12 +71,12 @@ FormBuilder.register('year-picker')(DatePicker.YearPicker as any);
 FormBuilder.register('switch')(Switch);
 FormBuilder.register('select')(Select);
 
-FormBuilder.register('form')(Form);
-FormBuilder.register('form-item')(Form.Item);
+// FormBuilder.register('form')(Form);
+// FormBuilder.register('form-item')(Form.Item);
 
 FormBuilder.register('image')(Image);
 
-FormBuilder.register('row')(Row);
-FormBuilder.register('col')(Col);
+// FormBuilder.register('row')(Row);
+// FormBuilder.register('col')(Col);
 
 export default FormBuilder;

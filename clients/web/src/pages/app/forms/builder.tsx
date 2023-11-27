@@ -16,7 +16,6 @@ const FormBuilderPage: React.FC = () => {
     selectedElement,
     showFormParentProps,
     setElements,
-    formProps,
   } = useFormbuilder();
 
   return (
@@ -35,33 +34,36 @@ const FormBuilderPage: React.FC = () => {
             </Button>
           </div>
 
-          <div className='h-[calc(100vh-88px)] m-2 mb-0 bg-white'>
+          <div className='h-[calc(100vh-88px)] m-2 mb-0 bg-[url(/paper.svg)] '>
             {mode === 'json' ? (
               <FormJsonEditor
                 onChange={setElements}
-                initialValue={{ meta: elements, formProps }}
+                initialValue={{ meta: elements }}
               />
             ) : elements.length > 0 ? (
               mode === 'preview' ? (
-                <Form {...formProps}>
-                  <FormBuilder meta={elements} formProps={formProps} />
-                </Form>
+                <div className='bg-white max-w-xl mx-auto rounded-sm'>
+                  <Form layout='vertical' style={{ padding: 8 }}>
+                    <FormBuilder meta={elements} />
+                  </Form>
+                </div>
               ) : (
-                <Form {...formProps} style={{ padding: 8 }}>
-                  <FormBuilder
-                    formProps={formProps}
-                    meta={elements.map((el) => ({
-                      ...el,
-                      render: (WidgetField: any) => (props: any) => {
-                        return (
-                          <ElementWrapper id={el.key} key={el.key}>
-                            <WidgetField {...props} />
-                          </ElementWrapper>
-                        );
-                      },
-                    }))}
-                  />
-                </Form>
+                <div className='bg-white max-w-xl mx-auto rounded-sm'>
+                  <Form layout='vertical' style={{ padding: 8 }}>
+                    <FormBuilder
+                      meta={elements.map((el) => ({
+                        ...el,
+                        render: (WidgetField: any) => (props: any) => {
+                          return (
+                            <ElementWrapper id={el.key} key={el.key}>
+                              <WidgetField {...props} />
+                            </ElementWrapper>
+                          );
+                        },
+                      }))}
+                    />
+                  </Form>
+                </div>
               )
             ) : null}
           </div>

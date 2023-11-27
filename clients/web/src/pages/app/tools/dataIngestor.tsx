@@ -17,7 +17,7 @@ const DataIngestor: React.FC = () => {
   return (
     <PageContainer header={{ title: 'Data Ingestor' }}>
       <div className='flex gap-4'>
-        <div className='w-[250px] bg-white p-4 pl-2 rounded-md h-full'>
+        <div className='w-[250px] bg-white p-4 pl-2 rounded-sm h-full'>
           <Steps
             direction='vertical'
             onChange={changeStep}
@@ -47,7 +47,7 @@ const DataIngestor: React.FC = () => {
           />
         </div>
 
-        <div className='bg-white px-2 py-4 rounded-md w-full'>
+        <div className='bg-white px-2 py-4 rounded-sm w-full'>
           <Select
             placeholder='Select a data model'
             options={ingestibleDataModels.map((modelName) => ({

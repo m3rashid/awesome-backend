@@ -25,7 +25,7 @@ const Header: React.FC = () => {
       }}
     >
       <div className='h-full mb-0 flex items-center'>
-        <Image src='/icons/favicon.ico' height={30} width={30} />
+        <Image src='/favicon.ico' height={30} width={30} />
 
         <div className='ml-2 flex flex-col'>
           <Typography.Text

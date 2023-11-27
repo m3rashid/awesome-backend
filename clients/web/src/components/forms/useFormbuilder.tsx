@@ -78,6 +78,7 @@ const useFormbuilder = () => {
   const updateElement = (updatedElement: FormElementInstance) => {
     setDesigner((prev) => ({
       ...prev,
+      selectedElement: null,
       elements: updateElementById(updatedElement, prev.elements),
     }));
   };
@@ -98,15 +99,8 @@ const useFormbuilder = () => {
     }));
   };
 
-  const onSaveRootFormProps = (values: Record<string, string | number>) => {
-    setDesigner((prev) => ({ ...prev, formProps: values }));
-  };
-
-  const setElements = (
-    meta: FormBuilderMeta,
-    formProps: Record<string, string | number>
-  ) => {
-    setDesigner((prev) => ({ ...prev, elements: meta, formProps }));
+  const setElements = (meta: FormBuilderMeta) => {
+    setDesigner((prev) => ({ ...prev, elements: meta }));
   };
 
   const setMode = (val: DesignerMode) => {
@@ -127,9 +121,7 @@ const useFormbuilder = () => {
     removeElement,
     showFormParentProps,
     mode: designer.mode,
-    onSaveRootFormProps,
     elements: designer.elements,
-    formProps: designer.formProps,
     selectedElement: designer.selectedElement,
   };
 };

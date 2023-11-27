@@ -7,12 +7,8 @@ import { FormBuilderMeta } from './builder/constants';
 type FormJsonEditorProps = {
   initialValue: {
     meta: FormBuilderMeta;
-    formProps: Record<string, string | number>;
   };
-  onChange: (
-    meta: FormBuilderMeta,
-    formProps: Record<string, string | number>
-  ) => void;
+  onChange: (meta: FormBuilderMeta) => void;
 };
 
 const FormJsonEditor: FC<FormJsonEditorProps> = ({
@@ -25,8 +21,8 @@ const FormJsonEditor: FC<FormJsonEditorProps> = ({
 
   const handleSave = () => {
     try {
-      const { meta, formProps } = JSON.parse(value);
-      onChange(meta, formProps);
+      const { meta } = JSON.parse(value);
+      onChange(meta);
       notification.success({ message: 'Form saved' });
     } catch (err) {
       notification.error({ message: 'Invalid JSON' });
@@ -34,7 +30,7 @@ const FormJsonEditor: FC<FormJsonEditorProps> = ({
   };
 
   return (
-    <div className='flex flex-col items-end justify-center gap-2'>
+    <div className='flex flex-col items-end justify-center gap-2 bg-white p-2 rounded-sm'>
       <Button type='primary' onClick={handleSave}>
         Save Form
       </Button>

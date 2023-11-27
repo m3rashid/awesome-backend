@@ -7,7 +7,6 @@ export type DesignerAtom = {
   mode: DesignerMode;
   elements: FormElementInstance[];
   selectedElement: FormElementInstance | null;
-  formProps: Record<string, string | number>;
 };
 
 export const designerLeftAtom = atom<DesignerAtom>({
@@ -16,7 +15,6 @@ export const designerLeftAtom = atom<DesignerAtom>({
     elements: [],
     mode: 'edit',
     selectedElement: null,
-    formProps: {},
   },
 });
 

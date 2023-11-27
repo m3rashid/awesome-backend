@@ -9,8 +9,7 @@ import RenderProps from './getProps';
 import useFormbuilder from './useFormbuilder';
 
 const RightHelperSidebar: React.FC = () => {
-  const { selectedElement, updateElement, onSaveRootFormProps, addElement } =
-    useFormbuilder();
+  const { selectedElement, updateElement, addElement } = useFormbuilder();
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -55,20 +54,6 @@ const RightHelperSidebar: React.FC = () => {
     form.resetFields();
     if (!selectedElement) return;
     updateElement({ ...selectedElement, widgetProps: undefined });
-  };
-
-  const onResetFormProps = () => {
-    form.resetFields();
-  };
-
-  const onSaveFormPropsHandler = () => {
-    if (selectedElement) return null;
-    const formValues = form.getFieldsValue();
-    const transformedObject = Object.entries(formValues || {}).reduce(
-      (acc, [key, value]) => (value ? { ...acc, [key]: value } : acc),
-      {}
-    );
-    onSaveRootFormProps(transformedObject);
   };
 
   return (
@@ -149,10 +134,10 @@ const RightHelperSidebar: React.FC = () => {
               <div
                 key={element.widgetName}
                 onClick={() => addElement(element)}
-                className='p-2 border border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 flex flex-col items-center justify-start gap-1'
+                className='p-2 border border-gray-200 rounded-sm cursor-pointer hover:bg-gray-100 flex flex-col items-center justify-start gap-1'
               >
                 <element.Icon className='text-xl' />
-                <Typography.Text>
+                <Typography.Text className='text-center'>
                   {_.startCase(element.widgetName.replace('-', ' '))}
                 </Typography.Text>
               </div>

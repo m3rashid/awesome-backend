@@ -3,7 +3,7 @@ import React from 'react';
 
 import { FormRenderProps, widgetMap } from './constants';
 
-const FormRenderer: React.FC<FormRenderProps> = ({ meta, formProps }) => {
+const FormRenderer: React.FC<FormRenderProps> = ({ meta }) => {
   return (
     <>
       {meta.map(
@@ -30,7 +30,7 @@ const FormRenderer: React.FC<FormRenderProps> = ({ meta, formProps }) => {
           if (children && children.length > 0) {
             return (
               <WidgetField key={key} {...widgetProps}>
-                <FormRenderer meta={children} formProps={formProps} />
+                <FormRenderer meta={children} />
               </WidgetField>
             );
           } else if (formItemProps) {

@@ -245,7 +245,7 @@ const DriveUpload: React.FC<DriveUploadProps> = () => {
         <div id={`upload-input-${id}`} className='hidden' />
         <div
           id={`upload-dashboard-${id}`}
-          className='bg-gray-50 rounded-md border-dashed border-2 border-gray-300 cursor-pointer'
+          className='bg-gray-50 rounded-sm border-dashed border-2 border-gray-300 cursor-pointer'
           onClick={openNativeFileSelector}
         >
           <div>
