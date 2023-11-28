@@ -5,6 +5,7 @@
   html {
     @apply hide-scrollbar;
     font-family: 'Inter', sans-serif;
+    background-color: #e9e9e9;
   }
 }
 

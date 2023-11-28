@@ -1,7 +1,7 @@
 const appConfig = {
   name: 'Awesome',
   apiUrl: 'http://localhost:4000',
-  tagline: 'Your own personal workspace',
+  tagline: 'Your business workspace',
   colors: {
     primary: '#8b5cf6', // primary500
     primaryHover: '#a78bfa', // primary400

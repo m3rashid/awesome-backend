@@ -63,7 +63,7 @@ export const appPaths: AppPath[] = [
     description: 'Create and manage your forms and surveys',
     children: [
       { name: 'Forms', route: '/app/forms' },
-      { name: 'Designer', route: '/app/forms/designer' },
+      { name: 'Builder', route: '/app/forms/builder' },
     ],
   },
   {
