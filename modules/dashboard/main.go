@@ -8,8 +8,8 @@ import (
 var DashboardModule = module.Module{
 	Name: "dashboard",
 	Models: []interface{}{
-		&models.DashboardWidget{},
 		&models.Dashboard{},
+		&models.DashboardWidget{},
 	},
 	Resources: module.Resources{
 		models.DASHBOARD_MODEL_NAME: models.ResourceIndex{

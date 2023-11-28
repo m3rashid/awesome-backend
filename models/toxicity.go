@@ -1,11 +1,9 @@
 package models
 
-import "github.com/m3rashid/awesome/db"
-
 const TOXICITY_MODEL_NAME = "toxicities"
 
 type Toxicity struct {
-	db.BaseModel
+	BaseModel
 }
 
 func (*Toxicity) TableName() string {

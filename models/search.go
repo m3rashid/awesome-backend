@@ -5,12 +5,12 @@ import "time"
 const ACTION_LOG_MODEL_NAME = "actionlogs"
 const RESOURCE_MODEL_NAME = "resources"
 
-type Action string
+type ActionType string
 
 const (
-	Create Action = "create"
-	Update Action = "update"
-	Delete Action = "delete"
+	Create ActionType = "create"
+	Update ActionType = "update"
+	Delete ActionType = "delete"
 )
 
 type ResourceIndex struct {
@@ -19,11 +19,11 @@ type ResourceIndex struct {
 }
 
 type ActionLog struct {
-	ID       uint      `json:"id,omitempty" gorm:"id,omitempty"`
-	Time     time.Time `json:"time,omitempty" gorm:"time,omitempty"`
-	UserID   uint      `json:"userId,omitempty" gorm:"userId;not null"`
-	Action   Action    `json:"action,omitempty" gorm:"action;not null"`
-	ObjectID uint      `json:"objectId,omitempty" gorm:"objectId;not null"`
+	ID       uint       `json:"id,omitempty" gorm:"id,omitempty"`
+	Time     time.Time  `json:"time,omitempty" gorm:"time,omitempty"`
+	UserID   uint       `json:"userId,omitempty" gorm:"userId;not null"`
+	Action   ActionType `json:"action,omitempty" gorm:"action;not null"`
+	ObjectID uint       `json:"objectId,omitempty" gorm:"objectId;not null"`
 }
 
 type Resource struct {

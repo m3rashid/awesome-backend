@@ -88,14 +88,6 @@ func Register() fiber.Handler {
 		newUser.Password = password
 
 		db := db.GetDb()
-		oldUser := models.User{}
-		err = db.Where("email = ?", newUser.Email).First(&oldUser).Error
-		if err == nil {
-			return ctx.Status(http.StatusConflict).JSON(fiber.Map{
-				"message": "User already exists",
-			})
-		}
-
 		err = db.Create(&newUser).Error
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{

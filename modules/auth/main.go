@@ -9,9 +9,9 @@ import (
 var AuthModule = module.Module{
 	Name: "auth",
 	Models: []interface{}{
-		&models.User{},
-		&models.Profile{},
 		&models.UserGroup{},
+		&models.Profile{},
+		&models.User{},
 	},
 	Resources: module.Resources{
 		models.USER_MODEL_NAME: models.ResourceIndex{
