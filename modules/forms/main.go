@@ -10,6 +10,7 @@ var FormsModule = module.Module{
 	Name: "forms",
 	Models: []interface{}{
 		&models.Form{},
+		&models.Response{},
 	},
 	Resources: module.Resources{
 		models.FORMS_MODEL_NAME: models.ResourceIndex{},

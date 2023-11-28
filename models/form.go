@@ -7,16 +7,31 @@ import (
 )
 
 const FORMS_MODEL_NAME = "forms"
+const FORM_RESPONSE_MODEL_NAME = "forms"
 
 type Form struct {
 	BaseModel
-	JSONSchema  string `json:"jsonSchema" gorm:"column:jsonSchema;not null" validate:"required"`
-	CreatedByID uint   `json:"createdById" gorm:"column:createdById;not null" validate:"required"`
-	CreatedBy   *User  `json:"createdBy" gorm:"column:createdById;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	JSONSchema   string `json:"jsonSchema" gorm:"column:jsonSchema;not null" validate:"required"`
+	CreatedByID  uint   `json:"createdById" gorm:"column:createdById;not null" validate:"required"`
+	CreatedBy    *User  `json:"createdBy" gorm:"column:createdById;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	AuthRequired bool   `json:"authRequired" gorm:"column:authRequired;not null" validate:"required"`
+}
+
+type Response struct {
+	BaseModel
+	FormID       uint   `json:"formId" gorm:"column:formId;not null" validate:"required"`
+	Form         *Form  `json:"form" gorm:"column:formId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	ResponseData string `json:"responseData" gorm:"column:responseData;not null" validate:"required"`
+	UserID       uint   `json:"userId" gorm:"column:userId" validate:""`
+	User         *User  `json:"user" gorm:"column:userId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 }
 
 func (Form) TableName() string {
 	return FORMS_MODEL_NAME
+}
+
+func (Response) TableName() string {
+	return FORM_RESPONSE_MODEL_NAME
 }
 
 // not a database table
