@@ -19,6 +19,7 @@ import (
 	"github.com/m3rashid/awesome/modules/dashboard"
 	"github.com/m3rashid/awesome/modules/drive"
 	"github.com/m3rashid/awesome/modules/emails"
+	"github.com/m3rashid/awesome/modules/forms"
 	"github.com/m3rashid/awesome/modules/helpers"
 	"github.com/m3rashid/awesome/modules/permissions"
 	"github.com/m3rashid/awesome/modules/search"
@@ -81,12 +82,13 @@ func main() {
 
 	allModules := []module.Module{
 		crm.CRMModule,
-		community.CommunityModule,
 		auth.AuthModule,
 		drive.DriveModule,
+		forms.FormsModule,
 		emails.EmailModule,
 		search.SearchModule,
 		dashboard.DashboardModule,
+		community.CommunityModule,
 	}
 
 	module.RegisterRoutes(app, allModules)
