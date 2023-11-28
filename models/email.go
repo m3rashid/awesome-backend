@@ -2,20 +2,18 @@ package models
 
 import (
 	"errors"
-
-	"github.com/m3rashid/awesome/db"
 )
 
 const EMAIL_MODEL_NAME = "emails"
 
 type Email struct {
-	db.BaseModel
+	BaseModel
 	From        string       `json:"from" gorm:"column:from;not null" validate:"required,email"`
 	To          string       `json:"to" gorm:"column:to;not null" validate:"required,email"`
 	Subject     string       `json:"subject" gorm:"column:subject;not null" validate:"required"`
 	BodyText    string       `json:"bodyText" gorm:"column:bodyText;not null" validate:"required"`
 	BodyHTML    string       `json:"bodyHTML" gorm:"column:bodyHTML;not null" validate:"required"`
-	Attachments []*DriveFile `json:"attachments,omitempty" gorm:"many2many:emailattachments" validate:""`
+	Attachments []*DriveFile `json:"attachments,omitempty" gorm:"many2many:emailattachmentrelation" validate:""`
 	ReplyTo     string       `json:"replyTo" gorm:"column:replyTo" validate:"email"`
 }
 

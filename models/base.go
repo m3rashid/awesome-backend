@@ -1,4 +1,4 @@
-package db
+package models
 
 type BaseModel struct {
 	ID      uint `gorm:"primary_key;column:id" json:"id"`

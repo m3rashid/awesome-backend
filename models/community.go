@@ -1,7 +1,5 @@
 package models
 
-import "github.com/m3rashid/awesome/db"
-
 const POST_MODEL_NAME = "posts"
 const TOPIC_MODEL_NAME = "topics"
 const COMMENT_MODEL_NAME = "comments"
@@ -20,28 +18,33 @@ const (
 )
 
 type Post struct {
-	db.BaseModel
+	BaseModel
 	Title      string     `json:"title" gorm:"column:title" validate:""`
 	Body       string     `json:"body" gorm:"column:body;not null" validate:"required"`
-	User       *User      `json:"user" gorm:"references:id" validate:"required"`
-	Topic      *Topic     `json:"topic" gorm:"references:id" validate:"required"`
+	UserID     uint       `json:"userId" gorm:"column:userId;not null" validate:"required"`
+	User       *User      `json:"user" gorm:"column:userId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	TopicID    uint       `json:"topicId" gorm:"column:topicId;not null" validate:"required"`
+	Topic      *Topic     `json:"topic" gorm:"column:topicId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	ToxicScore float64    `json:"toxicScore" gorm:"column:toxicScore" validate:""`
 	Status     PostStatus `json:"status" gorm:"column:status;default:pending" validate:""`
 }
 
 type Topic struct {
-	db.BaseModel
+	BaseModel
 	Name string `json:"name" gorm:"column:name;not null" validate:"required"`
 }
 
 type Comment struct {
-	db.BaseModel
-	PostID     uint          `json:"post_id" gorm:"column:postId;not null" validate:"required"`
-	Body       string        `json:"body" gorm:"column:body;not null" validate:"required"`
-	User       *User         `json:"user" gorm:"references:id" validate:"required"`
-	RepliedTo  *Comment      `json:"repliedTo" gorm:"references:id"`
-	ToxicScore float64       `json:"toxicScore" gorm:"column:toxicScore" validate:""`
-	Status     CommentStatus `json:"status" gorm:"column:status;default:pending" validate:""`
+	BaseModel
+	PostID      uint          `json:"postId" gorm:"column:postId;not null" validate:"required"`
+	Post        *Post         `json:"post" gorm:"column:postId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	Body        string        `json:"body" gorm:"column:body;not null" validate:"required"`
+	UserID      uint          `json:"userId" gorm:"column:userId;not null" validate:"required"`
+	User        *User         `json:"user" gorm:"column:userId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	RepliedToID uint          `json:"repliedToId" gorm:"column:repliedToId" validate:""`
+	RepliedTo   *Comment      `json:"repliedTo" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	ToxicScore  float64       `json:"toxicScore" gorm:"column:toxicScore" validate:""`
+	Status      CommentStatus `json:"status" gorm:"column:status;default:pending" validate:""`
 }
 
 func (*Post) TableName() string {

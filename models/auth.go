@@ -1,13 +1,11 @@
 package models
 
-import "github.com/m3rashid/awesome/db"
-
 const USER_MODEL_NAME = "users"
 const PROFILE_MODEL_NAME = "profiles"
 const USER_GROUP_MODEL_NAME = "usergroups"
 
 type User struct {
-	db.BaseModel
+	BaseModel
 	Name        string `json:"name" gorm:"column:name;not null" validate:"required"`
 	Email       string `json:"email" gorm:"column:email;unique;not null" validate:"required,email"`
 	Phone       string `json:"phone,omitempty" gorm:"column:phone" validate:""`
@@ -17,15 +15,16 @@ type User struct {
 }
 
 type Profile struct {
-	db.BaseModel
-	UserID *User `json:"userId" gorm:"references:id" validate:""`
+	BaseModel
+	UserID uint  `json:"userId" gorm:"column:userId;not null" validate:"required"`
+	User   *User `json:"user" gorm:"column:userId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 }
 
 type UserGroup struct {
-	db.BaseModel
+	BaseModel
 	GroupName   string  `json:"groupName" gorm:"column:groupName;not null;unique" validate:"required"`
 	Description string  `json:"description" gorm:"column:description" validate:""`
-	Users       []*User `json:"users" gorm:"many2many:roleusers" validate:""`
+	Users       []*User `json:"users" gorm:"many2many:roleuserrelation" validate:""`
 }
 
 var UserTableSchemaMap = map[string]string{
