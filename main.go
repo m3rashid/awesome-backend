@@ -26,6 +26,9 @@ import (
 	"github.com/m3rashid/awesome/utils"
 )
 
+// adventOfCode
+// ownerproof-3284903-1701331088-300c07690b64
+
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {

@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
@@ -31,7 +30,6 @@ func Create[T interface{}](options map[string]interface{}) func(*fiber.Ctx) erro
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		fmt.Println(data)
 		return ctx.Status(http.StatusCreated).JSON(fiber.Map{"message": "Created Successfully"})
 	}
 }

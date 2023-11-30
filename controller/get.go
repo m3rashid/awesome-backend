@@ -7,18 +7,20 @@ import (
 	"github.com/m3rashid/awesome/db"
 )
 
-func Get[T interface{}, SearchCriteria interface{}]() func(*fiber.Ctx) error {
+func Get[T interface{}]() func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
-		var searchCriteria SearchCriteria
-		err := ctx.BodyParser(&searchCriteria)
+		var requestBody T
+		err := ctx.BodyParser(&requestBody)
 		if err != nil {
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		var document T
+		var column T
 		db := db.GetDb()
-		result := db.First(&document, searchCriteria)
-
-		return ctx.Status(http.StatusOK).JSON(result)
+		err = db.Where(requestBody).First(&column).Error
+		if err != nil {
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+		}
+		return ctx.Status(http.StatusOK).JSON(column)
 	}
 }

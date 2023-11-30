@@ -7,10 +7,12 @@ import (
 )
 
 const FORMS_MODEL_NAME = "forms"
-const FORM_RESPONSE_MODEL_NAME = "forms"
+const FORM_RESPONSE_MODEL_NAME = "formresponses"
 
 type Form struct {
 	BaseModel
+	Title        string `json:"title" gorm:"column:title;not null" validate:"required"`
+	Description  string `json:"description" gorm:"column:description" validate:""`
 	JSONSchema   string `json:"jsonSchema" gorm:"column:jsonSchema;not null" validate:"required"`
 	CreatedByID  uint   `json:"createdById" gorm:"column:createdById;not null" validate:"required"`
 	CreatedBy    *User  `json:"createdBy" gorm:"column:createdById;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
