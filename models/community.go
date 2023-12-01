@@ -23,7 +23,7 @@ type Post struct {
 	Body       string     `json:"body" gorm:"column:body;not null" validate:"required"`
 	UserID     uint       `json:"userId" gorm:"column:userId;not null" validate:"required"`
 	User       *User      `json:"user" gorm:"column:userId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
-	TopicID    uint       `json:"topicId" gorm:"column:topicId;not null" validate:"required"`
+	TopicID    *uint      `json:"topicId" gorm:"column:topicId;not null" validate:"required"`
 	Topic      *Topic     `json:"topic" gorm:"column:topicId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	ToxicScore float64    `json:"toxicScore" gorm:"column:toxicScore" validate:""`
 	Status     PostStatus `json:"status" gorm:"column:status;default:pending" validate:""`
@@ -31,7 +31,7 @@ type Post struct {
 
 type Topic struct {
 	BaseModel
-	Name string `json:"name" gorm:"column:name;not null" validate:"required"`
+	Name string `json:"name" gorm:"column:name;not null;unique" validate:"required"`
 }
 
 type Comment struct {

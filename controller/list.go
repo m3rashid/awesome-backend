@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -36,6 +37,7 @@ func List[T interface{}](tableName string) func(*fiber.Ctx) error {
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
+		fmt.Println(results)
 
 		var docsCount int64
 		err = db.Table(tableName).Where(searchCriteria).Count(&docsCount).Error

@@ -21,6 +21,7 @@ const Forms: React.FC = () => {
     getService({
       method: 'POST',
       data: {
+        searchCriteria: { deleted: false },
         paginationOptions: { limit: 10, page: 1 },
       },
     })
