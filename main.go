@@ -87,7 +87,9 @@ func main() {
 		LimiterMiddleware: limiter.SlidingWindow{},
 	}))
 
-	app.Use(logger.New())
+	app.Use(logger.New(logger.Config{
+		Format: "${time} ${status} ${latency} ${method} ${path} ${body} ${query} ====> ${resBody}\n",
+	}))
 
 	allModules := []module.Module{
 		crm.CRMModule,

@@ -1,5 +1,9 @@
-import { AreaChartOutlined, FormOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Modal } from 'antd';
+import {
+  AreaChartOutlined,
+  CopyOutlined,
+  FormOutlined,
+} from '@ant-design/icons';
+import { Button, Card, Form, Modal, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +21,6 @@ const Forms: React.FC = () => {
     getService({
       method: 'POST',
       data: {
-        searchCriteria: {},
         paginationOptions: { limit: 10, page: 1 },
       },
     })
@@ -62,6 +65,23 @@ const Forms: React.FC = () => {
             key={form.id}
             title={form.title}
             style={{ maxWidth: 320, minWidth: 320 }}
+            extra={
+              <Tooltip
+                title='Copy Share Link'
+                color='white'
+                overlayInnerStyle={{ color: 'black' }}
+              >
+                <Button
+                  type='text'
+                  icon={<CopyOutlined />}
+                  onClick={() =>
+                    window.navigator.clipboard.writeText(
+                      `${window.location.href}/${form.id}`
+                    )
+                  }
+                />
+              </Tooltip>
+            }
           >
             {form.description ? (
               <Card.Meta

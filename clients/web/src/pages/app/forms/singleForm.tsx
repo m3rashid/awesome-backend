@@ -7,7 +7,7 @@ import Loader from '../../../components/atoms/loader';
 import renderer from '../../../components/formBuilder';
 import { service } from '../../../helpers/service';
 
-const FormResponse: React.FC = () => {
+const SingleForm: React.FC = () => {
   const auth = useAuthValue();
   const params = useParams();
   const [form] = Form.useForm();
@@ -66,4 +66,4 @@ const FormResponse: React.FC = () => {
   );
 };
 
-export default FormResponse;
+export default SingleForm;
