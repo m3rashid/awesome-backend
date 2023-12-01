@@ -11,7 +11,9 @@ const Drive = lazy(() => import('../../pages/app/drive'));
 const Login = lazy(() => import('../../pages/auth/login'));
 const Users = lazy(() => import('../../pages/app/iam/users'));
 const Leads = lazy(() => import('../../pages/app/crm/leads'));
+const PrivacyPolicy = lazy(() => import('../../pages/privacy'));
 const Register = lazy(() => import('../../pages/auth/register'));
+const TermsAndConditions = lazy(() => import('../../pages/terms'));
 const Posts = lazy(() => import('../../pages/app/community/posts'));
 const Topics = lazy(() => import('../../pages/app/community/Topics'));
 const Campaigns = lazy(() => import('../../pages/app/crm/campaigns'));
@@ -35,6 +37,8 @@ const AppRoutes = () => {
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <Routes>
           <Route path='' Component={Home} />
+          <Route path='privacy' Component={PrivacyPolicy} />
+          <Route path='terms' Component={TermsAndConditions} />
 
           <Route path='auth'>
             <Route path='login' Component={Login} />
