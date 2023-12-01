@@ -20,10 +20,6 @@ var FormsModule = module.Module{
 			Description: "List all forms",
 			Controller:  controller.List[models.Form](models.FORMS_MODEL_NAME),
 		},
-		"/get": {
-			Description: "Get form by id",
-			Controller:  controller.Get[models.Form](),
-		},
 		"/responses": {
 			Description: "List all responses of a form",
 			Controller:  controller.List[models.Response](models.FORM_RESPONSE_MODEL_NAME),
@@ -35,10 +31,15 @@ var FormsModule = module.Module{
 				"user": module.CREATE,
 			},
 		},
+	},
+	AnonymousRoutes: module.AnonymousRouteConfig{
+		"/get": {
+			Description: "Get form by id",
+			Controller:  controller.Get[models.Form](),
+		},
 		"/response": {
 			Description: "Create response",
 			Controller:  controller.Create[models.Response](map[string]interface{}{}),
 		},
 	},
-	AnonymousRoutes: module.AnonymousRouteConfig{},
 }

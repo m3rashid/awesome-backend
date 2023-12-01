@@ -15,7 +15,7 @@ const SingleForm: React.FC = () => {
 
   useEffect(() => {
     if (!params.formId) return;
-    const getFormService = service('/api/forms/get');
+    const getFormService = service('/api/anonymous/forms/get');
     getFormService({
       method: 'POST',
       data: { id: Number(params.formId) },
@@ -32,7 +32,7 @@ const SingleForm: React.FC = () => {
   const onFinish = async (values: any) => {
     try {
       await form.validateFields();
-      const submitFormService = service('/api/forms/response');
+      const submitFormService = service('/api/anonymous/forms/response');
       await submitFormService({
         method: 'POST',
         data: {

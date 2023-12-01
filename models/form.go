@@ -24,7 +24,7 @@ type Response struct {
 	FormID       uint   `json:"formId" gorm:"column:formId;not null" validate:"required"`
 	Form         *Form  `json:"form" gorm:"column:formId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	ResponseData string `json:"responseData" gorm:"column:responseData;not null" validate:"required"`
-	UserID       uint   `json:"userId" gorm:"column:userId" validate:""`
+	UserID       *uint  `json:"userId" gorm:"column:userId" validate:""`
 	User         *User  `json:"user" gorm:"column:userId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 }
 

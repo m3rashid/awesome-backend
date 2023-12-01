@@ -7,10 +7,13 @@ const renderer = (config?: ComponentConfig[] | undefined) => {
   if (!config || config.length === 0 || typeof config === 'undefined') {
     return null;
   }
-  console.log({ config });
 
   return config.map((item): ReactNode => {
-    if (!item.key && !item.props?.key) {
+    if (
+      !item.key &&
+      !item.props?.key &&
+      import.meta.env.MODE !== 'production'
+    ) {
       console.warn(`Key is required in a form builder item: ${item.type}`);
     }
 

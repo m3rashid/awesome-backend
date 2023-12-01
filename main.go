@@ -27,9 +27,6 @@ import (
 	"github.com/m3rashid/awesome/utils"
 )
 
-// adventOfCode
-// ownerproof-3284903-1701331088-300c07690b64
-
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -81,15 +78,19 @@ func main() {
 		URL:  "/favicon.ico",
 	}))
 
-	app.Use(limiter.New(limiter.Config{
-		Max:               100,
-		Expiration:        1 * time.Minute,
-		LimiterMiddleware: limiter.SlidingWindow{},
-	}))
+	if os.Getenv("SERVER_MODE") == "production" {
+		app.Use(limiter.New(limiter.Config{
+			Max:               100,
+			Expiration:        1 * time.Minute,
+			LimiterMiddleware: limiter.SlidingWindow{},
+		}))
+	}
 
-	app.Use(logger.New(logger.Config{
-		Format: "${time} ${status} ${latency} ${method} ${path} ${body} ${query} ====> ${resBody}\n",
-	}))
+	if os.Getenv("SERVER_MODE") == "development" {
+		app.Use(logger.New(logger.Config{
+			Format: "${time} ${status} ${latency} ${method} ${path} ${body} ${query} ====> ${resBody}\n",
+		}))
+	}
 
 	allModules := []module.Module{
 		crm.CRMModule,

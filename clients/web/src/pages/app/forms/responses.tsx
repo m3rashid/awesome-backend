@@ -11,7 +11,7 @@ const FormResponses: React.FC = () => {
   const [formResponses, setFormResponses] = useState<any | null>({});
   const [parentForm, setParentForm] = useState<any | null>(null);
 
-  const getFormService = service('/api/forms/get');
+  const getFormService = service('/api/anonymous/forms/get');
   const getResponsesService = service('/api/forms/responses');
 
   const getForm = async (id: string) => {
