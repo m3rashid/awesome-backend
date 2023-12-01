@@ -5,15 +5,12 @@ import React, { ReactNode } from 'react';
 import AuthWrapper from './authWrapper';
 
 export interface PageContainerProps {
-  loginURL?: string;
-  anonymous?: boolean;
   header?: {
     title?: string;
     breadCrumb?: BreadcrumbProps;
     extra?: JSX.Element[];
   };
   noHeader?: boolean;
-  noPadding?: boolean;
   children?: ReactNode;
 }
 

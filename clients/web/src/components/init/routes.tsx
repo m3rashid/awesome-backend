@@ -24,6 +24,7 @@ const LeadDetails = lazy(() => import('../../pages/app/crm/leadDetails'));
 const FormBuilderPage = lazy(() => import('../../pages/app/forms/builder'));
 const PortalSettings = lazy(() => import('../../pages/app/settings/portal'));
 const DataIngestor = lazy(() => import('../../pages/app/tools/dataIngestor'));
+const FormResponses = lazy(() => import('../../pages/app/forms/responses'));
 const ShowDriveFile = lazy(() => import('../../pages/app/drive/showDriveFile'));
 const PostDetails = lazy(() => import('../../pages/app/community/postDetails'));
 const ServerMetrics = lazy(() => import('../../pages/app/tools/serverMetrics'));
@@ -94,7 +95,10 @@ const AppRoutes = () => {
             <Route path='forms'>
               <Route path='' Component={Forms} />
               <Route path='builder' Component={FormBuilderPage} />
-              <Route path=':formId' Component={FormbuilderForm} />
+              <Route path=':formId'>
+                <Route path='' Component={FormbuilderForm} />
+                <Route path='responses' Component={FormResponses} />
+              </Route>
             </Route>
 
             <Route path='settings'>

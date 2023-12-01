@@ -7,11 +7,7 @@ import Loader from '../../../components/atoms/loader';
 import renderer from '../../../components/formBuilder';
 import { service } from '../../../helpers/service';
 
-export type FormResponseProps = {
-  //
-};
-
-const FormResponse: React.FC<FormResponseProps> = () => {
+const FormResponse: React.FC = () => {
   const auth = useAuthValue();
   const params = useParams();
   const [form] = Form.useForm();
@@ -55,7 +51,7 @@ const FormResponse: React.FC<FormResponseProps> = () => {
   if (!jsonForm) return <Loader />;
 
   return (
-    <div className='flex justify-center p-2'>
+    <div className='flex justify-center items-center min-h-screen p-2'>
       <Card style={{ minWidth: 320 }} title={jsonForm.title}>
         {jsonForm.description ? (
           <div className='mb-4'>

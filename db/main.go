@@ -13,7 +13,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetDb() *gorm.DB {
+var db *gorm.DB
+
+func Init() error {
 	sqlDB, err := sql.Open("pgx", fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Kolkata",
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
@@ -49,19 +51,22 @@ func GetDb() *gorm.DB {
 
 	if err != nil {
 		fmt.Println("Error creating caching layer: ", err)
-		// panic(err)
-		return gormDB
+		return err
 	}
 
 	err = gormDB.Use(cache)
 	if err != nil {
 		fmt.Println("Error using caching layer: ", err)
-		// panic(err)
-		return gormDB
+		return err
 	}
 
 	// cache.AttachToDB(db)
-	return gormDB
+	db = gormDB
+	return nil
+}
+
+func GetDb() *gorm.DB {
+	return db
 }
 
 func GormMigrate(models ...interface{}) {

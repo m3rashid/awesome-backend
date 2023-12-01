@@ -24,7 +24,7 @@ var FormsModule = module.Module{
 			Description: "Get form by id",
 			Controller:  controller.Get[models.Form](),
 		},
-		"/all-responses": {
+		"/responses": {
 			Description: "List all responses of a form",
 			Controller:  controller.List[models.Response](models.FORM_RESPONSE_MODEL_NAME),
 		},

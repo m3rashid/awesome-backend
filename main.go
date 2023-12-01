@@ -12,6 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
+	"github.com/m3rashid/awesome/db"
 	"github.com/m3rashid/awesome/module"
 	"github.com/m3rashid/awesome/modules/auth"
 	"github.com/m3rashid/awesome/modules/community"
@@ -53,6 +54,11 @@ func main() {
 			})
 		},
 	})
+
+	err = db.Init()
+	if err != nil {
+		log.Fatal("Error connecting to database")
+	}
 
 	casbin := permissions.InitCasbin()
 	app.Use(func(c *fiber.Ctx) error {

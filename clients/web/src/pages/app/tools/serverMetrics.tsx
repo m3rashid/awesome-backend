@@ -22,13 +22,14 @@ const ServerMetrics: React.FC = () => {
       header={{
         title: 'Server Metrics',
         extra: [
-          <div className='flex items-center justify-center gap-2'>
+          <div key='m1' className='flex items-center justify-center gap-2'>
             <div
+              key='m2'
               className={`h-2 w-2 rounded-full ${
                 error || !metrics ? 'bg-red-500 ' : 'animate-ping bg-green-500'
               }`}
             />
-            <Typography.Text>
+            <Typography.Text key='m3'>
               {error || !metrics ? 'Server not responding' : 'Server online'}
             </Typography.Text>
           </div>,
