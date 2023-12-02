@@ -48,7 +48,7 @@ export const useAuth = () => {
       start('login');
       const res = await loginService({ data: values });
       setAuth({ user: res.data.user, token: res.data.token });
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('awesome:token', res.data.token);
       notification.success({
         message: 'Login successful',
         description: `Hello ${res.data.user.name}`,

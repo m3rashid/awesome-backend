@@ -12,7 +12,7 @@ export const service = async <Res = any>(
   otherOptions: OtherOptions = {},
 ) => {
   return async (config?: AxiosRequestConfig): Promise<AxiosResponse<Res>> => {
-    const token = await AsyncStorage.getItem('token');
+    const token = await AsyncStorage.getItem('awesome:token');
 
     return axios<Res>({
       url,

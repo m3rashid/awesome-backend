@@ -9,7 +9,7 @@ const UserActions: React.FC = () => {
   const setAuth = useAuthState()[1];
 
   const logout = () => {
-    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('awesome:token');
     setAuth(null);
     navigate('/');
   };

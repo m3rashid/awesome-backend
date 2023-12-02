@@ -33,7 +33,7 @@ const useAuth = () => {
     });
     const res = await checkAuthService();
     setAuth({user: res.data.user, token: res.data.token});
-    await AsyncStorage.setItem('token', res.data.token);
+    await AsyncStorage.setItem('awesome:token', res.data.token);
   };
 
   const handleLogin = async () => {
@@ -56,12 +56,12 @@ const useAuth = () => {
       );
       const res = await loginService({data: formValues});
       setAuth({user: res.data.user, token: res.data.token});
-      await AsyncStorage.setItem('token', res.data.token);
+      await AsyncStorage.setItem('awesome:token', res.data.token);
       navigate('app-home');
     } catch (err: any) {
       console.log(err);
       setAuth(null);
-      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('awesome:token');
     } finally {
       stop('login');
     }
