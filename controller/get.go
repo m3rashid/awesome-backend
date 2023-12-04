@@ -9,7 +9,7 @@ import (
 
 func Get[T interface{}]() func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
-		var requestBody T
+		var requestBody GetBody[T]
 		err := ctx.BodyParser(&requestBody)
 		if err != nil {
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
@@ -17,7 +17,13 @@ func Get[T interface{}]() func(*fiber.Ctx) error {
 
 		var column T
 		db := db.GetDb()
-		err = db.Where(requestBody).First(&column).Error
+		if requestBody.Populate != nil {
+			for _, populate := range requestBody.Populate {
+				db = db.Preload(populate)
+			}
+		}
+
+		err = db.Where(requestBody.SearchCriteria).First(&column).Error
 		if err != nil {
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}

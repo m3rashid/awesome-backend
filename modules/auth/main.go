@@ -40,6 +40,10 @@ var AuthModule = module.Module{
 			Controller:  GetInitialUser(),
 			Permissions: module.RoutePermissions{},
 		},
+		"/profile/all": {
+			Description: "List all profiles",
+			Controller:  controller.List[models.Profile](models.PROFILE_MODEL_NAME),
+		},
 	},
 	AnonymousRoutes: module.AnonymousRouteConfig{
 		"/login": {

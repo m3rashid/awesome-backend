@@ -1,15 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { useAuthValue } from '@awesome/shared/atoms/auth';
-import {
-  Button,
-  Card,
-  Form,
-  Input,
-  message,
-  Modal,
-  Select,
-  Typography,
-} from 'antd';
+import { Button, Card, Text } from '@fluentui/react-components';
+import { Form, Input, message, Modal, Select } from 'antd';
 import _ from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -102,7 +94,7 @@ const Posts: React.FC = () => {
           </Form.Item>
 
           <div className='flex gap-2 justify-end'>
-            <Button type='primary' htmlType='submit' icon={<PlusOutlined />}>
+            <Button appearance='primary' icon={<PlusOutlined />}>
               Create Post
             </Button>
             <Button onClick={() => setOpenModal(false)}>Cancel</Button>
@@ -110,9 +102,9 @@ const Posts: React.FC = () => {
         </Form>
       </Modal>
 
-      <Card bodyStyle={{ padding: 8 }}>
+      <Card>
         <Button
-          type='primary'
+          appearance='primary'
           icon={<PlusOutlined />}
           onClick={() => setOpenModal(true)}
         >
@@ -138,11 +130,11 @@ const Posts: React.FC = () => {
             >
               {postTopic ? (
                 <>
-                  <Typography.Link strong>#{postTopic}</Typography.Link>
+                  <Text as='strong'>#{postTopic}</Text>
                   <br />
                 </>
               ) : null}
-              <Typography.Text>{body}</Typography.Text>
+              <Text>{body}</Text>
             </Card>
           );
         })}

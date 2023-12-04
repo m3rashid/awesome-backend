@@ -1,10 +1,19 @@
-import { UserOutlined } from '@ant-design/icons';
-import { useAuthState } from '@awesome/shared/atoms/auth';
-import { Dropdown, MenuProps } from 'antd';
+import { useAuthState, useAuthValue } from '@awesome/shared/atoms/auth';
+import {
+  Menu,
+  MenuItem,
+  MenuList,
+  MenuPopover,
+  MenuTrigger,
+  Persona,
+} from '@fluentui/react-components';
+import { Person20Regular, SignOut20Regular } from '@fluentui/react-icons';
+import _ from 'lodash-es';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const UserActions: React.FC = () => {
+  const auth = useAuthValue();
   const navigate = useNavigate();
   const setAuth = useAuthState()[1];
 
@@ -14,25 +23,40 @@ const UserActions: React.FC = () => {
     navigate('/');
   };
 
-  const items: MenuProps['items'] = [
+  const items = [
     {
       key: '1',
       label: 'logout',
       onClick: logout,
+      icon: <SignOut20Regular />,
     },
     {
       key: '2',
       label: 'Hello Deer',
-      icon: <UserOutlined />,
+      icon: <Person20Regular />,
     },
   ];
 
   return (
-    <Dropdown menu={{ items, style: { width: 150 } }}>
-      <div className='bg-slate-200 h-[32px] rounded-full w-[32px] flex items-center justify-center cursor-pointer'>
-        <UserOutlined style={{ fontSize: 16, margin: 0, padding: 0 }} />
-      </div>
-    </Dropdown>
+    <Menu>
+      <MenuTrigger disableButtonEnhancement>
+        <Persona
+          name={auth?.user.name}
+          style={{ cursor: 'pointer' }}
+          secondaryText={_.truncate(auth?.user.email, { length: 20 })}
+        />
+      </MenuTrigger>
+
+      <MenuPopover>
+        <MenuList>
+          {items.map((item) => (
+            <MenuItem key={item.key} onClick={item.onClick} icon={item.icon}>
+              {item.label}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </MenuPopover>
+    </Menu>
   );
 };
 

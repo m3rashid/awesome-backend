@@ -1,5 +1,5 @@
 import appConfig from '@awesome/shared/constants/appConfig';
-import { Image, Typography } from 'antd';
+import { Image, Subtitle2, Text } from '@fluentui/react-components';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -16,12 +16,11 @@ const BrandHeader: FC<BrandHeaderProps> = ({
 }) => {
   if (!inline) {
     return (
-      <div className='text-center my-4'>
+      <div className='flex items-center justify-center text-center my-4'>
         <Link to={url}>
           <Image
-            preview={false}
-            height={64}
             width={64}
+            height={64}
             src='/icons/favicon.png'
             alt={`${appConfig.name} Logo`}
             className='mr-2 cursor-pointer'
@@ -29,13 +28,10 @@ const BrandHeader: FC<BrandHeaderProps> = ({
         </Link>
 
         {!onlyLogo && (
-          <>
-            <Typography.Title level={3}>{appConfig.name}</Typography.Title>
-
-            <Typography.Title level={5} type='secondary'>
-              {appConfig.tagline}
-            </Typography.Title>
-          </>
+          <div className='flex flex-col '>
+            <Subtitle2 as='h2'>{appConfig.name}</Subtitle2>
+            <Text as='h3'>{appConfig.tagline}</Text>
+          </div>
         )}
       </div>
     );
@@ -45,7 +41,6 @@ const BrandHeader: FC<BrandHeaderProps> = ({
     <div className='flex gap-x-2'>
       <Link to={url}>
         <Image
-          preview={false}
           height={64}
           width={64}
           src='/images/favicon.png'
@@ -56,11 +51,12 @@ const BrandHeader: FC<BrandHeaderProps> = ({
 
       {!onlyLogo && (
         <div>
-          <Typography.Text strong>{appConfig.name}</Typography.Text>
+          <Text as='b'>{appConfig.name}</Text>
           <br />
-          <Typography.Text type='secondary'>
+          <Text>
+            {/*  type='secondary'> */}
             {appConfig.tagline}
-          </Typography.Text>
+          </Text>
         </div>
       )}
     </div>

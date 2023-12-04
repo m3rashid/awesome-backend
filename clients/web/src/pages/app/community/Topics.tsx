@@ -1,5 +1,6 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, message, Modal, Typography } from 'antd';
+import { Button, Card, Text } from '@fluentui/react-components';
+import { Add20Regular } from '@fluentui/react-icons';
+import { Form, Input, message, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import PageContainer from '../../../components/pageContainer';
@@ -59,7 +60,11 @@ const Topics: React.FC = () => {
           </Form.Item>
 
           <div className='flex gap-2 justify-end'>
-            <Button type='primary' htmlType='submit' icon={<PlusOutlined />}>
+            <Button
+              appearance='primary'
+              icon={<Add20Regular />}
+              onSubmit={handleCreateTopic}
+            >
               Create Topic
             </Button>
             <Button onClick={() => setOpenModal(false)}>Cancel</Button>
@@ -67,10 +72,10 @@ const Topics: React.FC = () => {
         </Form>
       </Modal>
 
-      <Card bodyStyle={{ padding: 8 }}>
+      <Card>
         <Button
-          type='primary'
-          icon={<PlusOutlined />}
+          appearance='primary'
+          icon={<Add20Regular />}
           onClick={() => setOpenModal(true)}
         >
           Create Topic
@@ -81,7 +86,7 @@ const Topics: React.FC = () => {
         {(topics.docs || []).map((topic: any) => {
           return (
             <Card id={topic.id} className='w-64'>
-              <Typography.Link strong>#{topic.name}</Typography.Link>
+              <Text as='strong'>#{topic.name}</Text>
             </Card>
           );
         })}

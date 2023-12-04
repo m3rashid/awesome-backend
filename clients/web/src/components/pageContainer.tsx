@@ -1,5 +1,4 @@
-import { Typography } from 'antd';
-import { BreadcrumbProps } from 'antd/es/breadcrumb/Breadcrumb';
+import { Text } from '@fluentui/react-components';
 import React, { ReactNode } from 'react';
 
 import AuthWrapper from './authWrapper';
@@ -7,7 +6,6 @@ import AuthWrapper from './authWrapper';
 export interface PageContainerProps {
   header?: {
     title?: string;
-    breadCrumb?: BreadcrumbProps;
     extra?: JSX.Element[];
   };
   noHeader?: boolean;
@@ -25,9 +23,9 @@ const PageContainer: React.FC<PageContainerProps> = ({
         {header && !noHeader && (
           <div className='pb-2 flex justify-between items-center'>
             {header.title ? (
-              <Typography.Title level={3} type='secondary'>
+              <Text as='h1' size={500}>
                 {header.title}
-              </Typography.Title>
+              </Text>
             ) : null}
             {header.extra ? <div>{header.extra}</div> : null}
           </div>

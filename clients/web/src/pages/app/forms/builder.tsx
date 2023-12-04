@@ -1,6 +1,7 @@
 import { useAuthValue } from '@awesome/shared/atoms/auth';
+import { Button, Card } from '@fluentui/react-components';
 import Editor from '@monaco-editor/react';
-import { Button, Card, Form, Input, message, Tabs } from 'antd';
+import { Form, Input, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 
 import renderer from '../../../components/formBuilder';
@@ -49,11 +50,11 @@ const FormBuilderPage: React.FC = () => {
   return (
     <PageContainer>
       <Card
-        style={{ marginBottom: 8 }}
-        bodyStyle={{
+        style={{
           gap: 8,
           padding: 4,
           display: 'flex',
+          marginBottom: 8,
           justifyContent: 'space-between',
         }}
       >
@@ -68,15 +69,12 @@ const FormBuilderPage: React.FC = () => {
           ]}
         />
 
-        <Button type='primary' onClick={handleSaveForm}>
+        <Button appearance='primary' onClick={handleSaveForm}>
           Save Form
         </Button>
       </Card>
 
-      <Card
-        style={{ marginBottom: 8, paddingLeft: 8, paddingRight: 8 }}
-        bodyStyle={{ padding: 4 }}
-      >
+      <Card style={{ marginBottom: 8 }}>
         <Form layout='vertical' style={{ display: 'flex', gap: 8 }}>
           <Form.Item label='Title' style={{ flexGrow: 1 }}>
             <Input
@@ -100,8 +98,7 @@ const FormBuilderPage: React.FC = () => {
       </Card>
 
       <Card
-        bodyStyle={{ display: 'flex', justifyContent: 'center' }}
-        style={{ minHeight: 632 }}
+        style={{ minHeight: 632, display: 'flex', justifyContent: 'center' }}
       >
         {view === 'builder' ? (
           <Editor

@@ -28,3 +28,8 @@ type UpdateBody struct {
 	SearchCriteria map[string]interface{} `json:"searchCriteria"`
 	Update         map[string]interface{} `json:"update"`
 }
+
+type GetBody[T interface{}] struct {
+	SearchCriteria T        `json:"searchCriteria"`
+	Populate       []string `json:"populate"`
+}

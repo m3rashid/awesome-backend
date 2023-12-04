@@ -1,4 +1,4 @@
-import { Spin } from 'antd';
+import { Spinner } from '@fluentui/react-components';
 import React from 'react';
 export type LoaderProps = {
   //
@@ -7,7 +7,7 @@ export type LoaderProps = {
 const Loader: React.FC<LoaderProps> = () => {
   return (
     <div>
-      <Spin spinning />
+      <Spinner size='extra-large' />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Card, Typography } from 'antd';
+import { Body1, Card, CardHeader, Link } from '@fluentui/react-components';
 import React from 'react';
 
 import { appPaths } from '../../constants/paths';
@@ -12,46 +12,34 @@ const AppSwitchDrawerContents: React.FC<AppSwitchDrawerContentsProps> = ({
 }) => {
   return (
     <>
-      <Typography.Title level={3} type='secondary' style={{ marginLeft: 8 }}>
-        Apps and Services
-      </Typography.Title>
-
       {appPaths.map((routeConfig) => {
         return (
           <Card
             key={routeConfig.route}
-            style={{ marginBottom: '1rem' }}
-            bodyStyle={{
-              padding: 8,
-              paddingLeft: 16,
-              paddingRight: 16,
-              cursor: 'pointer',
-            }}
+            style={{ marginBottom: 12, cursor: 'pointer' }}
           >
-            <div
-              className='flex items-center gap-2'
+            <CardHeader
+              header={<Body1>{routeConfig.name}</Body1>}
               onClick={() => onRouteClick(routeConfig.route)}
-            >
-              <routeConfig.icon
-                style={{ fontSize: 16, margin: 0, padding: 0 }}
-              />
-
-              <Typography.Title level={4}>{routeConfig.name}</Typography.Title>
-            </div>
-            <Typography.Text>{routeConfig.description}</Typography.Text>
+              image={
+                <routeConfig.icon
+                  style={{ fontSize: 16, margin: 0, padding: 0 }}
+                />
+              }
+            />
 
             <div className='flex flex-wrap'>
               {routeConfig.children &&
                 routeConfig.children.map((child) => {
                   return (
-                    <Typography.Link
-                      strong
-                      key={child.route}
+                    <Link
                       className='mr-5'
+                      key={child.route}
+                      style={{ marginRight: 12 }}
                       onClick={() => onRouteClick(child.route)}
                     >
                       {child.name}
-                    </Typography.Link>
+                    </Link>
                   );
                 })}
             </div>

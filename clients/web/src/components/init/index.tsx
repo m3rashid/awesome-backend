@@ -1,16 +1,16 @@
 import React from 'react';
 
-import AntdProvider from '../atoms/antdProvider';
+import FluentUiProvider from '../atoms/fluentUiProvider';
 
 const AppRoutes = React.lazy(() => import('./routes'));
 
 const Init: React.FC = () => {
   return (
-    <AntdProvider>
+    <FluentUiProvider>
       <div className='w-screen h-screen'>
         <AppRoutes />
       </div>
-    </AntdProvider>
+    </FluentUiProvider>
   );
 };
 

@@ -1,8 +1,8 @@
-import { Card, Statistic, Table, TableColumnType } from 'antd';
+import { Card, Spinner } from '@fluentui/react-components';
+import { Statistic, Table, TableColumnType } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Loader from '../../../components/atoms/loader';
 import PageContainer from '../../../components/pageContainer';
 import { service } from '../../../helpers/service';
 
@@ -67,7 +67,7 @@ const FormResponses: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentForm]);
 
-  if (!parentForm || !formResponses) return <Loader />;
+  if (!parentForm || !formResponses) return <Spinner size='extra-large' />;
 
   return (
     <PageContainer

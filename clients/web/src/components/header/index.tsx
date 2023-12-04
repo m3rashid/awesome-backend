@@ -8,10 +8,12 @@ import UserActions from './userActions';
 const Header: React.FC = () => {
   return (
     <CommonHeader>
-      <Search />
-
       <div className='flex items-center justify-center gap-3'>
+        <Search />
         <AppSwitch />
+      </div>
+
+      <div className='flex items-center justify-center gap-3 mr-2'>
         <UserActions />
       </div>
     </CommonHeader>

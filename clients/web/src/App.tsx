@@ -1,9 +1,9 @@
 import { authAtom } from '@awesome/shared/atoms/auth';
 import { InitResponse } from '@awesome/shared/types/api/auth';
+import { Spinner } from '@fluentui/react-components';
 import React, { Suspense, useCallback, useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 
-import Loader from './components/atoms/loader';
 import { service } from './helpers/service';
 
 const Init = React.lazy(() => import('./components/init'));
@@ -31,10 +31,10 @@ const App: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (initRes.loading) return <Loader />;
+  if (initRes.loading) return <Spinner size='extra-large' />;
 
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Spinner size='extra-large' />}>
       <RecoilRoot
         initializeState={({ set }) => {
           set(authAtom, initRes.data ? initRes.data : null);

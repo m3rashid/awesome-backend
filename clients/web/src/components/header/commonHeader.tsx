@@ -1,5 +1,6 @@
 import appConfig from '@awesome/shared/constants/appConfig';
-import { Image, Layout, theme, Typography } from 'antd';
+import { Image, Text } from '@fluentui/react-components';
+import { Layout } from 'antd';
 import React from 'react';
 
 export type CommonHeaderProps = React.PropsWithChildren & {
@@ -7,8 +8,6 @@ export type CommonHeaderProps = React.PropsWithChildren & {
 };
 
 const CommonHeader: React.FC<CommonHeaderProps> = ({ children }) => {
-  const { token } = theme.useToken();
-
   return (
     <Layout.Header
       style={{
@@ -28,21 +27,21 @@ const CommonHeader: React.FC<CommonHeaderProps> = ({ children }) => {
         <Image src='/favicon.ico' height={30} width={30} />
 
         <div className='ml-2 flex flex-col'>
-          <Typography.Text
-            strong
+          <Text
+            as='strong'
             style={{
               padding: 0,
               marginTop: -2,
               marginBottom: -2,
               fontSize: '0.9rem',
-              color: token.colorPrimary,
+              // color: token.colorPrimary,
             }}
           >
             {appConfig.name}
-          </Typography.Text>
+          </Text>
 
-          <Typography.Text
-            type='secondary'
+          <Text
+            // type='secondary'
             style={{
               padding: 0,
               marginTop: -5,
@@ -51,7 +50,7 @@ const CommonHeader: React.FC<CommonHeaderProps> = ({ children }) => {
             }}
           >
             {appConfig.tagline}
-          </Typography.Text>
+          </Text>
         </div>
       </div>
 

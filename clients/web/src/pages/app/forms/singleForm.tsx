@@ -1,9 +1,9 @@
 import { useAuthValue } from '@awesome/shared/atoms/auth';
-import { Card, Form, message, Typography } from 'antd';
+import { Card, Spinner, Text } from '@fluentui/react-components';
+import { Form, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Loader from '../../../components/atoms/loader';
 import renderer from '../../../components/formBuilder';
 import { service } from '../../../helpers/service';
 
@@ -48,14 +48,14 @@ const SingleForm: React.FC = () => {
     }
   };
 
-  if (!jsonForm) return <Loader />;
+  if (!jsonForm) return <Spinner size='extra-large' />;
 
   return (
     <div className='flex justify-center items-center min-h-screen p-2'>
       <Card style={{ minWidth: 320 }} title={jsonForm.title}>
         {jsonForm.description ? (
           <div className='mb-4'>
-            <Typography.Text>{jsonForm.description}</Typography.Text>
+            <Text>{jsonForm.description}</Text>
           </div>
         ) : null}
         <Form form={form} onFinish={onFinish} layout='vertical'>

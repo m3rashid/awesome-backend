@@ -1,4 +1,5 @@
-import { Button, Result } from 'antd';
+import { Button } from '@fluentui/react-components';
+import { Result } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,7 +12,7 @@ const NotFound: React.FC = () => {
         subTitle={location.pathname}
         extra={
           <Link to='/'>
-            <Button type='link'>Go to Home</Button>
+            <Button appearance='subtle'>Go to Home</Button>
           </Link>
         }
       />

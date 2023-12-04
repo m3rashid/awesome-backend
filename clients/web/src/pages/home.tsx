@@ -1,4 +1,4 @@
-import { Button, Typography } from 'antd';
+import { Button, Text } from '@fluentui/react-components';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,13 +11,13 @@ const Home: React.FC = () => {
   return (
     <div className='w-screen'>
       <CommonHeader>
-        <Button type='link' onClick={() => navigate('/app')}>
+        <Button appearance='subtle' onClick={() => navigate('/app')}>
           Go to App
         </Button>
       </CommonHeader>
 
       <div className='p-2 sm:p-4 pt-[40px] sm:pt-[50px]'>
-        <Typography.Text>Home</Typography.Text>
+        <Text>Home</Text>
       </div>
 
       <Footer />

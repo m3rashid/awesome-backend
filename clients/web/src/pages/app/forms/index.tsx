@@ -1,9 +1,6 @@
-import {
-  AreaChartOutlined,
-  CopyOutlined,
-  FormOutlined,
-} from '@ant-design/icons';
-import { Button, Card, Form, Modal, Tooltip } from 'antd';
+import { Button, Card } from '@fluentui/react-components';
+import { Form20Regular } from '@fluentui/react-icons';
+import { Form, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -46,13 +43,13 @@ const Forms: React.FC = () => {
         title={formInModal?.title}
         onCancel={() => setFormInModal(null)}
       >
-        <Card style={{ border: 0 }} bodyStyle={{ padding: 0 }}>
-          {formInModal?.description ? (
+        <Card style={{ border: 0 }}>
+          {/* {formInModal?.description ? (
             <Card.Meta
               style={{ marginTop: -8, marginBottom: 16 }}
               description={formInModal?.description}
             />
-          ) : null}
+          ) : null} */}
 
           <Form disabled layout='vertical'>
             {renderer(formInModal?.jsonSchema)}
@@ -66,42 +63,39 @@ const Forms: React.FC = () => {
             key={form.id}
             title={form.title}
             style={{ maxWidth: 320, minWidth: 320 }}
-            extra={
-              <Tooltip
-                title='Copy Share Link'
-                color='white'
-                overlayInnerStyle={{ color: 'black' }}
-              >
-                <Button
-                  type='text'
-                  icon={<CopyOutlined />}
-                  onClick={() =>
-                    window.navigator.clipboard.writeText(
-                      `${window.location.href}/${form.id}`
-                    )
-                  }
-                />
-              </Tooltip>
-            }
+            // extra={
+            //   <Tooltip
+            //     title='Copy Share Link'
+            //     color='white'
+            //     overlayInnerStyle={{ color: 'black' }}
+            //   >
+            //     <Button
+            //       type='text'
+            //       icon={<CopyOutlined />}
+            //       onClick={() =>
+            //         window.navigator.clipboard.writeText(
+            //           `${window.location.href}/${form.id}`
+            //         )
+            //       }
+            //     />
+            //   </Tooltip>
+            // }
           >
-            {form.description ? (
+            {/* {form.description ? (
               <Card.Meta
                 style={{ marginTop: -8, marginBottom: 16 }}
                 description={form.description}
               />
-            ) : null}
+            ) : null} */}
 
             <div className='flex justify-between gap-2'>
               <Button
-                type='link'
-                icon={<FormOutlined />}
+                icon={<Form20Regular />}
                 onClick={() => setFormInModal(form)}
               >
                 Show Form
               </Button>
               <Button
-                type='link'
-                icon={<AreaChartOutlined />}
                 onClick={() => navigate(`/app/forms/${form.id}/responses`)}
               >
                 Responses

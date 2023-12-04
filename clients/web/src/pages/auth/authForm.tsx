@@ -1,66 +1,78 @@
 import {
-  LoginRequestBody,
-  RegisterRequestBody,
-} from '@awesome/shared/types/api/auth';
-import { Button, Card, Form, Input, Spin } from 'antd';
+  Button,
+  Card,
+  Field,
+  Input,
+  Link,
+  Spinner,
+} from '@fluentui/react-components';
+import { Password20Regular } from '@fluentui/react-icons';
 import React from 'react';
+import {} from 'react-hook-form';
 
 import BrandHeader from '../../components/atoms/brandHeader';
 import { LoginRegisterFormProps, useAuth } from '../../hooks/auth';
 
 const LoginRegisterForm: React.FC<LoginRegisterFormProps> = ({ formType }) => {
-  const { login, loading, register, changeState } = useAuth();
+  const {
+    login,
+    loading,
+    createAccount,
+    handleFormSubmit,
+    changeState,
+    registerFormElement,
+  } = useAuth();
 
   return (
     <div className='h-screen w-screen all-center'>
       <Card>
-        <Spin spinning={loading}>
-          <BrandHeader />
-          <div className='h-8' />
+        <BrandHeader />
 
-          <Form<
-            typeof formType extends 'login'
-              ? LoginRequestBody
-              : RegisterRequestBody
+        <form
+          className='flex flex-col gap-4'
+          onSubmit={handleFormSubmit(
+            formType === 'login' ? login : createAccount
+          )}
+        >
+          {formType === 'register' ? (
+            <Field label='Name' required>
+              <Input type='text' {...registerFormElement('name')} />
+            </Field>
+          ) : null}
+
+          <Field label='Email' required>
+            <Input type='email' {...registerFormElement('email')} />
+          </Field>
+
+          <Field label='Password' required>
+            <Input
+              type='password'
+              contentBefore={<Password20Regular />}
+              {...registerFormElement('password')}
+            />
+          </Field>
+
+          <Button
+            appearance='primary'
+            style={{ width: '100%' }}
+            onClick={handleFormSubmit(
+              formType === 'login' ? login : createAccount
+            )}
+            icon={
+              loading ? <Spinner size='tiny' appearance='inverted' /> : null
+            }
           >
-            layout='vertical'
-            onFinish={formType === 'login' ? login : register}
-          >
-            {formType === 'register' ? (
-              <Form.Item label='Name' name='name' rules={[{ required: true }]}>
-                <Input placeholder='Your name' />
-              </Form.Item>
-            ) : null}
+            {formType === 'login' ? 'Login' : 'Register'}
+          </Button>
+        </form>
 
-            <Form.Item
-              label='Email'
-              name='email'
-              rules={[{ type: 'email' }, { required: true }]}
-            >
-              <Input placeholder='user@awesome.in' />
-            </Form.Item>
-
-            <Form.Item
-              label='Password'
-              name='password'
-              rules={[{ required: true }]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item>
-              <Button type='primary' htmlType='submit' block>
-                {formType === 'login' ? 'Login' : 'Register'}
-              </Button>
-            </Form.Item>
-          </Form>
-
-          <Button block type='link' onClick={() => changeState(formType)}>
+        <div className='flex item-center justify-center'>
+          <Link onClick={() => changeState(formType)}>
             {formType === 'login'
               ? "Don't have an account? Create one"
               : 'Already have an account? Login Here'}
-          </Button>
-        </Spin>
+          </Link>
+        </div>
       </Card>
     </div>
   );

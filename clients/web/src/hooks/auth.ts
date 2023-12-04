@@ -1,14 +1,13 @@
 import { useAuthState } from '@awesome/shared/atoms/auth';
 import useLoading from '@awesome/shared/hooks/loading';
 import {
-  LoginRequestBody,
   LoginResponse,
-  RegisterRequestBody,
   RegisterResponse,
 } from '@awesome/shared/types/api/auth';
 import { notification } from 'antd';
 import { isAxiosError } from 'axios';
 import { useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useQueryParam } from 'use-query-params';
 
@@ -23,6 +22,19 @@ export const useAuth = () => {
   const [auth, setAuth] = useAuthState();
   const { loading, start, stop } = useLoading();
   const [redirectUrl] = useQueryParam('redirect');
+
+  type Inputs = {
+    name: string;
+    email: string;
+    password: string;
+  };
+
+  const {
+    register: registerFormElement,
+    handleSubmit: handleFormSubmit,
+    watch: watchForm,
+    formState,
+  } = useForm<Inputs>();
 
   const loginService = service<LoginResponse>('/api/anonymous/auth/login', {
     method: 'POST',
@@ -43,7 +55,7 @@ export const useAuth = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const login = async (values: LoginRequestBody) => {
+  const login: SubmitHandler<Inputs> = async (values) => {
     try {
       start('login');
       const res = await loginService({ data: values });
@@ -65,7 +77,7 @@ export const useAuth = () => {
     }
   };
 
-  const register = async (values: RegisterRequestBody) => {
+  const createAccount: SubmitHandler<Inputs> = async (values) => {
     try {
       start('register');
       const res = await registerService({ data: values });
@@ -86,7 +98,11 @@ export const useAuth = () => {
     auth,
     login,
     loading,
-    register,
+    watchForm,
+    formState,
     changeState,
+    createAccount,
+    handleFormSubmit,
+    registerFormElement,
   };
 };

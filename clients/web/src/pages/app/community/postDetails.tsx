@@ -1,24 +1,15 @@
-import { EditOutlined } from '@ant-design/icons';
-import { useAuthValue } from '@awesome/shared/atoms/auth';
-import {
-  Button,
-  Card,
-  Form,
-  Input,
-  message,
-  Modal,
-  Select,
-  Typography,
-} from 'antd';
+// import { useAuthValue } from '@awesome/shared/atoms/auth';
+import { Button, Card, Link, Spinner, Text } from '@fluentui/react-components';
+import { Edit20Regular } from '@fluentui/react-icons';
+import { Form, Input, message, Modal, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Loader from '../../../components/atoms/loader';
 import PageContainer from '../../../components/pageContainer';
 import { service } from '../../../helpers/service';
 
 const PostDetails: React.FC = () => {
-  const auth = useAuthValue();
+  // const auth = useAuthValue();
   const params = useParams();
   const [form] = Form.useForm();
   const [topics, setTopics] = useState<any | null>(null);
@@ -32,7 +23,7 @@ const PostDetails: React.FC = () => {
   const getPostDetails = async (postId: string) => {
     const response = await getPostDetailsService({
       method: 'POST',
-      data: { id: Number(postId) },
+      data: { searchCriteria: { id: Number(postId) }, populate: ['Topic'] },
     });
     setPost(response.data);
   };
@@ -78,7 +69,7 @@ const PostDetails: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.postId]);
 
-  if (!post) return <Loader />;
+  if (!post) return <Spinner size='extra-large' />;
 
   return (
     <PageContainer>
@@ -115,7 +106,12 @@ const PostDetails: React.FC = () => {
           </Form.Item>
 
           <div className='flex gap-2 justify-end'>
-            <Button type='primary' htmlType='submit' icon={<EditOutlined />}>
+            <Button
+              appearance='primary'
+              // type='primary'
+              // htmlType='submit'
+              icon={<Edit20Regular />}
+            >
               Update Post
             </Button>
             <Button onClick={() => setModalOpen(false)}>Cancel</Button>
@@ -128,20 +124,21 @@ const PostDetails: React.FC = () => {
           {...{
             style: { minWidth: 320, maxWidth: 640 },
             ...(post.title ? { title: post.title } : {}),
-            ...(post.userId === auth?.user.id
-              ? {
-                  extra: (
-                    <Button
-                      type='link'
-                      icon={<EditOutlined />}
-                      onClick={() => setModalOpen(true)}
-                    />
-                  ),
-                }
-              : {}),
+            // ...(post.userId === auth?.user.id
+            //   ? {
+            //       extra: (
+            //         <Button
+            //           type='link'
+            //           icon={<EditOutlined />}
+            //           onClick={() => setModalOpen(true)}
+            //         />
+            //       ),
+            //     }
+            //   : {}),
           }}
         >
-          <Typography.Text>{post.body}</Typography.Text>
+          <Text>{post.body}</Text>
+          <Link>#{post.topic.name}</Link>
         </Card>
       </div>
     </PageContainer>

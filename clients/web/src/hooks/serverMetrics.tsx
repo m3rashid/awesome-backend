@@ -3,9 +3,25 @@ import { useEffect, useState } from 'react';
 
 import { service } from '../helpers/service';
 
+export interface Pid {
+  cpu: number;
+  ram: number;
+  conns: number;
+}
+
+export interface Os {
+  cpu: number;
+  ram: number;
+  total_ram: number;
+  load_avg: number;
+  conns: number;
+}
+
 type DataItem = {
-  time: string;
-  value: number;
+  x: Date; // time
+  y: number; // value
+  xAxisCalloutData?: string;
+  yAxisCalloutData?: string;
 };
 
 export type Metrics = {
@@ -16,33 +32,39 @@ export type Metrics = {
   conns: DataItem[];
 };
 
+const initialMetrics: Metrics = {
+  cpu: [],
+  ram: [],
+  total_ram: 0,
+  load_avg: [],
+  conns: [],
+};
+
 const useMetrics = () => {
   const [error, seError] = useState(false);
 
-  const [metrics, setMetrics] = useState<Metrics | null>(null);
-  const getMetricsService = service('/metrics');
+  const [metrics, setMetrics] = useState<Metrics>(initialMetrics);
+  const getMetricsService = service<{ pid: Pid; os: Os }>('/metrics');
 
   const refreshData = async () => {
     try {
       const { data } = await getMetricsService();
-      const time = dayjs().format('HH:mm:ss');
+      const time = dayjs().toDate();
+
       setMetrics((prev) => ({
-        cpu: [...(prev?.cpu || []), { time, value: data.os.cpu }],
+        total_ram: data.os.total_ram / 1e9,
+        cpu: [...prev.cpu, { x: time, y: data.os.cpu }],
         ram: [
-          ...(prev?.ram || [] || []),
+          ...prev.ram,
           {
-            time,
-            value: ((data.os.ram * 100) / data.os.total_ram).toFixed(
+            x: time,
+            y: ((data.os.ram * 100) / data.os.total_ram).toFixed(
               0
             ) as unknown as number,
           },
         ],
-        total_ram: prev?.total_ram ?? data.os.total_ram / 1e9,
-        load_avg: [
-          ...(prev?.load_avg || []),
-          { time, value: data.os.load_avg },
-        ],
-        conns: [...(prev?.conns || []), { time, value: data.os.conns }],
+        load_avg: [...prev.load_avg, { x: time, y: data.os.load_avg }],
+        conns: [...prev.conns, { x: time, y: data.os.conns }],
       }));
     } catch (error) {
       seError(true);

@@ -1,5 +1,5 @@
-import { Area, AreaConfig } from '@ant-design/charts';
-import { Card, Skeleton, Typography } from 'antd';
+import { AreaChart } from '@fluentui/react-charting';
+import { Card, Skeleton, SkeletonItem, Text } from '@fluentui/react-components';
 import React from 'react';
 
 import WidgetContainer from '../../../components/dashboardBuilder/widgetContainer';
@@ -9,13 +9,22 @@ import useMetrics from '../../../hooks/serverMetrics';
 const ServerMetrics: React.FC = () => {
   const { error, metrics } = useMetrics();
 
-  const defaultConfig: Omit<AreaConfig, 'data'> = {
-    xField: 'time',
-    yField: 'value',
-    animation: false,
+  const defaultAreaChartConfig = {
+    xAxisTitle: 'time',
+    enableReflow: true,
+    enablePerfOptimization: true,
+    culture: window.navigator.language,
   };
 
   const className = 'w-full flex-grow max-w-xl min-w-fit';
+
+  const NoMetric = (
+    <Skeleton style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <SkeletonItem style={{ height: 40 }} />
+      <SkeletonItem style={{ height: 40 }} />
+      <SkeletonItem style={{ height: 40 }} />
+    </Skeleton>
+  );
 
   return (
     <PageContainer
@@ -29,9 +38,9 @@ const ServerMetrics: React.FC = () => {
                 error || !metrics ? 'bg-red-500 ' : 'animate-ping bg-green-500'
               }`}
             />
-            <Typography.Text key='m3'>
+            <Text key='m3'>
               {error || !metrics ? 'Server not responding' : 'Server online'}
-            </Typography.Text>
+            </Text>
           </div>,
         ],
       }}
@@ -39,62 +48,59 @@ const ServerMetrics: React.FC = () => {
       {error ? (
         <div className='flex min-w-[500px] items-center justify-center'>
           <Card className={className}>
-            <Typography.Title level={3}>Error loading metrics</Typography.Title>
+            <Text as='h2' size={400}>
+              Error loading metrics
+            </Text>
           </Card>
-        </div>
-      ) : !metrics ? (
-        <div className='flex gap-4 items-center flex-wrap'>
-          {[1, 2, 3, 4].map((_, i) => (
-            <Card key={i} className={className}>
-              <Skeleton active />
-            </Card>
-          ))}
         </div>
       ) : (
         <div className='flex gap-4 items-center flex-wrap'>
-          <WidgetContainer
-            title='CPU'
-            subtitle='CPU usage (in %)'
-            {...{ className }}
-          >
-            <Area
-              data={metrics.cpu}
-              {...{
-                ...defaultConfig,
-                yAxis: { maxLimit: 100, minLimit: 0 },
-              }}
-            />
+          <WidgetContainer>
+            {metrics.cpu.length > 0 ? (
+              <AreaChart
+                data={{
+                  chartTitle: 'CPU',
+                  lineChartData: [{ legend: 'CPU Usage', data: metrics.cpu }],
+                }}
+                yAxisTitle='CPU usage (in %)'
+                {...defaultAreaChartConfig}
+              />
+            ) : (
+              NoMetric
+            )}
           </WidgetContainer>
 
-          <WidgetContainer
-            title={`RAM (${metrics.total_ram.toFixed(2)} GB)`}
-            subtitle='RAM usage (in %)'
-            {...{ className }}
-          >
-            <Area
-              data={metrics.ram}
-              {...{
-                ...defaultConfig,
-                yAxis: { maxLimit: 100, minLimit: 0 },
-              }}
-            />
+          <WidgetContainer>
+            {metrics.ram.length > 0 ? (
+              <AreaChart
+                data={{
+                  chartTitle: `RAM (${metrics.total_ram.toFixed(2)} GB)`,
+                  lineChartData: [{ legend: 'RAM usage', data: metrics.ram }],
+                }}
+                yAxisTitle='RAM usage (in %)'
+                {...defaultAreaChartConfig}
+              />
+            ) : (
+              NoMetric
+            )}
           </WidgetContainer>
 
-          <WidgetContainer
-            title='Load Average'
-            subtitle='Average load on the server'
-            {...{ className }}
-          >
-            <Area data={metrics.load_avg} {...defaultConfig} />
+          <WidgetContainer>
+            {metrics.load_avg.length > 0 ? (
+              <AreaChart
+                data={{
+                  chartTitle: 'Load Average',
+                  lineChartData: [
+                    { legend: 'Average server load', data: metrics.load_avg },
+                  ],
+                }}
+                yAxisTitle='Average load on the server'
+                {...defaultAreaChartConfig}
+              />
+            ) : (
+              NoMetric
+            )}
           </WidgetContainer>
-
-          {/* <WidgetContainer
-            title='Connections'
-            subtitle='Number of Active connections'
-            {...{ className }}
-          >
-            <Area data={metrics.conns} {...defaultConfig} />
-          </WidgetContainer> */}
         </div>
       )}
     </PageContainer>
