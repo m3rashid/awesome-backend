@@ -9,8 +9,8 @@
     "typescriptreact"
   ],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
+		"source.fixAll.eslint": "explicit"
+	},
   "cSpell.ignorePaths": [
     "package-lock.json",
     "yarn.lock",

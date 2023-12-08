@@ -1,15 +1,10 @@
 import appConfig from '@awesome/shared/constants/appConfig';
 import { Image, Text } from '@fluentui/react-components';
-import { Layout } from 'antd';
 import React from 'react';
 
-export type CommonHeaderProps = React.PropsWithChildren & {
-  //
-};
-
-const CommonHeader: React.FC<CommonHeaderProps> = ({ children }) => {
+const CommonHeader: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <Layout.Header
+    <div
       style={{
         height: 40,
         width: '100%',
@@ -21,6 +16,7 @@ const CommonHeader: React.FC<CommonHeaderProps> = ({ children }) => {
         alignItems: 'center',
         backgroundColor: 'white',
         justifyContent: 'space-between',
+        borderBottom: '1px solid #eaeaea',
       }}
     >
       <div className='h-full mb-0 flex items-center'>
@@ -55,7 +51,7 @@ const CommonHeader: React.FC<CommonHeaderProps> = ({ children }) => {
       </div>
 
       {children}
-    </Layout.Header>
+    </div>
   );
 };
 

@@ -8,7 +8,6 @@ import {
 } from '@fluentui/react-components';
 import { Password20Regular } from '@fluentui/react-icons';
 import React from 'react';
-import {} from 'react-hook-form';
 
 import BrandHeader from '../../components/atoms/brandHeader';
 import { LoginRegisterFormProps, useAuth } from '../../hooks/auth';

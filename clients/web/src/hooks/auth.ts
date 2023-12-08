@@ -4,8 +4,7 @@ import {
   LoginResponse,
   RegisterResponse,
 } from '@awesome/shared/types/api/auth';
-import { notification } from 'antd';
-import { isAxiosError } from 'axios';
+// import { isAxiosError } from 'axios';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -61,17 +60,17 @@ export const useAuth = () => {
       const res = await loginService({ data: values });
       setAuth({ user: res.data.user, token: res.data.token });
       localStorage.setItem('awesome:token', res.data.token);
-      notification.success({
-        message: 'Login successful',
-        description: `Hello ${res.data.user.name}`,
-      });
+      // notification.success({
+      //   message: 'Login successful',
+      //   description: `Hello ${res.data.user.name}`,
+      // });
       if (redirectUrl) navigate(redirectUrl);
       else navigate('/app');
     } catch (err: any) {
-      notification.error({
-        message: 'Login failed',
-        description: isAxiosError(err) ? err.response?.data.message || '' : '',
-      });
+      // notification.error({
+      //   message: 'Login failed',
+      //   description: isAxiosError(err) ? err.response?.data.message || '' : '',
+      // });
     } finally {
       stop('login');
     }
@@ -81,14 +80,14 @@ export const useAuth = () => {
     try {
       start('register');
       const res = await registerService({ data: values });
-      notification.success({ message: res.data.message });
+      // notification.success({ message: res.data.message });
       if (redirectUrl) navigate(redirectUrl);
       else navigate('/app');
     } catch (err: any) {
-      notification.error({
-        message: 'Registration failed',
-        description: isAxiosError(err) ? err.response?.data.message || '' : '',
-      });
+      // notification.error({
+      //   message: 'Registration failed',
+      //   description: isAxiosError(err) ? err.response?.data.message || '' : '',
+      // });
     } finally {
       stop('register');
     }

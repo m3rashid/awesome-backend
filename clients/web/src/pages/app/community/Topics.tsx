@@ -1,41 +1,44 @@
-import { Button, Card, Text } from '@fluentui/react-components';
+import {
+  Button,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogContent,
+  DialogSurface,
+  DialogTitle,
+  DialogTrigger,
+  Field,
+  Input,
+  Spinner,
+  Text,
+} from '@fluentui/react-components';
 import { Add20Regular } from '@fluentui/react-icons';
-import { Form, Input, message, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import PageContainer from '../../../components/pageContainer';
 import { service } from '../../../helpers/service';
+import useForm from '../../../hooks/form';
 
 const Topics: React.FC = () => {
-  const [form] = Form.useForm();
   const [openModal, setOpenModal] = useState(false);
   const [topics, setTopics] = useState<any | null>(null);
 
-  const getTopicsService = service('/api/community/topics');
-  const createTopicService = service('/api/community/topic/create');
+  const getTopicsService = service('/api/community/topics', { method: 'POST' });
 
-  const handleCreateTopic = async () => {
-    try {
-      await form.validateFields();
-      await createTopicService({
-        method: 'POST',
-        data: { name: form.getFieldValue('name') },
-      });
-      form.resetFields();
+  const { loading, onSubmit, form } = useForm<{ name: string }>({
+    submitEndpoint: '/api/community/topic/create',
+    onFinally: () => {
       setOpenModal(false);
       getTopics().catch(console.log);
-    } catch (err: any) {
-      console.log(err);
-      message.error('Error in creating topic');
-    }
-  };
+    },
+  });
 
   const getTopics = async () => {
     const response = await getTopicsService({
-      method: 'POST',
       data: {
         searchCriteria: { deleted: false },
-        paginationOptions: { limit: 10, page: 1 },
+        paginationOptions: { limit: 20, page: 1 },
       },
     });
     setTopics(response.data);
@@ -48,44 +51,58 @@ const Topics: React.FC = () => {
 
   return (
     <PageContainer>
-      <Modal
-        footer={null}
-        open={openModal}
-        title='Create a new topic'
-        onCancel={() => setOpenModal(false)}
-      >
-        <Form form={form} onFinish={handleCreateTopic} layout='vertical'>
-          <Form.Item name='name' label='Name' rules={[{ required: true }]}>
-            <Input placeholder='Enter your topic' />
-          </Form.Item>
-
-          <div className='flex gap-2 justify-end'>
+      <Card>
+        <Dialog
+          open={openModal}
+          onOpenChange={(_, { open }) => setOpenModal(open)}
+        >
+          <DialogTrigger disableButtonEnhancement>
             <Button
               appearance='primary'
               icon={<Add20Regular />}
-              onSubmit={handleCreateTopic}
+              onClick={() => setOpenModal(true)}
             >
               Create Topic
             </Button>
-            <Button onClick={() => setOpenModal(false)}>Cancel</Button>
-          </div>
-        </Form>
-      </Modal>
+          </DialogTrigger>
 
-      <Card>
-        <Button
-          appearance='primary'
-          icon={<Add20Regular />}
-          onClick={() => setOpenModal(true)}
-        >
-          Create Topic
-        </Button>
+          <DialogSurface>
+            <DialogBody>
+              <DialogTitle>Create a new Topic</DialogTitle>
+
+              <DialogContent>
+                <form onSubmit={onSubmit}>
+                  <Field label='Label' required>
+                    <Input type='text' {...form.register('name')} />
+                  </Field>
+                </form>
+              </DialogContent>
+
+              <DialogActions>
+                <DialogTrigger disableButtonEnhancement>
+                  <Button appearance='secondary'>Close</Button>
+                </DialogTrigger>
+                <Button
+                  onClick={onSubmit}
+                  appearance='primary'
+                  icon={
+                    loading ? (
+                      <Spinner size='tiny' appearance='inverted' />
+                    ) : null
+                  }
+                >
+                  Create Topic
+                </Button>
+              </DialogActions>
+            </DialogBody>
+          </DialogSurface>
+        </Dialog>
       </Card>
 
       <div className='flex flex-wrap gap-2 mt-2'>
-        {(topics.docs || []).map((topic: any) => {
+        {(topics?.docs || []).map((topic: any) => {
           return (
-            <Card id={topic.id} className='w-64'>
+            <Card key={topic.id} className='w-64'>
               <Text as='strong'>#{topic.name}</Text>
             </Card>
           );

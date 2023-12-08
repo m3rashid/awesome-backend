@@ -1,4 +1,3 @@
-// import { useAuthValue } from '@awesome/shared/atoms/auth';
 import { Button, Card, Link, Spinner, Text } from '@fluentui/react-components';
 import { Edit20Regular } from '@fluentui/react-icons';
 import { Form, Input, message, Modal, Select } from 'antd';
@@ -16,13 +15,16 @@ const PostDetails: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [post, setPost] = useState<any | null>(null);
 
-  const getTopicsService = service('/api/community/topics');
-  const updatePostService = service('/api/community/post/update');
-  const getPostDetailsService = service('/api/community/post/get');
+  const getTopicsService = service('/api/community/topics', { method: 'POST' });
+  const updatePostService = service('/api/community/post/update', {
+    method: 'POST',
+  });
+  const getPostDetailsService = service('/api/community/post/get', {
+    method: 'POST',
+  });
 
   const getPostDetails = async (postId: string) => {
     const response = await getPostDetailsService({
-      method: 'POST',
       data: { searchCriteria: { id: Number(postId) }, populate: ['Topic'] },
     });
     setPost(response.data);
@@ -30,7 +32,6 @@ const PostDetails: React.FC = () => {
 
   const getTopics = async () => {
     const response = await getTopicsService({
-      method: 'POST',
       data: {
         searchCriteria: { deleted: false },
         paginationOptions: { limit: 10, page: 1 },
@@ -43,13 +44,9 @@ const PostDetails: React.FC = () => {
     try {
       await form.validateFields();
       await updatePostService({
-        method: 'POST',
-
         data: {
           searchCriteria: { id: post.id },
-          update: {
-            ...form.getFieldsValue(),
-          },
+          update: { ...form.getFieldsValue() },
         },
       });
       form.resetFields();
