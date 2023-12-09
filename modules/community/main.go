@@ -13,16 +13,16 @@ var CommunityModule = module.Module{
 		&models.Topic{},
 		&models.Comment{},
 	},
-	Resources: module.Resources{
-		models.POST_MODEL_NAME: models.ResourceIndex{
-			NameKey:        "title",
-			DescriptionKey: "body",
-		},
-		models.TOPIC_MODEL_NAME: models.ResourceIndex{
-			NameKey:        "name",
-			DescriptionKey: "",
-		},
-	},
+	// Resources: module.Resources{
+	// 	models.POST_MODEL_NAME: models.ResourceIndex{
+	// 		NameKey:        "title",
+	// 		DescriptionKey: "body",
+	// 	},
+	// 	models.TOPIC_MODEL_NAME: models.ResourceIndex{
+	// 		NameKey:        "name",
+	// 		DescriptionKey: "",
+	// 	},
+	// },
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/posts": {
 			Description: "Get all posts",
@@ -30,7 +30,7 @@ var CommunityModule = module.Module{
 		},
 		"/post/create": {
 			Description: "Create a post",
-			Controller:  controller.Create[models.Post](map[string]interface{}{}),
+			Controller:  controller.Create[models.Post](),
 		},
 		"/post/get": {
 			Description: "Get a single post",
@@ -38,41 +38,54 @@ var CommunityModule = module.Module{
 		},
 		"/post/update": {
 			Description: "Update a post",
-			Controller:  controller.Update[models.Post](models.POST_MODEL_NAME, map[string]interface{}{}),
+			Controller:  controller.Update[models.Post](models.POST_MODEL_NAME),
 		},
 
 		"/topics": {
 			Description: "Get all topics",
 			Controller:  controller.List[models.Topic](models.TOPIC_MODEL_NAME),
 		},
-		"/topic/create": {
+		"/topics/create": {
 			Description: "Create a topic",
-			Controller:  controller.Create[models.Topic](map[string]interface{}{}),
+			Controller:  controller.Create[models.Topic](),
 		},
-		"/topic/get": {
+		"/topics/get": {
 			Description: "Get a single topic",
 			Controller:  controller.Get[models.Topic](),
 		},
-		"/topic/update": {
+		"/topics/update": {
 			Description: "Update a topic",
-			Controller:  controller.Update[models.Topic](models.TOPIC_MODEL_NAME, map[string]interface{}{}),
+			Controller:  controller.Update[models.Topic](models.TOPIC_MODEL_NAME),
 		},
 
 		"/comments": {
-			Description: "Get all comments",
+			Description: "List all comments",
 			Controller:  controller.List[models.Comment](models.COMMENT_MODEL_NAME),
 		},
-		"/comment/create": {
+		"/comments/create": {
 			Description: "Create a comment",
-			Controller:  controller.Create[models.Comment](map[string]interface{}{}),
+			Controller:  controller.Create[models.Comment](),
 		},
-		"/comment/get": {
+		"/comments/get": {
 			Description: "Get a single comment",
 			Controller:  controller.Get[models.Comment](),
 		},
-		"/comment/update": {
+		"/comments/update": {
 			Description: "Update a comment",
-			Controller:  controller.Update[models.Comment](models.COMMENT_MODEL_NAME, map[string]interface{}{}),
+			Controller:  controller.Update[models.Comment](models.COMMENT_MODEL_NAME),
+		},
+
+		"/friendships": {
+			Description: "List all friendships",
+			Controller:  controller.List[models.Friendship](models.FRIENDSHIP_MODEL_NAME),
+		},
+		"/friendships/send-request": {
+			Description: "Send a friend request",
+			Controller:  controller.Create[models.FriendRequest](),
+		},
+		"/friendships/update": {
+			Description: "Accept a friend request",
+			Controller:  controller.Update[models.FriendRequest](models.FRIEND_REQUEST_MODEL_NAME),
 		},
 	},
 	AnonymousRoutes: module.AnonymousRouteConfig{},

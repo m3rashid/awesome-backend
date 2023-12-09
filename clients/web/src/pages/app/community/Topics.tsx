@@ -10,24 +10,26 @@ import {
   DialogTrigger,
   Field,
   Input,
+  Link,
   Spinner,
-  Text,
 } from '@fluentui/react-components';
 import { Add20Regular } from '@fluentui/react-icons';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import PageContainer from '../../../components/pageContainer';
 import { service } from '../../../helpers/service';
 import useForm from '../../../hooks/form';
 
 const Topics: React.FC = () => {
+  const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [topics, setTopics] = useState<any | null>(null);
 
   const getTopicsService = service('/api/community/topics', { method: 'POST' });
 
   const { loading, onSubmit, form } = useForm<{ name: string }>({
-    submitEndpoint: '/api/community/topic/create',
+    submitEndpoint: '/api/community/topics/create',
     onFinally: () => {
       setOpenModal(false);
       getTopics().catch(console.log);
@@ -50,12 +52,10 @@ const Topics: React.FC = () => {
   }, []);
 
   return (
-    <PageContainer>
-      <Card>
-        <Dialog
-          open={openModal}
-          onOpenChange={(_, { open }) => setOpenModal(open)}
-        >
+    <PageContainer
+      header={{
+        title: 'Community Topics',
+        extra: (
           <DialogTrigger disableButtonEnhancement>
             <Button
               appearance='primary'
@@ -65,45 +65,55 @@ const Topics: React.FC = () => {
               Create Topic
             </Button>
           </DialogTrigger>
+        ),
+      }}
+    >
+      <Dialog
+        open={openModal}
+        onOpenChange={(_, { open }) => setOpenModal(open)}
+      >
+        <DialogSurface>
+          <DialogBody>
+            <DialogTitle>Create a new Topic</DialogTitle>
 
-          <DialogSurface>
-            <DialogBody>
-              <DialogTitle>Create a new Topic</DialogTitle>
+            <DialogContent>
+              <form onSubmit={onSubmit}>
+                <Field label='Label' required>
+                  <Input type='text' {...form.register('name')} />
+                </Field>
+              </form>
+            </DialogContent>
 
-              <DialogContent>
-                <form onSubmit={onSubmit}>
-                  <Field label='Label' required>
-                    <Input type='text' {...form.register('name')} />
-                  </Field>
-                </form>
-              </DialogContent>
-
-              <DialogActions>
-                <DialogTrigger disableButtonEnhancement>
-                  <Button appearance='secondary'>Close</Button>
-                </DialogTrigger>
-                <Button
-                  onClick={onSubmit}
-                  appearance='primary'
-                  icon={
-                    loading ? (
-                      <Spinner size='tiny' appearance='inverted' />
-                    ) : null
-                  }
-                >
-                  Create Topic
-                </Button>
-              </DialogActions>
-            </DialogBody>
-          </DialogSurface>
-        </Dialog>
-      </Card>
+            <DialogActions>
+              <DialogTrigger disableButtonEnhancement>
+                <Button appearance='secondary'>Close</Button>
+              </DialogTrigger>
+              <Button
+                onClick={onSubmit}
+                appearance='primary'
+                icon={
+                  loading ? <Spinner size='tiny' appearance='inverted' /> : null
+                }
+              >
+                Create Topic
+              </Button>
+            </DialogActions>
+          </DialogBody>
+        </DialogSurface>
+      </Dialog>
 
       <div className='flex flex-wrap gap-2 mt-2'>
         {(topics?.docs || []).map((topic: any) => {
           return (
             <Card key={topic.id} className='w-64'>
-              <Text as='strong'>#{topic.name}</Text>
+              {/* <Text as='strong'>#{topic.name}</Text> */}
+              <Link
+                onClick={() =>
+                  navigate(`/app/community/posts?topicId=${topic.id}`)
+                }
+              >
+                #{topic.name}
+              </Link>
             </Card>
           );
         })}

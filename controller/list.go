@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -33,11 +32,16 @@ func List[T interface{}](tableName string) func(*fiber.Ctx) error {
 		db := db.GetDb()
 		var results []T
 
-		err = db.Order("id").Limit(paginationOptions.Limit).Offset(int(paginationOptions.Page-1*paginationOptions.Limit)).Find(&results, searchCriteria).Error
+		if listBody.Populate != nil {
+			for _, populate := range listBody.Populate {
+				db = db.Preload(populate)
+			}
+		}
+
+		err = db.Order("id DESC").Limit(paginationOptions.Limit).Offset(int(paginationOptions.Page-1*paginationOptions.Limit)).Find(&results, searchCriteria).Error
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
-		fmt.Println(results)
 
 		var docsCount int64
 		err = db.Table(tableName).Where(searchCriteria).Count(&docsCount).Error

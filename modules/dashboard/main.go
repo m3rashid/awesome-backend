@@ -11,12 +11,12 @@ var DashboardModule = module.Module{
 		&models.Dashboard{},
 		&models.DashboardWidget{},
 	},
-	Resources: module.Resources{
-		models.DASHBOARD_MODEL_NAME: models.ResourceIndex{
-			NameKey:        "name",
-			DescriptionKey: "description",
-		},
-	},
+	// Resources: module.Resources{
+	// 	models.DASHBOARD_MODEL_NAME: models.ResourceIndex{
+	// 		NameKey:        "name",
+	// 		DescriptionKey: "description",
+	// 	},
+	// },
 	ProtectedRoutes: module.ProtectedRouteConfig{},
 	AnonymousRoutes: module.AnonymousRouteConfig{},
 }

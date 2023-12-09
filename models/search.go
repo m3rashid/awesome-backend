@@ -13,10 +13,10 @@ const (
 	Delete ActionType = "delete"
 )
 
-type ResourceIndex struct {
-	NameKey        string
-	DescriptionKey string
-}
+// type ResourceIndex struct {
+// 	NameKey        string
+// 	DescriptionKey string
+// }
 
 type ActionLog struct {
 	ID       uint       `json:"id,omitempty" gorm:"id,omitempty"`

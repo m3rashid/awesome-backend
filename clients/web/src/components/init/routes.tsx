@@ -3,6 +3,12 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
+const CommunityProfile = lazy(
+  () => import('../../pages/app/community/profile')
+);
+const DashboardBuilder = lazy(
+  () => import('../../pages/app/tools/dashboardBuilder')
+);
 const Home = lazy(() => import('../../pages/home'));
 const AppHome = lazy(() => import('../../pages/app'));
 const NotFound = lazy(() => import('../../pages/404'));
@@ -28,9 +34,6 @@ const DataIngestor = lazy(() => import('../../pages/app/tools/dataIngestor'));
 const ShowDriveFile = lazy(() => import('../../pages/app/drive/showDriveFile'));
 const PostDetails = lazy(() => import('../../pages/app/community/postDetails'));
 const ServerMetrics = lazy(() => import('../../pages/app/tools/serverMetrics'));
-const DashboardBuilder = lazy(
-  () => import('../../pages/app/tools/dashboardBuilder')
-);
 
 const AppRoutes = () => {
   return (
@@ -78,6 +81,7 @@ const AppRoutes = () => {
 
             <Route path='community'>
               <Route path='' element={<Navigate to='posts' />} />
+              <Route path='profile/:userId' Component={CommunityProfile} />
               <Route path='posts'>
                 <Route path='' Component={Posts} />
                 <Route path=':postId' Component={PostDetails} />

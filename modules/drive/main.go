@@ -11,9 +11,6 @@ var DriveModule = module.Module{
 	Models: []interface{}{
 		&models.DriveFile{},
 	},
-	Resources: module.Resources{
-		models.DRIVE_FILE_MODEL_NAME: models.ResourceIndex{},
-	},
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		// other drive routes are directly registered
 		"/all": {

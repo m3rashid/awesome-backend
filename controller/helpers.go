@@ -20,6 +20,7 @@ type PaginationResponse[T interface{}] struct {
 }
 
 type ListBody struct {
+	Populate          []string               `json:"populate"`
 	SearchCriteria    map[string]interface{} `json:"searchCriteria"`
 	PaginationOptions PaginationOptions      `json:"paginationOptions"`
 }

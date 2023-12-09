@@ -8,7 +8,7 @@ import (
 	"github.com/m3rashid/awesome/db"
 )
 
-func Update[T interface{}](tableName string, options map[string]interface{}) func(*fiber.Ctx) error {
+func Update[T interface{}](tableName string) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var updateBody UpdateBody
 		err := ctx.BodyParser(&updateBody)
@@ -23,12 +23,10 @@ func Update[T interface{}](tableName string, options map[string]interface{}) fun
 			return ctx.Status(400).JSON(fiber.Map{"error": "search criteria is required"})
 		}
 
-		if options[SKIP_VALIDATION_KEY] == false {
-			validate := validator.New()
-			err = validate.Struct(update)
-			if err != nil {
-				return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
-			}
+		validate := validator.New()
+		err = validate.Struct(update)
+		if err != nil {
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		db := db.GetDb()

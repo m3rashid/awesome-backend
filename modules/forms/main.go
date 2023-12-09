@@ -12,9 +12,6 @@ var FormsModule = module.Module{
 		&models.Form{},
 		&models.Response{},
 	},
-	Resources: module.Resources{
-		models.FORMS_MODEL_NAME: models.ResourceIndex{},
-	},
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/all": {
 			Description: "List all forms",
@@ -26,7 +23,7 @@ var FormsModule = module.Module{
 		},
 		"/create": {
 			Description: "Create form",
-			Controller:  controller.Create[models.Form](map[string]interface{}{}),
+			Controller:  controller.Create[models.Form](),
 			Permissions: module.RoutePermissions{
 				"user": module.CREATE,
 			},
@@ -39,7 +36,7 @@ var FormsModule = module.Module{
 		},
 		"/response": {
 			Description: "Create response",
-			Controller:  controller.Create[models.Response](map[string]interface{}{}),
+			Controller:  controller.Create[models.Response](),
 		},
 	},
 }

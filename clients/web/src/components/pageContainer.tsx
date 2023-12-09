@@ -6,7 +6,7 @@ import AuthWrapper from './authWrapper';
 export interface PageContainerProps {
   header?: {
     title?: string;
-    extra?: JSX.Element[];
+    extra?: JSX.Element;
   };
   noHeader?: boolean;
   children?: ReactNode;
@@ -27,7 +27,7 @@ const PageContainer: React.FC<PageContainerProps> = ({
                 {header.title}
               </Text>
             ) : null}
-            {header.extra ? <div>{header.extra}</div> : null}
+            {header.extra ?? null}
           </div>
         )}
         {children}

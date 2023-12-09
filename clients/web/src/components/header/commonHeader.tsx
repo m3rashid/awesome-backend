@@ -14,7 +14,6 @@ const CommonHeader: React.FC<React.PropsWithChildren> = ({ children }) => {
         marginBottom: 40,
         position: 'absolute',
         alignItems: 'center',
-        backgroundColor: 'white',
         justifyContent: 'space-between',
         borderBottom: '1px solid #eaeaea',
       }}
@@ -49,7 +48,6 @@ const CommonHeader: React.FC<React.PropsWithChildren> = ({ children }) => {
           </Text>
         </div>
       </div>
-
       {children}
     </div>
   );

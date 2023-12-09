@@ -11,7 +11,6 @@ var SearchModule = module.Module{
 		&models.Resource{},
 		&models.ActionLog{},
 	},
-	Resources:       module.Resources{},
 	ProtectedRoutes: module.ProtectedRouteConfig{},
 	AnonymousRoutes: module.AnonymousRouteConfig{
 		"/": {

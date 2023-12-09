@@ -9,6 +9,7 @@ type useFormProps<T> = {
   onError?: (error: any) => void;
   onFinally?: () => void;
   initialValues?: T;
+  beforeSubmit?: (values: T) => T;
 };
 const useForm = <T extends Record<string, any>>({
   submitEndpoint,
@@ -16,6 +17,7 @@ const useForm = <T extends Record<string, any>>({
   onError,
   onSuccess,
   onFinally,
+  beforeSubmit,
 }: useFormProps<T>) => {
   const { loading, start, stop } = useLoading();
   const form = useHookForm<T>({
@@ -26,6 +28,7 @@ const useForm = <T extends Record<string, any>>({
   const formSubmitHandler: SubmitHandler<T> = async (values) => {
     try {
       start('submit');
+      if (beforeSubmit) values = beforeSubmit(values);
       const postService = service(submitEndpoint, { method: 'POST' });
       const { data } = await postService({ data: values });
       form.reset();

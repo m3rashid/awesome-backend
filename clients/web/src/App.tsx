@@ -9,7 +9,9 @@ import { service } from './helpers/service';
 const Init = React.lazy(() => import('./components/init'));
 
 const App: React.FC = () => {
-  const initService = service<InitResponse>('/api/auth', { method: 'POST' });
+  const initService = service<InitResponse>('/api/auth/init', {
+    method: 'POST',
+  });
   const [initRes, setInitRes] = React.useState<{
     loading: boolean;
     data: InitResponse | null;

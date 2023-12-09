@@ -11,9 +11,6 @@ var EmailModule = module.Module{
 	Models: []interface{}{
 		&models.Email{},
 	},
-	Resources: module.Resources{
-		models.EMAIL_MODEL_NAME: models.ResourceIndex{},
-	},
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/all": {
 			Description: "List all emails",
