@@ -9,8 +9,16 @@ type useFormProps<T> = {
   onError?: (error: any) => void;
   onFinally?: () => void;
   initialValues?: T;
-  beforeSubmit?: (values: T) => T;
+  beforeSubmit?: (values: T) => {
+    body: T;
+    resourceIndex?: {
+      name: string;
+      resourceType: string;
+      description?: string;
+    };
+  };
 };
+
 const useForm = <T extends Record<string, any>>({
   submitEndpoint,
   initialValues,
@@ -28,9 +36,21 @@ const useForm = <T extends Record<string, any>>({
   const formSubmitHandler: SubmitHandler<T> = async (values) => {
     try {
       start('submit');
-      if (beforeSubmit) values = beforeSubmit(values);
+
+      const requestBody = beforeSubmit
+        ? beforeSubmit(values)
+        : { body: values };
       const postService = service(submitEndpoint, { method: 'POST' });
-      const { data } = await postService({ data: values });
+      const { data } = await postService({
+        data: requestBody.body,
+      });
+
+      if (requestBody.resourceIndex && requestBody.resourceIndex.name) {
+        await service('/api/search/create', {
+          method: 'POST',
+        })({ data: { ...requestBody.resourceIndex } });
+      }
+
       form.reset();
       onSuccess && onSuccess(data);
     } catch (err: any) {

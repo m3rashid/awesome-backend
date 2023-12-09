@@ -35,9 +35,11 @@ const Posts: React.FC = () => {
       getPosts().catch(console.log);
     },
     beforeSubmit: (values) => ({
-      ...values,
-      userId: auth?.user.id,
-      topicId: Number(values.topicId),
+      body: {
+        ...values,
+        userId: auth?.user.id,
+        topicId: Number(values.topicId),
+      },
     }),
   });
 

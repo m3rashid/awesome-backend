@@ -19,10 +19,12 @@ const AddPostComment: React.FC<AddPostCommentProps> = ({
   const { form, loading, onSubmit } = useForm<{ body: string }>({
     submitEndpoint: '/api/community/comments/create',
     beforeSubmit: (data) => ({
-      ...data,
-      repliedToId,
-      postId: postId,
-      userId: auth?.user.id,
+      body: {
+        ...data,
+        repliedToId,
+        postId: postId,
+        userId: auth?.user.id,
+      },
     }),
     onSuccess: () => {
       form.reset();
