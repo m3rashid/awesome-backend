@@ -1,4 +1,7 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { lazy } from 'react';
+dayjs.extend(relativeTime);
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
@@ -96,7 +99,7 @@ const AppRoutes = () => {
 
             <Route path='forms'>
               <Route path='' Component={Forms} />
-              <Route path='builder' Component={FormBuilderPage} />
+              <Route path='builder/:formId' Component={FormBuilderPage} />
               <Route path=':formId'>
                 <Route path='' Component={SingleForm} />
                 <Route path='responses' Component={FormResponses} />

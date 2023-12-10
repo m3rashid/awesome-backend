@@ -58,10 +58,7 @@ export const appPaths: AppPath[] = [
     icon: PeopleSettings20Regular,
     name: 'Forms & Surveys',
     description: 'Create and manage your forms and surveys',
-    children: [
-      { name: 'Forms', route: '/app/forms' },
-      { name: 'Builder', route: '/app/forms/builder' },
-    ],
+    children: [{ name: 'Forms', route: '/app/forms' }],
   },
   {
     route: '/app/tools',

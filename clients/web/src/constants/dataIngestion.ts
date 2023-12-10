@@ -1,5 +1,4 @@
-import { UserOutlined } from '@ant-design/icons';
-
+import { Person20Regular } from '@fluentui/react-icons';
 export const ingestibleDataModels = ['users', 'usergroups'];
 
 export const dataIngestorStep = [
@@ -23,9 +22,9 @@ export const dataIngestorDefault: DataIngestor = {
 };
 
 export const dataModelSteps: Record<DataIngestorStep, any> = {
-  Choose: ['Choose Data Model', UserOutlined],
-  Upload: ['Upload File', UserOutlined],
-  Map: ['Map Data Items', UserOutlined],
-  Validate: ['Validate Data', UserOutlined],
-  Confirm: ['Confirm and ingest data', UserOutlined],
+  Choose: ['Choose Data Model', Person20Regular],
+  Upload: ['Upload File', Person20Regular],
+  Map: ['Map Data Items', Person20Regular],
+  Validate: ['Validate Data', Person20Regular],
+  Confirm: ['Confirm and ingest data', Person20Regular],
 };

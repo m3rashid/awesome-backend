@@ -7,10 +7,8 @@ import {
   Text,
 } from '@fluentui/react-components';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-dayjs.extend(relativeTime);
 
 import AddPostComment from './addPostComment';
 import PostCommentSection from './postCommentSection';

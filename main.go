@@ -36,6 +36,7 @@ func main() {
 
 	app := fiber.New(fiber.Config{
 		CaseSensitive:         true,
+		PassLocalsToViews:     true,
 		AppName:               os.Getenv("APP_NAME"),
 		RequestMethods:        []string{"GET", "POST", "HEAD", "OPTIONS"},
 		Concurrency:           256 * 1024 * 1024,

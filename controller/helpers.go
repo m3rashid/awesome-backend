@@ -28,6 +28,7 @@ type ListBody struct {
 type UpdateBody struct {
 	SearchCriteria map[string]interface{} `json:"searchCriteria"`
 	Update         map[string]interface{} `json:"update"`
+	ResourceIndex  ResourceIndex          `json:"resourceIndex" validate:""`
 }
 
 type GetBody[T interface{}] struct {

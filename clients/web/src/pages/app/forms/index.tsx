@@ -1,108 +1,191 @@
-import { Button, Card } from '@fluentui/react-components';
-import { Form20Regular } from '@fluentui/react-icons';
-import { Form, Modal } from 'antd';
+import { useAuthValue } from '@awesome/shared/atoms/auth';
+import {
+  Avatar,
+  Body1,
+  Button,
+  Caption1,
+  Card,
+  CardFooter,
+  CardHeader,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogContent,
+  DialogSurface,
+  DialogTitle,
+  DialogTrigger,
+  Field,
+  Input,
+  Subtitle2Stronger,
+  Tag,
+  Textarea,
+} from '@fluentui/react-components';
+import { Add20Regular, Edit20Regular } from '@fluentui/react-icons';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import renderer from '../../../components/formBuilder';
 import PageContainer from '../../../components/pageContainer';
 import { service } from '../../../helpers/service';
+import useForm from '../../../hooks/form';
 
 const Forms: React.FC = () => {
+  const auth = useAuthValue();
   const navigate = useNavigate();
-  const getService = service('/api/forms/all');
-  const [forms, setForms] = useState<any[]>([]);
-  const [formInModal, setFormInModal] = useState<any | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [forms, setForms] = useState<any | null>(null);
 
-  useEffect(() => {
-    getService({
-      method: 'POST',
+  const { form, onSubmit } = useForm<{
+    title: string;
+    description: string;
+    authRequired: boolean;
+  }>({
+    submitEndpoint: '/api/forms/create',
+    onFinally: () => setDialogOpen(false),
+    onSuccess: () => getForms().catch(console.log),
+    beforeSubmit: (values) => ({
+      body: {
+        ...values,
+        jsonSchema: '{}',
+        createdById: auth?.user.id,
+        authRequired: values.authRequired ?? false,
+      },
+      resourceIndex: {
+        name: values.title,
+        resourceType: 'forms',
+      },
+    }),
+  });
+
+  const getForms = async () => {
+    const { data } = await service('/api/forms', { method: 'POST' })({
       data: {
         searchCriteria: { deleted: false },
-        paginationOptions: { limit: 10, page: 1 },
+        populate: ['CreatedBy'],
       },
-    })
-      .then((res) => {
-        setForms(
-          res.data.docs.map((t: any) => ({
-            ...t,
-            jsonSchema: JSON.parse(t.jsonSchema),
-          }))
-        );
-      })
-      .catch(console.log);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    });
+    setForms(data);
+  };
+
+  useEffect(() => {
+    getForms().catch(console.log);
   }, []);
 
   return (
-    <PageContainer header={{ title: 'Forms' }}>
-      <Modal
-        width={320}
-        footer={null}
-        open={formInModal}
-        title={formInModal?.title}
-        onCancel={() => setFormInModal(null)}
-      >
-        <Card style={{ border: 0 }}>
-          {/* {formInModal?.description ? (
-            <Card.Meta
-              style={{ marginTop: -8, marginBottom: 16 }}
-              description={formInModal?.description}
-            />
-          ) : null} */}
-
-          <Form disabled layout='vertical'>
-            {renderer(formInModal?.jsonSchema)}
-          </Form>
-        </Card>
-      </Modal>
-
-      <div className='flex gap-2 flex-wrap'>
-        {forms.map((form) => (
-          <Card
-            key={form.id}
-            title={form.title}
-            style={{ maxWidth: 320, minWidth: 320 }}
-            // extra={
-            //   <Tooltip
-            //     title='Copy Share Link'
-            //     color='white'
-            //     overlayInnerStyle={{ color: 'black' }}
-            //   >
-            //     <Button
-            //       type='text'
-            //       icon={<CopyOutlined />}
-            //       onClick={() =>
-            //         window.navigator.clipboard.writeText(
-            //           `${window.location.href}/${form.id}`
-            //         )
-            //       }
-            //     />
-            //   </Tooltip>
-            // }
+    <PageContainer
+      header={{
+        title: 'Forms',
+        extra: (
+          <Button
+            appearance='primary'
+            icon={<Add20Regular />}
+            onClick={() => setDialogOpen(true)}
           >
-            {/* {form.description ? (
-              <Card.Meta
-                style={{ marginTop: -8, marginBottom: 16 }}
-                description={form.description}
-              />
-            ) : null} */}
+            Create Form
+          </Button>
+        ),
+      }}
+    >
+      <Dialog
+        open={dialogOpen}
+        onOpenChange={(_, { open }) => setDialogOpen(open)}
+      >
+        <DialogSurface>
+          <form onSubmit={onSubmit}>
+            <DialogBody>
+              <DialogTitle>Create a new Form</DialogTitle>
+              <DialogContent>
+                <Field label='Title' required>
+                  <Input {...form.register('title')} />
+                </Field>
 
-            <div className='flex justify-between gap-2'>
-              <Button
-                icon={<Form20Regular />}
-                onClick={() => setFormInModal(form)}
-              >
-                Show Form
-              </Button>
-              <Button
-                onClick={() => navigate(`/app/forms/${form.id}/responses`)}
-              >
-                Responses
-              </Button>
-            </div>
-          </Card>
-        ))}
+                <Field label='Description'>
+                  <Textarea {...form.register('description')} />
+                </Field>
+
+                <Field>
+                  <Checkbox
+                    defaultChecked
+                    label='Auth Required ?'
+                    {...form.register('authRequired')}
+                  />
+                </Field>
+              </DialogContent>
+
+              <DialogActions>
+                <DialogTrigger disableButtonEnhancement>
+                  <Button appearance='secondary'>Close</Button>
+                </DialogTrigger>
+                <Button appearance='primary' onClick={onSubmit}>
+                  Create
+                </Button>
+              </DialogActions>
+            </DialogBody>
+          </form>
+        </DialogSurface>
+      </Dialog>
+
+      <div className='flex gap-4 flex-wrap'>
+        {(forms?.docs || []).map((form: any) => {
+          return (
+            <Card key={form.id} className='w-[720px] max-w-full h-full'>
+              <CardHeader
+                image={
+                  <Avatar
+                    className='cursor-pointer'
+                    onClick={() =>
+                      navigate(`/app/community/profile/${form.createdBy.id}`)
+                    }
+                  />
+                }
+                header={
+                  <div className='flex justify-between w-full'>
+                    <Body1>
+                      <b
+                        className='cursor-pointer'
+                        onClick={() =>
+                          navigate(
+                            `/app/community/profile/${form.createdBy.id}`
+                          )
+                        }
+                      >
+                        {form.createdBy.name}
+                      </b>
+                      &nbsp;&#x2022;&nbsp;
+                      {dayjs(form.createdAt).fromNow()}
+                    </Body1>
+
+                    <Tag
+                      size='extra-small'
+                      style={{
+                        backgroundColor: form.published ? '#86efac' : '#fca5a5',
+                      }}
+                    >
+                      {form.published ? 'Published' : 'Not Published'}
+                    </Tag>
+                  </div>
+                }
+                description={<Caption1>{form.createdBy.email}</Caption1>}
+              />
+
+              <div className='my-2 flex flex-col'>
+                <Subtitle2Stronger>{form.title}</Subtitle2Stronger>
+                <Body1>{form.description}</Body1>
+              </div>
+
+              <CardFooter>
+                <Button
+                  icon={<Edit20Regular />}
+                  disabled={form.published}
+                  onClick={() => navigate(`/app/forms/builder/${form.id}`)}
+                >
+                  Edit Form
+                </Button>
+              </CardFooter>
+            </Card>
+          );
+        })}
       </div>
     </PageContainer>
   );

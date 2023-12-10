@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 const FORMS_MODEL_NAME = "forms"
@@ -17,6 +19,14 @@ type Form struct {
 	CreatedByID  uint   `json:"createdById" gorm:"column:createdById;not null" validate:"required"`
 	CreatedBy    *User  `json:"createdBy" gorm:"column:createdById;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	AuthRequired bool   `json:"authRequired" gorm:"column:authRequired;not null" validate:"required"`
+	Visits       uint   `json:"visits" gorm:"column:visits;default:0" validate:""`
+	ShareID      string `json:"shareId" gorm:"column:shareId;not null" validate:""`
+	Published    bool   `json:"published" gorm:"column:published;default:false" validate:""`
+}
+
+func (form *Form) BeforeCreate(tx *gorm.DB) (err error) {
+	form.ShareID = uuid.NewString()
+	return
 }
 
 type Response struct {

@@ -13,7 +13,7 @@ var FormsModule = module.Module{
 		&models.Response{},
 	},
 	ProtectedRoutes: module.ProtectedRouteConfig{
-		"/all": {
+		"": {
 			Description: "List all forms",
 			Controller:  controller.List[models.Form](models.FORMS_MODEL_NAME),
 		},

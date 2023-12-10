@@ -1,120 +1,46 @@
-import { useAuthValue } from '@awesome/shared/atoms/auth';
-import { Button, Card } from '@fluentui/react-components';
-import Editor from '@monaco-editor/react';
-import { Form, Input, message, Tabs } from 'antd';
-import React, { useState } from 'react';
+import {
+  DndContext,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
-import renderer from '../../../components/formBuilder';
-import { ComponentConfig } from '../../../components/formBuilder/elements';
+import FormBuilder from '../../../components/formBuilder';
+import DesignerContextProvider from '../../../components/formBuilder/designerContext';
+import DragOverlayWrapper from '../../../components/formBuilder/dragOverlayWrapper';
+import FormBuilderSidebar from '../../../components/formBuilder/sidebar';
 import PageContainer from '../../../components/pageContainer';
-import { service } from '../../../helpers/service';
 
 const FormBuilderPage: React.FC = () => {
-  const auth = useAuthValue();
-  const [formValues, setFormValues] = useState({ title: '', description: '' });
-  const [view, setView] = useState('builder');
-  const [formJson, setFormJson] = useState<ComponentConfig[]>([]);
-
-  const handleChange = (val: any) => {
-    try {
-      const jsonVal = JSON.parse('{"meta":' + val + '}');
-      for (let i = 0; i < jsonVal.meta.length; i++) {
-        if (!jsonVal.meta[i].type || jsonVal.meta[i].type === '') {
-          message.error("Type can't be empty");
-          return;
-        }
-      }
-
-      setFormJson(jsonVal.meta);
-    } catch (err: any) {
-      console.log(err);
-    }
-  };
-
-  const handleSaveForm = async () => {
-    const createService = service('/api/forms/create');
-    await createService({
-      method: 'POST',
-      data: {
-        authRequired: false,
-        title: formValues.title,
-        createdById: auth?.user.id,
-        description: formValues.description,
-        jsonSchema: JSON.stringify(formJson),
+  const { formId } = useParams();
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
       },
-    });
-    setFormValues({ title: '', description: '' });
-    setFormJson([]);
-  };
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 300,
+        tolerance: 5,
+      },
+    })
+  );
 
   return (
     <PageContainer>
-      <Card
-        style={{
-          gap: 8,
-          padding: 4,
-          display: 'flex',
-          marginBottom: 8,
-          justifyContent: 'space-between',
-        }}
-      >
-        <Tabs
-          onChange={(key) => setView(key)}
-          style={{ paddingLeft: 16, paddingTop: 0, paddingBottom: 0 }}
-          className='bg-white rounded-md flex-grow'
-          defaultActiveKey='1'
-          items={[
-            { key: 'builder', label: 'Form Builder' },
-            { key: 'render', label: 'Form Display' },
-          ]}
-        />
-
-        <Button appearance='primary' onClick={handleSaveForm}>
-          Save Form
-        </Button>
-      </Card>
-
-      <Card style={{ marginBottom: 8 }}>
-        <Form layout='vertical' style={{ display: 'flex', gap: 8 }}>
-          <Form.Item label='Title' style={{ flexGrow: 1 }}>
-            <Input
-              placeholder='Form Title'
-              value={formValues.title}
-              onChange={(e) => {
-                setFormValues((p) => ({ ...p, title: e.target.value }));
-              }}
-            />
-          </Form.Item>
-
-          <Form.Item label='Description' style={{ flexGrow: 1 }}>
-            <Input
-              placeholder='Form Description'
-              value={formValues.description}
-              onChange={(e) => {
-                setFormValues((p) => ({ ...p, description: e.target.value }));
-              }}
-            />
-          </Form.Item>
-        </Form>
-      </Card>
-
-      <Card
-        style={{ minHeight: 632, display: 'flex', justifyContent: 'center' }}
-      >
-        {view === 'builder' ? (
-          <Editor
-            height={600}
-            language='json'
-            defaultValue='[]'
-            onChange={handleChange}
-            value={JSON.stringify(formJson, null, 2)}
-          />
-        ) : (
-          <Card className='min-w-[320px] max-w-[320px]'>
-            <Form layout='vertical'>{renderer(formJson)}</Form>
-          </Card>
-        )}
-      </Card>
+      <DesignerContextProvider>
+        <DndContext sensors={sensors}>
+          <div className='flex justify-center gap-4'>
+            <FormBuilder />
+            <FormBuilderSidebar />
+          </div>
+          <DragOverlayWrapper />
+        </DndContext>
+      </DesignerContextProvider>
     </PageContainer>
   );
 };
