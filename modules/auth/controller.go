@@ -88,10 +88,22 @@ func Register() fiber.Handler {
 		newUser.Password = password
 
 		db := db.GetDb()
-		err = db.Create(&newUser).Error
-		if err != nil {
+		result := db.Create(&newUser)
+		if result.Error != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Could Not Register User, Please try again later",
+			})
+		}
+
+		newResource := models.Resource{
+			Name:         newUser.Name,
+			ResourceType: "users",
+			ResourceID:   newUser.ID,
+		}
+		err = db.Create(&newResource).Error
+		if err != nil {
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "User registered, could not index user",
 			})
 		}
 

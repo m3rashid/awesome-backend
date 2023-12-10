@@ -15,23 +15,6 @@ var CRMModule = module.Module{
 		&models.Campaign{},
 		&models.Referral{},
 	},
-	// Resources: module.Resources{
-	// 	models.LEAD_MODEL_NAME: models.ResourceIndex{
-	// 		NameKey:        "name",
-	// 		DescriptionKey: "notes",
-	// 	},
-	// 	models.LEAD_TASK_MODEL_NAME: models.ResourceIndex{
-	// 		NameKey: "note",
-	// 	},
-	// 	models.REFERRAL_MODEL_NAME: models.ResourceIndex{
-	// 		NameKey:        "code",
-	// 		DescriptionKey: "description",
-	// 	},
-	// 	models.CAMPAIGN_MODEL_NAME: models.ResourceIndex{
-	// 		NameKey:        "name",
-	// 		DescriptionKey: "description",
-	// 	},
-	// },
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/leads": {
 			Description: "List all leads",

@@ -1,3 +1,4 @@
+import resourceTypes from '@awesome/shared/constants/resourceTypes';
 import useLoading from '@awesome/shared/hooks/loading';
 import { SubmitHandler, useForm as useHookForm } from 'react-hook-form';
 
@@ -13,7 +14,7 @@ type useFormProps<T> = {
     body: T;
     resourceIndex?: {
       name: string;
-      resourceType: string;
+      resourceType: (typeof resourceTypes)[keyof typeof resourceTypes];
       description?: string;
     };
   };
@@ -42,14 +43,8 @@ const useForm = <T extends Record<string, any>>({
         : { body: values };
       const postService = service(submitEndpoint, { method: 'POST' });
       const { data } = await postService({
-        data: requestBody.body,
+        data: requestBody,
       });
-
-      if (requestBody.resourceIndex && requestBody.resourceIndex.name) {
-        await service('/api/search/create', {
-          method: 'POST',
-        })({ data: { ...requestBody.resourceIndex } });
-      }
 
       form.reset();
       onSuccess && onSuccess(data);

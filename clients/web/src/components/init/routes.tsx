@@ -21,7 +21,6 @@ const PrivacyPolicy = lazy(() => import('../../pages/privacy'));
 const Register = lazy(() => import('../../pages/auth/register'));
 const TermsAndConditions = lazy(() => import('../../pages/terms'));
 const Posts = lazy(() => import('../../pages/app/community/posts'));
-const Topics = lazy(() => import('../../pages/app/community/Topics'));
 const Campaigns = lazy(() => import('../../pages/app/crm/campaigns'));
 const Workspaces = lazy(() => import('../../pages/app/iam/workspaces'));
 const UserGroups = lazy(() => import('../../pages/app/iam/userGroups'));
@@ -86,7 +85,6 @@ const AppRoutes = () => {
                 <Route path='' Component={Posts} />
                 <Route path=':postId' Component={PostDetails} />
               </Route>
-              <Route path='topics' Component={Topics} />
             </Route>
 
             <Route path='tools'>

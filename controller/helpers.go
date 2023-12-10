@@ -34,3 +34,18 @@ type GetBody[T interface{}] struct {
 	SearchCriteria T        `json:"searchCriteria"`
 	Populate       []string `json:"populate"`
 }
+
+type CreatedDBResponse struct {
+	ID uint `json:"id"`
+}
+
+type ResourceIndex struct {
+	Name         string `json:"name" validate:"required"`
+	Description  string `json:"description" validate:""`
+	ResourceType string `json:"resourceType" validate:"required"`
+}
+
+type CreateRequestBody[T interface{}] struct {
+	Body          T             `json:"body" validate:"required"`
+	ResourceIndex ResourceIndex `json:"resourceIndex" validate:""`
+}

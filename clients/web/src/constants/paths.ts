@@ -51,10 +51,7 @@ export const appPaths: AppPath[] = [
     icon: PeopleSettings20Regular,
     name: 'Community',
     description: 'Create and manage your community',
-    children: [
-      { name: 'Posts', route: '/app/community/posts' },
-      { name: 'Topics', route: '/app/community/topics' },
-    ],
+    children: [{ name: 'Posts', route: '/app/community/posts' }],
   },
   {
     route: '/app/forms',

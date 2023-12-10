@@ -3,14 +3,13 @@ import {
   Button,
   Card,
   Field,
-  Select,
   Spinner,
+  Text,
   Textarea,
 } from '@fluentui/react-components';
 import { Add20Regular } from '@fluentui/react-icons';
 import _ from 'lodash-es';
 import React, { useEffect, useState } from 'react';
-import { NumberParam, useQueryParam } from 'use-query-params';
 
 import PostCard from '../../../components/atoms/postCard';
 import PageContainer from '../../../components/pageContainer';
@@ -20,64 +19,42 @@ import useForm from '../../../hooks/form';
 const Posts: React.FC = () => {
   const auth = useAuthValue();
   const [posts, setPosts] = useState<any | null>(null);
-  const [topics, setTopics] = useState<any | null>(null);
-  const [topicId] = useQueryParam('topicId', NumberParam);
 
   const getPostsService = service('/api/community/posts', { method: 'POST' });
-  const getTopicsService = service('/api/community/topics', { method: 'POST' });
 
-  const { loading, onSubmit, form } = useForm<{
-    body: string;
-    topicId: number;
-  }>({
+  const { loading, onSubmit, form } = useForm<{ body: string }>({
     submitEndpoint: '/api/community/post/create',
     onFinally: () => {
       getPosts().catch(console.log);
     },
     beforeSubmit: (values) => ({
-      body: {
-        ...values,
-        userId: auth?.user.id,
-        topicId: Number(values.topicId),
-      },
+      body: { ...values, userId: auth?.user.id },
+      resourceIndex: { resourceType: 'posts', name: values.body },
     }),
   });
 
   const getPosts = async () => {
     const response = await getPostsService({
       data: {
-        searchCriteria: {
-          deleted: false,
-          ...(topicId ? { topicId: topicId } : {}),
-        },
-        populate: ['User', 'Topic'],
+        populate: ['User'],
+        searchCriteria: { deleted: false },
         paginationOptions: { limit: 10, page: 1 },
       },
     });
     setPosts(response.data);
   };
 
-  const getTopics = async () => {
-    const response = await getTopicsService({
-      data: {
-        searchCriteria: { deleted: false },
-        paginationOptions: { limit: 10, page: 1 },
-      },
-    });
-    setTopics(response.data);
-  };
-
   useEffect(() => {
-    Promise.allSettled([getPosts(), getTopics()]).catch(console.log);
+    getPosts().catch(console.log);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId]);
+  }, []);
 
   return (
     <PageContainer header={{ title: 'Community' }}>
-      <div className='flex items-center justify-center flex-col gap-4 mt-2'>
-        {!topicId ? (
-          <Card className='w-[720px] max-w-full cursor-pointer h-full'>
-            <form onSubmit={onSubmit}>
+      <div className='flex justify-center flex-col md:flex-row gap-4 mt-2'>
+        <div className='flex items-center justify-center flex-col gap-4'>
+          <Card className='w-[720px] max-w-full'>
+            <form onSubmit={onSubmit} className='flex flex-col gap-2'>
               <Field>
                 <Textarea
                   placeholder='Share something insightful'
@@ -85,48 +62,44 @@ const Posts: React.FC = () => {
                 />
               </Field>
 
-              <div className='flex gap-4 items-center justify-between mt-4'>
-                <Select
-                  placeholder='Select a topic'
-                  className='flex-grow max-w-[200px]'
-                  {...form.register('topicId')}
-                >
-                  {(topics?.docs || []).map((topic: any) => {
-                    return (
-                      <option key={topic.id} value={topic.id}>
-                        {topic.name}
-                      </option>
-                    );
-                  })}
-                </Select>
-
-                <Button
-                  onClick={onSubmit}
-                  appearance='primary'
-                  icon={
-                    loading ? (
-                      <Spinner size='tiny' appearance='inverted' />
-                    ) : (
-                      <Add20Regular />
-                    )
-                  }
-                >
-                  Create Post
-                </Button>
-              </div>
+              <Button
+                onClick={onSubmit}
+                appearance='primary'
+                className='w-40'
+                icon={
+                  loading ? (
+                    <Spinner size='tiny' appearance='inverted' />
+                  ) : (
+                    <Add20Regular />
+                  )
+                }
+              >
+                Create Post
+              </Button>
             </form>
           </Card>
-        ) : null}
 
-        {(posts?.docs || []).map((post: any) => {
-          return (
-            <PostCard
-              type='list'
-              key={post.id}
-              post={{ ...post, body: _.truncate(post.body, { length: 200 }) }}
-            />
-          );
-        })}
+          <div className='flex flex-col gap-4'>
+            {(posts?.docs || []).map((post: any) => {
+              return (
+                <PostCard
+                  type='list'
+                  key={post.id}
+                  post={{
+                    ...post,
+                    body: _.truncate(post.body, { length: 200 }),
+                  }}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        <div className='flex flex-col'>
+          <Card className='w-[320px] max-w-full'>
+            <Text>Friend Requests</Text>
+          </Card>
+        </div>
       </div>
     </PageContainer>
   );

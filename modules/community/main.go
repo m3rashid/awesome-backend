@@ -10,19 +10,8 @@ var CommunityModule = module.Module{
 	Name: "community",
 	Models: []interface{}{
 		&models.Post{},
-		&models.Topic{},
 		&models.Comment{},
 	},
-	// Resources: module.Resources{
-	// 	models.POST_MODEL_NAME: models.ResourceIndex{
-	// 		NameKey:        "title",
-	// 		DescriptionKey: "body",
-	// 	},
-	// 	models.TOPIC_MODEL_NAME: models.ResourceIndex{
-	// 		NameKey:        "name",
-	// 		DescriptionKey: "",
-	// 	},
-	// },
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/posts": {
 			Description: "Get all posts",
@@ -39,23 +28,6 @@ var CommunityModule = module.Module{
 		"/post/update": {
 			Description: "Update a post",
 			Controller:  controller.Update[models.Post](models.POST_MODEL_NAME),
-		},
-
-		"/topics": {
-			Description: "Get all topics",
-			Controller:  controller.List[models.Topic](models.TOPIC_MODEL_NAME),
-		},
-		"/topics/create": {
-			Description: "Create a topic",
-			Controller:  controller.Create[models.Topic](),
-		},
-		"/topics/get": {
-			Description: "Get a single topic",
-			Controller:  controller.Get[models.Topic](),
-		},
-		"/topics/update": {
-			Description: "Update a topic",
-			Controller:  controller.Update[models.Topic](models.TOPIC_MODEL_NAME),
 		},
 
 		"/comments": {

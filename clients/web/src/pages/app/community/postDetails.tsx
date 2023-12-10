@@ -18,7 +18,7 @@ const PostDetails: React.FC = () => {
     const response = await getPostDetailsService({
       data: {
         searchCriteria: { id: Number(postId) },
-        populate: ['Topic', 'User'],
+        populate: ['User'],
       },
     });
     setPost(response.data);
@@ -34,7 +34,7 @@ const PostDetails: React.FC = () => {
 
   return (
     <PageContainer>
-      <div className='flex items-center justify-center mt-2'>
+      <div className='flex flex-col gap-4 items-center justify-center mt-2'>
         <PostCard post={post} type='detail' />
       </div>
     </PageContainer>

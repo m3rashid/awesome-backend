@@ -35,14 +35,6 @@ export const useAuth = () => {
     formState,
   } = useForm<Inputs>();
 
-  const loginService = service<LoginResponse>('/api/anonymous/auth/login', {
-    method: 'POST',
-  });
-  const registerService = service<RegisterResponse>(
-    '/api/anonymous/auth/register',
-    { method: 'POST' }
-  );
-
   const changeState = (currentState: LoginRegisterFormProps['formType']) => {
     const nextState = currentState === 'login' ? 'register' : 'login';
     if (redirectUrl) navigate(`/auth/${nextState}?redirect=${redirectUrl}`);
@@ -57,20 +49,15 @@ export const useAuth = () => {
   const login: SubmitHandler<Inputs> = async (values) => {
     try {
       start('login');
-      const res = await loginService({ data: values });
+      const res = await service<LoginResponse>('/api/anonymous/auth/login', {
+        method: 'POST',
+      })({ data: values });
       setAuth({ user: res.data.user, token: res.data.token });
       localStorage.setItem('awesome:token', res.data.token);
-      // notification.success({
-      //   message: 'Login successful',
-      //   description: `Hello ${res.data.user.name}`,
-      // });
       if (redirectUrl) navigate(redirectUrl);
       else navigate('/app');
     } catch (err: any) {
-      // notification.error({
-      //   message: 'Login failed',
-      //   description: isAxiosError(err) ? err.response?.data.message || '' : '',
-      // });
+      console.log(err);
     } finally {
       stop('login');
     }
@@ -79,15 +66,13 @@ export const useAuth = () => {
   const createAccount: SubmitHandler<Inputs> = async (values) => {
     try {
       start('register');
-      const res = await registerService({ data: values });
-      // notification.success({ message: res.data.message });
+      await service<RegisterResponse>('/api/anonymous/auth/register', {
+        method: 'POST',
+      })({ data: values });
       if (redirectUrl) navigate(redirectUrl);
       else navigate('/app');
     } catch (err: any) {
-      // notification.error({
-      //   message: 'Registration failed',
-      //   description: isAxiosError(err) ? err.response?.data.message || '' : '',
-      // });
+      console.log(err);
     } finally {
       stop('register');
     }

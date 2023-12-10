@@ -1,13 +1,16 @@
+import { useAuthValue } from '@awesome/shared/atoms/auth';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import PostCard from '../../../components/atoms/postCard';
 import PageContainer from '../../../components/pageContainer';
 import { service } from '../../../helpers/service';
 
 const CommunityProfile: React.FC = () => {
   const { userId } = useParams();
+  const auth = useAuthValue();
   const [user, setUser] = useState<any | null>(null);
-  const [posts, setPosts] = useState<any[] | null>(null);
+  const [posts, setPosts] = useState<any | null>(null);
 
   useEffect(() => {
     if (!userId || isNaN(Number(userId))) return;
@@ -22,7 +25,7 @@ const CommunityProfile: React.FC = () => {
     const getUserPosts = async () => {
       const { data } = await service('/api/community/posts', {
         method: 'POST',
-      })({ data: { userId: Number(userId), populate: ['Topic'] } });
+      })({ data: { userId: Number(userId) } });
       setPosts(data);
     };
     Promise.allSettled([getUserDetails(), getUserPosts()]).catch(console.log);
@@ -36,8 +39,11 @@ const CommunityProfile: React.FC = () => {
       {JSON.stringify(user, null, 2)}
 
       <br />
-
-      {JSON.stringify(posts, null, 2)}
+      <div className='flex items-center justify-center flex-col gap-4 mt-2'>
+        {(posts?.docs || []).map((post: any) => {
+          return <PostCard post={{ ...post, user: auth?.user }} type='list' />;
+        })}
+      </div>
     </PageContainer>
   );
 };

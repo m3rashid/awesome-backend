@@ -1,8 +1,6 @@
 package search
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/m3rashid/awesome/db"
 	"github.com/m3rashid/awesome/models"
@@ -16,28 +14,16 @@ func HandleSearch() fiber.Handler {
 		if err := ctx.BodyParser(&searchBody); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Parse Body")
 		}
-		return ctx.Status(fiber.StatusOK).Send([]byte("Hello, World!"))
-	}
-}
 
-func CreateResource(
-	Name string,
-	ResourceID uint,
-	ResourceType string,
-	Description string,
-) {
-	newResource := models.Resource{
-		Name:         Name,
-		Description:  Description,
-		ResourceID:   ResourceID,
-		ResourceType: ResourceType,
-	}
-
-	db := db.GetDb()
-	go func() {
-		err := db.Create(&newResource).Error
+		var resources []models.Resource
+		db := db.GetDb()
+		err := db.Where("name ILIKE ?", "%"+searchBody.Text+"%").Or("description ILIKE ?", "%"+searchBody.Text+"%").Find(&resources).Error
 		if err != nil {
-			fmt.Println("Error Creating Resource with")
+			return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Find Resources")
 		}
-	}()
+
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"resources": resources,
+		})
+	}
 }
