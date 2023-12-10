@@ -178,7 +178,7 @@ const Forms: React.FC = () => {
                 <Button
                   icon={<Edit20Regular />}
                   disabled={form.published}
-                  onClick={() => navigate(`/app/forms/builder/${form.id}`)}
+                  onClick={() => navigate(`/app/forms/${form.id}/builder`)}
                 >
                   Edit Form
                 </Button>

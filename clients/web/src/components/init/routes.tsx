@@ -9,8 +9,14 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 const CommunityProfile = lazy(
   () => import('../../pages/app/community/profile')
 );
+const ProjectTasks = lazy(
+  () => import('../../pages/app/projects/projectTasks')
+);
 const DashboardBuilder = lazy(
   () => import('../../pages/app/tools/dashboardBuilder')
+);
+const ProjectUserDashboard = lazy(
+  () => import('../../pages/app/projects/userDashboard')
 );
 const Home = lazy(() => import('../../pages/home'));
 const AppHome = lazy(() => import('../../pages/app'));
@@ -20,6 +26,7 @@ const Drive = lazy(() => import('../../pages/app/drive'));
 const Login = lazy(() => import('../../pages/auth/login'));
 const Users = lazy(() => import('../../pages/app/iam/users'));
 const Leads = lazy(() => import('../../pages/app/crm/leads'));
+const Projects = lazy(() => import('../../pages/app/projects'));
 const PrivacyPolicy = lazy(() => import('../../pages/privacy'));
 const Register = lazy(() => import('../../pages/auth/register'));
 const TermsAndConditions = lazy(() => import('../../pages/terms'));
@@ -99,16 +106,24 @@ const AppRoutes = () => {
 
             <Route path='forms'>
               <Route path='' Component={Forms} />
-              <Route path='builder/:formId' Component={FormBuilderPage} />
               <Route path=':formId'>
                 <Route path='' Component={SingleForm} />
+                <Route path='builder' Component={FormBuilderPage} />
                 <Route path='responses' Component={FormResponses} />
+              </Route>
+            </Route>
+
+            <Route path='projects'>
+              <Route path='' Component={ProjectUserDashboard} />
+              <Route path='all' Component={Projects} />
+              <Route path=':projectId'>
+                <Route path='' Component={ProjectTasks} />
               </Route>
             </Route>
 
             <Route path='settings'>
               <Route path='' element={<Navigate to='general' />} />
-              <Route path='general' Component={PortalSettings} />R
+              <Route path='general' Component={PortalSettings} />R R
             </Route>
           </Route>
           <Route path='*' Component={NotFound} />

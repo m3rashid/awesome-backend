@@ -32,7 +32,7 @@ func VerifyPassword(hashedPassword string, password string) bool {
 }
 
 func GenerateJWT(userId uint, email string) (string, error) {
-	expirationTime := time.Now().Add(30 * time.Minute)
+	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &helpers.Claims{
 		Email:  email,
 		UserID: strconv.FormatUint(uint64(userId), 10),

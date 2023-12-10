@@ -23,6 +23,7 @@ import (
 	"github.com/m3rashid/awesome/modules/forms"
 	"github.com/m3rashid/awesome/modules/helpers"
 	"github.com/m3rashid/awesome/modules/permissions"
+	"github.com/m3rashid/awesome/modules/projects"
 	"github.com/m3rashid/awesome/modules/search"
 	"github.com/m3rashid/awesome/modules/workflow"
 	"github.com/m3rashid/awesome/utils"
@@ -101,6 +102,7 @@ func main() {
 		forms.FormsModule,
 		emails.EmailModule,
 		search.SearchModule,
+		projects.ProjectModule,
 		workflow.WorkflowModule,
 		dashboard.DashboardModule,
 		community.CommunityModule,

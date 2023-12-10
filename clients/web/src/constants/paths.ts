@@ -72,6 +72,16 @@ export const appPaths: AppPath[] = [
     ],
   },
   {
+    route: '/app/projects',
+    icon: Toolbox20Regular,
+    name: 'Projects',
+    description: 'Manage your projects',
+    children: [
+      { name: 'Dashboard', route: '/app/projects' },
+      { name: 'All Projects', route: '/app/projects/all' },
+    ],
+  },
+  {
     route: '/app/settings',
     icon: Settings20Regular,
     name: 'Settings',
