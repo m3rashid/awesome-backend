@@ -44,9 +44,9 @@ func Init() error {
 		CacheLevel:           config.CacheLevelAll,
 		CacheStorage:         config.CacheStorageRedis,
 		RedisConfig:          cache.NewRedisConfigWithClient(redisClient),
-		InvalidateWhenUpdate: true,  // when you create/update/delete objects, invalidate cache
-		CacheTTL:             10000, // 10s
-		CacheMaxItemCnt:      20,    // if length of objects retrieved one single time exceeds this number, then don't cache
+		InvalidateWhenUpdate: true,   // when you create/update/delete objects, invalidate cache
+		CacheTTL:             100000, // 100s
+		CacheMaxItemCnt:      20,     // if length of objects retrieved one single time exceeds this number, then don't cache
 	})
 
 	if err != nil {
@@ -60,7 +60,6 @@ func Init() error {
 		return err
 	}
 
-	// cache.AttachToDB(db)
 	db = gormDB
 	return nil
 }
