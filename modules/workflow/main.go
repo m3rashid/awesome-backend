@@ -13,9 +13,9 @@ var WorkflowModule = module.Module{
 		&models.WorkflowStep{},
 	},
 	ProtectedRoutes: module.ProtectedRouteConfig{
-		"/list": {
+		"/": {
 			Description: "List all workflows",
-			Controller:  controller.List[models.Workflow](models.WORKFLOW_MODEL_NAME),
+			Controller:  controller.List[models.Workflow](models.WORKFLOW_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/create": {
 			Description: "Create a workflow",

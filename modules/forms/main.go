@@ -15,11 +15,11 @@ var FormsModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"": {
 			Description: "List all forms",
-			Controller:  controller.List[models.Form](models.FORMS_MODEL_NAME),
+			Controller:  controller.List[models.Form](models.FORMS_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/responses": {
 			Description: "List all responses of a form",
-			Controller:  controller.List[models.Response](models.FORM_RESPONSE_MODEL_NAME),
+			Controller:  controller.List[models.Response](models.FORM_RESPONSE_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/create": {
 			Description: "Create form",

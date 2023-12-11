@@ -17,7 +17,7 @@ var ProjectModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"": {
 			Description: "List all projects",
-			Controller:  controller.List[models.Project](models.PROJECT_MODEL_NAME),
+			Controller:  controller.List[models.Project](models.PROJECT_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/create": {
 			Description: "Create a project",
@@ -34,7 +34,7 @@ var ProjectModule = module.Module{
 
 		"/tasks": {
 			Description: "List all tasks",
-			Controller:  controller.List[models.ProjectTask](models.PROJECT_TASK_MODEL_NAME),
+			Controller:  controller.List[models.ProjectTask](models.PROJECT_TASK_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/tasks/create": {
 			Description: "Create a task",
@@ -51,7 +51,7 @@ var ProjectModule = module.Module{
 
 		"/tags": {
 			Description: "List all tags",
-			Controller:  controller.List[models.ProjectTag](models.PROJECT_TAG_MODEL_NAME),
+			Controller:  controller.List[models.ProjectTag](models.PROJECT_TAG_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/tags/create": {
 			Description: "Create a tag",
@@ -68,7 +68,7 @@ var ProjectModule = module.Module{
 
 		"/comments": {
 			Description: "List all comments",
-			Controller:  controller.List[models.ProjectTaskComments](models.PROJECT_TASK_COMMENT_MODEL_NAME),
+			Controller:  controller.List[models.ProjectTaskComments](models.PROJECT_TASK_COMMENT_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/comments/create": {
 			Description: "Create a comment",

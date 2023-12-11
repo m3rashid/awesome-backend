@@ -18,7 +18,7 @@ var CRMModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/leads": {
 			Description: "List all leads",
-			Controller:  controller.List[models.Lead](models.LEAD_MODEL_NAME),
+			Controller:  controller.List[models.Lead](models.LEAD_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/leads/get": {
 			Description: "Get a single lead",
@@ -35,7 +35,7 @@ var CRMModule = module.Module{
 
 		"/events": {
 			Description: "List all events",
-			Controller:  controller.List[models.LeadTimelineEvent](models.LEAD_TIMELINE_EVENT_MODEL_NAME),
+			Controller:  controller.List[models.LeadTimelineEvent](models.LEAD_TIMELINE_EVENT_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/events/get": {
 			Description: "Get a single event",
@@ -52,7 +52,7 @@ var CRMModule = module.Module{
 
 		"/tasks": {
 			Description: "List all tasks",
-			Controller:  controller.List[models.LeadTask](models.LEAD_TASK_MODEL_NAME),
+			Controller:  controller.List[models.LeadTask](models.LEAD_TASK_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/tasks/get": {
 			Description: "Get a single task",
@@ -69,7 +69,7 @@ var CRMModule = module.Module{
 
 		"/campaigns": {
 			Description: "List all campaigns",
-			Controller:  controller.List[models.Campaign](models.CAMPAIGN_MODEL_NAME),
+			Controller:  controller.List[models.Campaign](models.CAMPAIGN_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/campaigns/get": {
 			Description: "Get a single campaign",
@@ -86,7 +86,7 @@ var CRMModule = module.Module{
 
 		"/referrals": {
 			Description: "List all referrals",
-			Controller:  controller.List[models.Referral](models.REFERRAL_MODEL_NAME),
+			Controller:  controller.List[models.Referral](models.REFERRAL_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/referrals/get": {
 			Description: "Get a single referral",

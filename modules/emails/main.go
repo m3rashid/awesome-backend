@@ -14,7 +14,7 @@ var EmailModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/all": {
 			Description: "List all emails",
-			Controller:  controller.List[models.Email](models.EMAIL_MODEL_NAME),
+			Controller:  controller.List[models.Email](models.EMAIL_MODEL_NAME, controller.ListOptions{}),
 			Permissions: module.RoutePermissions{
 				"email": module.LIST,
 			},

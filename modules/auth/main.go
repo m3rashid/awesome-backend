@@ -16,7 +16,7 @@ var AuthModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/all": {
 			Description: "List all users",
-			Controller:  controller.List[models.User](models.USER_MODEL_NAME),
+			Controller:  controller.List[models.User](models.USER_MODEL_NAME, controller.ListOptions{}),
 			Permissions: module.RoutePermissions{
 				"user": module.LIST,
 			},
@@ -40,7 +40,7 @@ var AuthModule = module.Module{
 		},
 		"/profiles": {
 			Description: "List all profiles",
-			Controller:  controller.List[models.Profile](models.PROFILE_MODEL_NAME),
+			Controller:  controller.List[models.Profile](models.PROFILE_MODEL_NAME, controller.ListOptions{}),
 		},
 		"/profile": {
 			Description: "Get profile",

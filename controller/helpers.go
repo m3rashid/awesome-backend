@@ -1,5 +1,7 @@
 package controller
 
+import "gorm.io/gorm"
+
 const SKIP_VALIDATION_KEY = "skipValidation"
 const CREATED_AT_FIELD = "createdAt"
 const UPDATED_AT_FIELD = "updatedAt"
@@ -49,4 +51,8 @@ type ResourceIndex struct {
 type CreateRequestBody[T interface{}] struct {
 	Body          T             `json:"body" validate:"required"`
 	ResourceIndex ResourceIndex `json:"resourceIndex" validate:""`
+}
+
+type ListOptions struct {
+	ModifyDbCall func(*gorm.DB, ListBody) (*gorm.DB, error)
 }

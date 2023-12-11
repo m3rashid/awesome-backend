@@ -15,7 +15,7 @@ var DriveModule = module.Module{
 		// other drive routes are directly registered
 		"/all": {
 			Description: "List all files",
-			Controller:  controller.List[models.DriveFile](models.DRIVE_FILE_MODEL_NAME),
+			Controller:  controller.List[models.DriveFile](models.DRIVE_FILE_MODEL_NAME, controller.ListOptions{}),
 			Permissions: module.RoutePermissions{
 				"driveFile": module.LIST,
 			},
