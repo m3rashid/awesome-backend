@@ -66,7 +66,7 @@ var CommunityModule = module.Module{
 
 		"/groups": {
 			Description: "List of groups",
-			Controller:  controller.List[models.CommunityGroup](models.COMMUNITY_GROUP_MODEL_NAME),
+			Controller:  controller.List[models.CommunityGroup](models.COMMUNITY_GROUP_MODEL_NAME, GetUserGroups[models.CommunityGroup]),
 		},
 		"/groups/get": {
 			Description: "Get a single group",
