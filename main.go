@@ -11,6 +11,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/websocket/v2"
 	"github.com/joho/godotenv"
 	"github.com/m3rashid/awesome/db"
 	"github.com/m3rashid/awesome/module"
@@ -27,6 +28,7 @@ import (
 	"github.com/m3rashid/awesome/modules/search"
 	"github.com/m3rashid/awesome/modules/workflow"
 	"github.com/m3rashid/awesome/utils"
+	"github.com/m3rashid/awesome/ws"
 )
 
 func main() {
@@ -110,6 +112,10 @@ func main() {
 
 	module.RegisterRoutes(app, allModules)
 	drive.RegisterDriveRoutes(app, helpers.CheckAuth)
+
+	socket := app.Group("/ws", ws.UpgraderMiddleware)
+	socket.Get("/", websocket.New(ws.WebsocketHandler))
+	go ws.RunHub()
 
 	appShutDown := utils.HandleCmdArgs(app, allModules, casbin)
 	if appShutDown {

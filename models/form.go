@@ -9,7 +9,7 @@ import (
 )
 
 const FORMS_MODEL_NAME = "forms"
-const FORM_RESPONSE_MODEL_NAME = "formresponses"
+const FORM_RESPONSE_MODEL_NAME = "form_responses"
 
 type Form struct {
 	BaseModel

@@ -1,8 +1,8 @@
 package models
 
 const LEAD_MODEL_NAME = "leads"
-const LEAD_TASK_MODEL_NAME = "leadtasks"
-const LEAD_TIMELINE_EVENT_MODEL_NAME = "leadtimelineevents"
+const LEAD_TASK_MODEL_NAME = "lead_tasks"
+const LEAD_TIMELINE_EVENT_MODEL_NAME = "lead_timeline_events"
 const CAMPAIGN_MODEL_NAME = "campaigns"
 const REFERRAL_MODEL_NAME = "referrals"
 

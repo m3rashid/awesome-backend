@@ -13,13 +13,6 @@ var AuthModule = module.Module{
 		&models.Profile{},
 		&models.User{},
 	},
-	// Resources: module.Resources{
-	// 	models.USER_MODEL_NAME: models.ResourceIndex{
-	// 		NameKey:        "name",
-	// 		DescriptionKey: "email",
-	// 	},
-	// 	models.PROFILE_MODEL_NAME: models.ResourceIndex{},
-	// },
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/all": {
 			Description: "List all users",

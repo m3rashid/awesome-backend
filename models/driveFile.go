@@ -1,6 +1,6 @@
 package models
 
-const DRIVE_FILE_MODEL_NAME = "drivefiles"
+const DRIVE_FILE_MODEL_NAME = "drive_files"
 
 type DriveFile struct {
 	BaseModel

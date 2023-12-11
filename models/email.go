@@ -13,7 +13,7 @@ type Email struct {
 	Subject     string       `json:"subject" gorm:"column:subject;not null" validate:"required"`
 	BodyText    string       `json:"bodyText" gorm:"column:bodyText;not null" validate:"required"`
 	BodyHTML    string       `json:"bodyHTML" gorm:"column:bodyHTML;not null" validate:"required"`
-	Attachments []*DriveFile `json:"attachments,omitempty" gorm:"many2many:emailattachmentrelation" validate:""`
+	Attachments []*DriveFile `json:"attachments,omitempty" gorm:"many2many:email_attachments_relation" validate:""`
 	ReplyTo     string       `json:"replyTo" gorm:"column:replyTo" validate:"email"`
 }
 

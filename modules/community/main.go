@@ -11,6 +11,10 @@ var CommunityModule = module.Module{
 	Models: []interface{}{
 		&models.Post{},
 		&models.Comment{},
+		&models.Friends{},
+		&models.FriendRequest{},
+		&models.CommunityGroup{},
+		&models.CommunityChatMessage{},
 	},
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/posts": {
@@ -49,7 +53,7 @@ var CommunityModule = module.Module{
 
 		"/friendships": {
 			Description: "List all friendships",
-			Controller:  controller.List[models.Friendship](models.FRIENDSHIP_MODEL_NAME),
+			Controller:  controller.List[models.Friends](models.FRIENDS_MODEL_NAME),
 		},
 		"/friendships/send-request": {
 			Description: "Send a friend request",
@@ -58,6 +62,36 @@ var CommunityModule = module.Module{
 		"/friendships/update": {
 			Description: "Accept a friend request",
 			Controller:  controller.Update[models.FriendRequest](models.FRIEND_REQUEST_MODEL_NAME),
+		},
+
+		"/groups": {
+			Description: "List of groups",
+			Controller:  controller.List[models.CommunityGroup](models.COMMUNITY_GROUP_MODEL_NAME),
+		},
+		"/groups/get": {
+			Description: "Get a single group",
+			Controller:  controller.Get[models.CommunityGroup](),
+		},
+		"/groups/create": {
+			Description: "Create a group",
+			Controller:  controller.Create[models.CommunityGroup](),
+		},
+		"/groups/update": {
+			Description: "Update a group",
+			Controller:  controller.Update[models.CommunityGroup](models.COMMUNITY_GROUP_MODEL_NAME),
+		},
+
+		"/chats": {
+			Description: "List of chats",
+			Controller:  controller.List[models.CommunityChatMessage](models.COMMUNITY_CHAT_MESSAGE_MODEL_NAME),
+		},
+		"/chats/create": {
+			Description: "Create a chat",
+			Controller:  controller.Create[models.CommunityChatMessage](),
+		},
+		"/chats/update": {
+			Description: "Update a chat",
+			Controller:  controller.Update[models.CommunityChatMessage](models.COMMUNITY_CHAT_MESSAGE_MODEL_NAME),
 		},
 	},
 	AnonymousRoutes: module.AnonymousRouteConfig{},

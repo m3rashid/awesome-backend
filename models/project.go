@@ -1,9 +1,9 @@
 package models
 
 const PROJECT_MODEL_NAME = "projects"
-const PROJECT_TAG_MODEL_NAME = "projecttags"
-const PROJECT_TASK_MODEL_NAME = "projecttasks"
-const PROJECT_TASK_COMMENT_MODEL_NAME = "projecttaskcomments"
+const PROJECT_TAG_MODEL_NAME = "project_tags"
+const PROJECT_TASK_MODEL_NAME = "project_tasks"
+const PROJECT_TASK_COMMENT_MODEL_NAME = "project_task_comments"
 
 type TaskStatus string
 
@@ -19,7 +19,7 @@ type Project struct {
 	BaseModel
 	Name           string  `json:"name" gorm:"column:name;not null" validate:"required"`
 	Description    string  `json:"description" gorm:"column:description" validate:""`
-	Members        []*User `json:"members" gorm:"many2many:projectmembersrelation" validate:""`
+	Members        []*User `json:"members" gorm:"many2many:project_members_relation" validate:""`
 	ProjectOwnerID uint    `json:"projectOwnerId" gorm:"column:projectOwnerId;not null" validate:"required"`
 	ProjectOwner   *User   `json:"projectOwner" gorm:"column:projectOwnerId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	Completed      bool    `json:"completed" gorm:"column:completed;default:false" validate:""`
@@ -38,7 +38,7 @@ type ProjectTask struct {
 	ReportedBy   *User         `json:"reportedBy" gorm:"column:reportedById;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	AssignedToID uint          `json:"assignedToId" gorm:"column:assignedToId;" validate:""`
 	AssignedTo   *User         `json:"assignedTo" gorm:"column:assignedToId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
-	Tags         []*ProjectTag `json:"tags" gorm:"many2many:projecttasktagsrelation" validate:""`
+	Tags         []*ProjectTag `json:"tags" gorm:"many2many:project_task_tags_relation" validate:""`
 }
 
 type ProjectTag struct {

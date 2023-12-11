@@ -1,9 +1,11 @@
 package models
 
 const POST_MODEL_NAME = "posts"
+const FRIENDS_MODEL_NAME = "friends"
 const COMMENT_MODEL_NAME = "comments"
-const FRIENDSHIP_MODEL_NAME = "friendships"
-const FRIEND_REQUEST_MODEL_NAME = "friendrequests"
+const FRIEND_REQUEST_MODEL_NAME = "friend_requests"
+const COMMUNITY_GROUP_MODEL_NAME = "community_groups"
+const COMMUNITY_CHAT_MESSAGE_MODEL_NAME = "community_chat_messages"
 
 type PostStatus string
 type CommentStatus string
@@ -46,7 +48,7 @@ type Comment struct {
 	Status      CommentStatus `json:"status" gorm:"column:status;default:pending" validate:""`
 }
 
-type Friendship struct {
+type Friends struct {
 	BaseModel
 	UserID   uint  `json:"userId" gorm:"column:userId;not null" validate:"required"`
 	User     *User `json:"user" gorm:"column:userId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
@@ -63,6 +65,24 @@ type FriendRequest struct {
 	Status FriendRequestStatus `json:"status" gorm:"column:status;default:pending" validate:""`
 }
 
+type CommunityGroup struct {
+	BaseModel
+	Name        string  `json:"name" gorm:"column:name;not null" validate:"required"`
+	Description string  `json:"description" gorm:"column:description;not null" validate:"required"`
+	CreatedByID uint    `json:"createdById" gorm:"column:createdById;not null" validate:"required"`
+	CreatedBy   *User   `json:"createdBy" gorm:"column:createdById;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	Members     []*User `json:"members" gorm:"many2many:community_group_members_relation;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+}
+
+type CommunityChatMessage struct {
+	BaseModel
+	SenderID uint   `json:"senderId" gorm:"column:senderId;not null" validate:"required"`
+	Sender   *User  `json:"sender" gorm:"column:senderId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	GroupID  uint   `json:"groupId" gorm:"column:groupId;not null" validate:"required"`
+	Group    *User  `json:"group" gorm:"column:groupId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	Body     string `json:"body" gorm:"column:body;not null" validate:"required"`
+}
+
 func (*Post) TableName() string {
 	return POST_MODEL_NAME
 }
@@ -71,10 +91,18 @@ func (*Comment) TableName() string {
 	return COMMENT_MODEL_NAME
 }
 
-func (*Friendship) TableName() string {
-	return FRIENDSHIP_MODEL_NAME
+func (*Friends) TableName() string {
+	return FRIENDS_MODEL_NAME
 }
 
 func (*FriendRequest) TableName() string {
 	return FRIEND_REQUEST_MODEL_NAME
+}
+
+func (*CommunityGroup) TableName() string {
+	return COMMUNITY_GROUP_MODEL_NAME
+}
+
+func (*CommunityChatMessage) TableName() string {
+	return COMMUNITY_CHAT_MESSAGE_MODEL_NAME
 }

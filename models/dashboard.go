@@ -1,7 +1,7 @@
 package models
 
 const DASHBOARD_MODEL_NAME = "dashboards"
-const DASHBOARD_WIDGET_MODEL_NAME = "dashboardwidgets"
+const DASHBOARD_WIDGET_MODEL_NAME = "dashboard_widgets"
 
 type DashboardStatus string
 

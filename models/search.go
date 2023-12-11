@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-const ACTION_LOG_MODEL_NAME = "actionlogs"
+const ACTION_LOG_MODEL_NAME = "action_logs"
 const RESOURCE_MODEL_NAME = "resources"
 
 type ActionType string

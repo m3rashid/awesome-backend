@@ -2,7 +2,7 @@ package models
 
 const USER_MODEL_NAME = "users"
 const PROFILE_MODEL_NAME = "profiles"
-const USER_GROUP_MODEL_NAME = "usergroups"
+const USER_GROUP_MODEL_NAME = "user_groups"
 
 type User struct {
 	BaseModel
@@ -24,7 +24,7 @@ type UserGroup struct {
 	BaseModel
 	GroupName   string  `json:"groupName" gorm:"column:groupName;not null;unique" validate:"required"`
 	Description string  `json:"description" gorm:"column:description" validate:""`
-	Users       []*User `json:"users" gorm:"many2many:roleuserrelation" validate:""`
+	Users       []*User `json:"users" gorm:"many2many:role_user_relation" validate:""`
 }
 
 var UserTableSchemaMap = map[string]string{

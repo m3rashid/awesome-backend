@@ -1,7 +1,7 @@
 package models
 
 const WORKFLOW_MODEL_NAME = "workflows"
-const WORKFLOW_STEP_MODEL_NAME = "workflowsteps"
+const WORKFLOW_STEP_MODEL_NAME = "workflow_steps"
 
 type TriggerAction = string
 
