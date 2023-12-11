@@ -34,11 +34,13 @@ const Posts = lazy(() => import('../../pages/app/community/posts'));
 const Campaigns = lazy(() => import('../../pages/app/crm/campaigns'));
 const Workspaces = lazy(() => import('../../pages/app/iam/workspaces'));
 const UserGroups = lazy(() => import('../../pages/app/iam/userGroups'));
+const AllChats = lazy(() => import('../../pages/app/community/allChats'));
 const LeadDetails = lazy(() => import('../../pages/app/crm/leadDetails'));
 const SingleForm = lazy(() => import('../../pages/app/forms/singleForm'));
 const FormBuilderPage = lazy(() => import('../../pages/app/forms/builder'));
 const FormResponses = lazy(() => import('../../pages/app/forms/responses'));
 const PortalSettings = lazy(() => import('../../pages/app/settings/portal'));
+const SingleChat = lazy(() => import('../../pages/app/community/singleChat'));
 const DataIngestor = lazy(() => import('../../pages/app/tools/dataIngestor'));
 const ShowDriveFile = lazy(() => import('../../pages/app/drive/showDriveFile'));
 const PostDetails = lazy(() => import('../../pages/app/community/postDetails'));
@@ -94,6 +96,10 @@ const AppRoutes = () => {
               <Route path='posts'>
                 <Route path='' Component={Posts} />
                 <Route path=':postId' Component={PostDetails} />
+              </Route>
+              <Route path='chats'>
+                <Route path='' Component={AllChats} />
+                <Route path=':chatId' Component={SingleChat} />
               </Route>
             </Route>
 
