@@ -11,8 +11,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/websocket/v2"
 	"github.com/joho/godotenv"
+	"github.com/m3rashid/awesome/cmd"
 	"github.com/m3rashid/awesome/db"
 	"github.com/m3rashid/awesome/module"
 	"github.com/m3rashid/awesome/modules/auth"
@@ -22,7 +22,6 @@ import (
 	"github.com/m3rashid/awesome/modules/drive"
 	"github.com/m3rashid/awesome/modules/emails"
 	"github.com/m3rashid/awesome/modules/forms"
-	"github.com/m3rashid/awesome/modules/helpers"
 	"github.com/m3rashid/awesome/modules/permissions"
 	"github.com/m3rashid/awesome/modules/projects"
 	"github.com/m3rashid/awesome/modules/search"
@@ -110,14 +109,15 @@ func main() {
 		community.CommunityModule,
 	}
 
+	ws.SetupWebsockets(app)
 	module.RegisterRoutes(app, allModules)
-	drive.RegisterDriveRoutes(app, helpers.CheckAuth)
+	drive.RegisterDriveRoutes(app, utils.CheckAuthMiddleware)
 
-	socket := app.Group("/ws", ws.UpgraderMiddleware)
-	socket.Get("/", websocket.New(ws.WebsocketHandler))
-	go ws.RunHub()
+	// socket := app.Group("/ws", ws.UpgraderMiddleware)
+	// socket.Get("/", websocket.New(ws.WebsocketHandler))
+	// go ws.RunHub()
 
-	appShutDown := utils.HandleCmdArgs(app, allModules, casbin)
+	appShutDown := cmd.HandleCmdArgs(app, allModules, casbin)
 	if appShutDown {
 		fmt.Println("Server is gracefully shutting down")
 		app.ShutdownWithTimeout(time.Millisecond * 100)

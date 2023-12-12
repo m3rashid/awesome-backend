@@ -30,7 +30,7 @@ const ServerMetrics: React.FC = () => {
     <PageContainer
       header={{
         title: 'Server Metrics',
-        extra: [
+        extra: (
           <div key='m1' className='flex items-center justify-center gap-2'>
             <div
               key='m2'
@@ -41,8 +41,8 @@ const ServerMetrics: React.FC = () => {
             <Text key='m3'>
               {error || !metrics ? 'Server not responding' : 'Server online'}
             </Text>
-          </div>,
-        ],
+          </div>
+        ),
       }}
     >
       {error ? (

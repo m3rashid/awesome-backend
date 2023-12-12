@@ -4,7 +4,6 @@ import {
   LoginResponse,
   RegisterResponse,
 } from '@awesome/shared/types/api/auth';
-// import { isAxiosError } from 'axios';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';

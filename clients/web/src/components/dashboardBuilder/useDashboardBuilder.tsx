@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { atom } from 'recoil';
 
+// import { atom } from 'recoil';
 import { service } from '../../helpers/service';
-import { DashboardBuilder, dashboardBuilderDefault } from './constants';
+// import { DashboardBuilder, dashboardBuilderDefault } from './constants';
 
-const dashboardBuilderAtom = atom<DashboardBuilder>({
-  key: 'dashboardBuilder',
-  default: dashboardBuilderDefault,
-});
+// const dashboardBuilderAtom = atom<DashboardBuilder>({
+//   key: 'dashboardBuilder',
+//   default: dashboardBuilderDefault,
+// });
 
 const useDashboardBuilder = () => {
   const getModelsService = service('/api/dashboard/models', { method: 'POST' });

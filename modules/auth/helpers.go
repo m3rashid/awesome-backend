@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/m3rashid/awesome/modules/helpers"
+	"github.com/m3rashid/awesome/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -33,7 +33,7 @@ func VerifyPassword(hashedPassword string, password string) bool {
 
 func GenerateJWT(userId uint, email string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
-	claims := &helpers.Claims{
+	claims := &utils.Claims{
 		Email:  email,
 		UserID: strconv.FormatUint(uint64(userId), 10),
 		RegisteredClaims: jwt.RegisteredClaims{

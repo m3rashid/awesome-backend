@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 
 	"github.com/casbin/casbin/v2"
+	// "github.com/gofiber/contrib/casbin" use this library instead
+
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/m3rashid/awesome/db"
 )

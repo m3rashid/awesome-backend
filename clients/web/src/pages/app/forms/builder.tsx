@@ -6,8 +6,8 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
+// import { useParams } from 'react-router-dom';
 import FormBuilder from '../../../components/formBuilder';
 import DesignerContextProvider from '../../../components/formBuilder/designerContext';
 import DragOverlayWrapper from '../../../components/formBuilder/dragOverlayWrapper';
@@ -15,7 +15,7 @@ import FormBuilderSidebar from '../../../components/formBuilder/sidebar';
 import PageContainer from '../../../components/pageContainer';
 
 const FormBuilderPage: React.FC = () => {
-  const { formId } = useParams();
+  // const { formId } = useParams();
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {

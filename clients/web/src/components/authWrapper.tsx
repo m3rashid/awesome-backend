@@ -16,6 +16,7 @@ const AuthWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
   }, []);
 
   if (!auth?.user) return null;
+
   return <RootContainer>{children}</RootContainer>;
 };
 

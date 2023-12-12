@@ -33,7 +33,6 @@ const AddUpdateProjectTask: React.FC<AddUpdateProjectTaskProps> = ({
   projectId,
   dialogOpen,
   setDialogOpen,
-  initialValues,
 }) => {
   const auth = useAuthValue();
 

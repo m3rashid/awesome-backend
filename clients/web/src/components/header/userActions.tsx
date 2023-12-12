@@ -1,4 +1,4 @@
-import { useAuthState, useAuthValue } from '@awesome/shared/atoms/auth';
+import { useAuthState } from '@awesome/shared/atoms/auth';
 import {
   Menu,
   MenuItem,
@@ -13,9 +13,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const UserActions: React.FC = () => {
-  const auth = useAuthValue();
   const navigate = useNavigate();
-  const setAuth = useAuthState()[1];
+  const [auth, setAuth] = useAuthState();
 
   const logout = () => {
     window.localStorage.removeItem('awesome:token');

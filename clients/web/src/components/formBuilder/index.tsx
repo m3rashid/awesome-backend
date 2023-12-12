@@ -16,8 +16,8 @@ const FormBuilder: React.FC = () => {
   const {
     elements,
     addElement,
-    selectedElement,
-    setSelectedElement,
+    // selectedElement,
+    // setSelectedElement,
     removeElement,
   } = useDesigner();
 
@@ -146,7 +146,11 @@ const FormBuilder: React.FC = () => {
 };
 
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
-  const { removeElement, selectedElement, setSelectedElement } = useDesigner();
+  const {
+    removeElement,
+    // selectedElement,
+    setSelectedElement,
+  } = useDesigner();
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const topHalf = useDroppable({

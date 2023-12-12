@@ -1,60 +1,64 @@
 package ws
 
-import (
-	"log"
-	"sync"
+// import (
+// 	"fmt"
+// 	"log"
+// 	"sync"
 
-	"github.com/gofiber/websocket/v2"
-)
+// 	"github.com/gofiber/websocket/v2"
+// )
 
-type client struct {
-	isClosing bool
-	mu        sync.Mutex
-}
+// type client struct {
+// 	isClosing bool
+// 	mu        sync.Mutex
+// }
 
-// TODO: upgrade this to use redis
-/*
- * Note: although large maps with pointer-like types (e.g. strings) as keys are slow,
- * using pointers themselves as keys is acceptable and fast
- */
-var Clients = make(map[*websocket.Conn]*client)
-var Register = make(chan *websocket.Conn)
-var Broadcast = make(chan string)
-var Unregister = make(chan *websocket.Conn)
+// type ExperimentalClient struct {
+// 	isClosing bool
+// 	mu        sync.Mutex
+// 	conn      *websocket.Conn
+// }
 
-func RunHub() {
-	for {
-		select {
-		case connection := <-Register:
-			Clients[connection] = &client{}
-			log.Println("connection registered")
+// // TODO: upgrade this to use redis
+// var Broadcast = make(chan MessageFormat)
+// var Register = make(chan *websocket.Conn)
+// var Unregister = make(chan *websocket.Conn)
+// var Clients = make(map[*websocket.Conn]*client)
+// var ExperimentalClients = make(map[string]ExperimentalClient)
 
-		case message := <-Broadcast:
-			log.Println("message received:", message)
-			// Send the message to all clients
-			for connection, c := range Clients {
-				// send to each client in parallel so we don't block on a slow client
-				go func(connection *websocket.Conn, c *client) {
-					c.mu.Lock()
-					defer c.mu.Unlock()
-					if c.isClosing {
-						return
-					}
-					if err := connection.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
-						c.isClosing = true
-						log.Println("write error:", err)
+// func RunHub() {
+// 	for {
+// 		select {
+// 		case wsMessage := <-Broadcast:
+// 			fmt.Println("message received", wsMessage.ActionType, wsMessage.Data)
 
-						connection.WriteMessage(websocket.CloseMessage, []byte{})
-						connection.Close()
-						Unregister <- connection
-					}
-				}(connection, c)
-			}
+// 			for connection, c := range Clients {
+// 				go func(connection *websocket.Conn, c *client) {
+// 					c.mu.Lock()
+// 					defer c.mu.Unlock()
+// 					if c.isClosing {
+// 						return
+// 					}
+// 					// 		if err := connection.WriteMessage(websocket.TextMessage, []byte(wsMessage)); err != nil {
+// 					// 			c.isClosing = true
+// 					// 			log.Println("write error:", err)
 
-		case connection := <-Unregister:
-			// Remove the client from the hub
-			delete(Clients, connection)
-			log.Println("connection unregistered")
-		}
-	}
-}
+// 					// 			connection.WriteMessage(websocket.CloseMessage, []byte{})
+// 					// 			connection.Close()
+// 					// 			Unregister <- connection
+// 					// 		}
+// 				}(connection, c)
+// 			}
+
+// 		case connection := <-Register:
+// 			Clients[connection] = &client{}
+// 			fmt.Println("remote address")
+// 			log.Println("connection registered")
+
+// 		case connection := <-Unregister:
+// 			delete(Clients, connection)
+// 			log.Println("connection unregistered")
+
+// 		}
+// 	}
+// }

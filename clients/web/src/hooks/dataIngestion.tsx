@@ -18,6 +18,8 @@ const useDataIngestion = () => {
     step: withDefault(StringParam, dataIngestorStep[dataIngestor.step]),
   });
 
+  console.log(currentStep);
+
   const changeStep = (stepIndex: number) => {
     if (stepIndex < 0 || stepIndex > dataIngestorStep.length - 1) return;
     setDataIngestor((p) => ({ ...p, step: stepIndex }));

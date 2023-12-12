@@ -3,7 +3,7 @@ package module
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
-	"github.com/m3rashid/awesome/modules/helpers"
+	"github.com/m3rashid/awesome/utils"
 )
 
 func RegisterRoutes(app *fiber.App, modules []Module) {
@@ -19,7 +19,7 @@ func RegisterRoutes(app *fiber.App, modules []Module) {
 			if handler.HttpMethod == "" {
 				handler.HttpMethod = "POST"
 			}
-			app.Add(handler.HttpMethod, "/api/"+module.Name+route, helpers.CheckAuth(), handler.Controller)
+			app.Add(handler.HttpMethod, "/api/"+module.Name+route, utils.CheckAuthMiddleware(), handler.Controller)
 		}
 
 		for route, handler := range module.AnonymousRoutes {

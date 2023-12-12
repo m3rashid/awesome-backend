@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { service } from '../../helpers/service';
 
-const resourceTypeToUrl: Record<
-  (typeof resourceTypes)[keyof typeof resourceTypes],
-  string
-> = {
+const resourceTypeToUrl: Record<keyof typeof resourceTypes, string> = {
   users: '/app/community/profile/:resourceId',
   posts: '/app/community/posts/:resourceId',
+  communityGroups: '/app/community/groups/:resourceId',
+  forms: '/app/forms/:resourceId',
+  projects: '/app/projects/:resourceId',
 };
 
 const useSearch = () => {
