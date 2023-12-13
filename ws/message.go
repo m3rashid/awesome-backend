@@ -43,6 +43,8 @@ func SendServerMessage(wsConn *websocket.Conn, data string, actionType ServerAct
 
 	err = wsConn.WriteMessage(websocket.TextMessage, serverMsg)
 	if err != nil {
+		wsConn.Close()
+		Unregister <- wsConn
 		return
 	}
 }

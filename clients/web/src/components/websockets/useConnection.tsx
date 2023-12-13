@@ -1,5 +1,8 @@
 import { useAuthState } from '@awesome/shared/atoms/auth';
-import { ClientToServerMessageFormat } from '@awesome/shared/types/ws';
+import {
+  ClientToServerMessageFormat,
+  ServerActionType,
+} from '@awesome/shared/types/ws';
 import { useEffect, useRef, useState } from 'react';
 
 import handleServerMessage from './actions';
@@ -33,6 +36,8 @@ const useWebSocketConnection = () => {
     }
     socket.send(message);
   };
+
+  const onMessageFromServer = (messageType: ServerActionType) => {};
 
   const refreshSocket = () => {
     const _socket = new WebSocket('ws://localhost:4000/ws/hello');

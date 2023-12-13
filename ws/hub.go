@@ -29,6 +29,10 @@ func RunHub() {
 		select {
 		case wsMessage := <-Broadcast:
 			log.Println("message received", wsMessage.ActionType, wsMessage.Data)
+			switch wsMessage.ActionType {
+			case CommunityChatMessage:
+				CommunityChatMessageHandler(wsMessage)
+			}
 
 		// 			for connection, c := range Clients {
 		// 				go func(connection *websocket.Conn, c *client) {

@@ -92,7 +92,7 @@ func main() {
 
 	if os.Getenv("SERVER_MODE") == "development" {
 		app.Use(logger.New(logger.Config{
-			Format: "${time} ${status} ${latency} ${method} ${path} ${body} ${query} ====> ${resBody}\n",
+			Format: "${time} ${status} ${latency} ${method} ${path} ${body} ${query}\n",
 		}))
 	}
 

@@ -38,6 +38,7 @@
     "react-router-dom": "^6.19.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
+    "to-emoji": "^2.0.2",
     "use-query-params": "^2.2.1",
     "zod": "^3.22.4"
   },

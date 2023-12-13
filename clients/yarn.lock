@@ -3733,6 +3733,11 @@ thenify-all@^1.0.0:
   dependencies:
     any-promise "^1.0.0"
 
+to-emoji@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/to-emoji/-/to-emoji-2.0.2.tgz#87d1354a1f09ec1f2e088aaf970b2d6316b68961"
+  integrity sha512-8P9qSvdizskpC7aPmCggrIiYnbn7NRp6ewhxQ7gyzSOuSNt2HE+mZs84z2gNQoKCE6QJZotAYPQeAA9aSjKSxA==
+
 to-regex-range@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/to-regex-range/-/to-regex-range-5.0.1.tgz#1648c44aae7c8d988a326018ed72f5b4dd0392e4"

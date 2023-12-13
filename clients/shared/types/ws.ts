@@ -1,4 +1,7 @@
-export type ServerActionType = 'logout' | 'no_action';
+export type ServerActionType =
+  | 'logout'
+  | 'no_action'
+  | 'community_chat_message';
 
 export type ClientActionTypes = 'community_chat_message';
 

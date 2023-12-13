@@ -7,7 +7,6 @@ import {
 } from '@dnd-kit/core';
 import React from 'react';
 
-// import { useParams } from 'react-router-dom';
 import FormBuilder from '../../../components/formBuilder';
 import DesignerContextProvider from '../../../components/formBuilder/designerContext';
 import DragOverlayWrapper from '../../../components/formBuilder/dragOverlayWrapper';
