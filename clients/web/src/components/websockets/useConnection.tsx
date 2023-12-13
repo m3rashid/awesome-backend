@@ -35,7 +35,7 @@ const useWebSocketConnection = () => {
   };
 
   const refreshSocket = () => {
-    const _socket = new WebSocket('ws://localhost:4000/ws');
+    const _socket = new WebSocket('ws://localhost:4000/ws/hello');
     _socket.onopen = () => setSocket(_socket);
     _socket.onmessage = (event) =>
       handleServerMessage(event.data, auth, setAuth);
@@ -49,10 +49,11 @@ const useWebSocketConnection = () => {
   };
 
   useEffect(() => {
+    if (!auth?.user.id) return;
     if (!socket) refreshSocket();
     return () => unRegisterSocket();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [auth?.user.id]);
 
   return { _ref: ref, socket, newWebsocketMessage };
 };

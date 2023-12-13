@@ -1,14 +1,6 @@
-import {
-  MailInbox20Regular,
-  PeopleSettings20Regular,
-  Settings20Regular,
-  Toolbox20Regular,
-} from '@fluentui/react-icons';
-
 export type AppPath = {
   name: string;
   route: string;
-  icon: typeof MailInbox20Regular;
   description: string;
   children?: Array<{ name: string; route: string }>;
 };
@@ -17,7 +9,6 @@ export const appPaths: AppPath[] = [
   {
     name: 'Drive',
     route: '/app/drive',
-    icon: MailInbox20Regular,
     description: 'Manage your files and folders',
     children: [
       { name: 'Home', route: '/app/drive/home' },
@@ -27,7 +18,6 @@ export const appPaths: AppPath[] = [
   },
   {
     route: '/app/iam',
-    icon: PeopleSettings20Regular,
     name: 'IAM',
     description: 'Manage your users and permissions',
     children: [
@@ -38,7 +28,6 @@ export const appPaths: AppPath[] = [
   },
   {
     route: '/app/crm',
-    icon: PeopleSettings20Regular,
     name: 'CRM',
     description: 'Manage your customers, leads and campaigns',
     children: [
@@ -48,7 +37,6 @@ export const appPaths: AppPath[] = [
   },
   {
     route: '/app/community',
-    icon: PeopleSettings20Regular,
     name: 'Community',
     description: 'Create and manage your community',
     children: [
@@ -58,15 +46,13 @@ export const appPaths: AppPath[] = [
   },
   {
     route: '/app/forms',
-    icon: PeopleSettings20Regular,
-    name: 'Forms & Surveys',
+    name: 'Forms',
     description: 'Create and manage your forms and surveys',
     children: [{ name: 'Forms', route: '/app/forms' }],
   },
   {
     route: '/app/tools',
-    icon: Toolbox20Regular,
-    name: 'App Tools',
+    name: 'Tools',
     description: 'Setup your workspace efficiently',
     children: [
       { name: 'Data Ingestor', route: '/app/tools/data-ingestor' },
@@ -76,7 +62,6 @@ export const appPaths: AppPath[] = [
   },
   {
     route: '/app/projects',
-    icon: Toolbox20Regular,
     name: 'Projects',
     description: 'Manage your projects',
     children: [
@@ -86,7 +71,6 @@ export const appPaths: AppPath[] = [
   },
   {
     route: '/app/settings',
-    icon: Settings20Regular,
     name: 'Settings',
     description: 'Manage your workspace settings',
     children: [{ name: 'General', route: '/app/settings/general' }],

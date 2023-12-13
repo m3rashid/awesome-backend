@@ -1,5 +1,7 @@
 import { useAuthState } from '@awesome/shared/atoms/auth';
 import {
+  Avatar,
+  Divider,
   Menu,
   MenuItem,
   MenuList,
@@ -7,10 +9,17 @@ import {
   MenuTrigger,
   Persona,
 } from '@fluentui/react-components';
-import { Person20Regular, SignOut20Regular } from '@fluentui/react-icons';
+import { SignOut20Regular } from '@fluentui/react-icons';
 import _ from 'lodash-es';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+
+type Item = {
+  key: React.Key;
+  onClick: () => void;
+  icon: typeof SignOut20Regular;
+  label: string;
+};
 
 const UserActions: React.FC = () => {
   const navigate = useNavigate();
@@ -22,34 +31,33 @@ const UserActions: React.FC = () => {
     navigate('/');
   };
 
-  const items = [
-    {
-      key: '1',
-      label: 'logout',
-      onClick: logout,
-      icon: <SignOut20Regular />,
-    },
-    {
-      key: '2',
-      label: 'Hello Deer',
-      icon: <Person20Regular />,
-    },
-  ];
+  const items: Array<Item> = [];
 
   return (
     <Menu>
       <MenuTrigger disableButtonEnhancement>
-        <Persona
-          name={auth?.user.name}
-          style={{ cursor: 'pointer' }}
-          secondaryText={_.truncate(auth?.user.email, { length: 20 })}
-        />
+        <Avatar />
       </MenuTrigger>
 
       <MenuPopover>
-        <MenuList>
+        <MenuList style={{ minWidth: 200, padding: 8 }}>
+          <Persona
+            name={auth?.user.name}
+            secondaryText={_.truncate(auth?.user.email, { length: 20 })}
+          />
+
+          <Divider className='my-2' />
+
+          <MenuItem onClick={logout} icon={<SignOut20Regular />}>
+            Logout
+          </MenuItem>
+
           {items.map((item) => (
-            <MenuItem key={item.key} onClick={item.onClick} icon={item.icon}>
+            <MenuItem
+              key={item.key}
+              icon={<item.icon />}
+              onClick={item.onClick}
+            >
               {item.label}
             </MenuItem>
           ))}

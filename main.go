@@ -109,13 +109,10 @@ func main() {
 		community.CommunityModule,
 	}
 
+	go ws.RunHub()
 	ws.SetupWebsockets(app)
 	module.RegisterRoutes(app, allModules)
 	drive.RegisterDriveRoutes(app, utils.CheckAuthMiddleware)
-
-	// socket := app.Group("/ws", ws.UpgraderMiddleware)
-	// socket.Get("/", websocket.New(ws.WebsocketHandler))
-	// go ws.RunHub()
 
 	appShutDown := cmd.HandleCmdArgs(app, allModules, casbin)
 	if appShutDown {

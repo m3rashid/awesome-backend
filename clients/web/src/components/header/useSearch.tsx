@@ -8,7 +8,7 @@ import { service } from '../../helpers/service';
 const resourceTypeToUrl: Record<keyof typeof resourceTypes, string> = {
   users: '/app/community/profile/:resourceId',
   posts: '/app/community/posts/:resourceId',
-  communityGroups: '/app/community/groups/:resourceId',
+  community_groups: '/app/community/chats/:resourceId',
   forms: '/app/forms/:resourceId',
   projects: '/app/projects/:resourceId',
 };
@@ -16,7 +16,6 @@ const resourceTypeToUrl: Record<keyof typeof resourceTypes, string> = {
 const useSearch = () => {
   const [options, setOptions] = useState<any[]>([]);
   const navigate = useNavigate();
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -31,7 +30,7 @@ const useSearch = () => {
           ...resource,
           url: resourceTypeToUrl[
             resource.resourceType as keyof typeof resourceTypes
-          ].replace(':resourceId', resource.resourceId),
+          ]?.replace(':resourceId', resource.resourceId),
         }));
         setOptions(resources);
       } catch (err: any) {
@@ -39,26 +38,24 @@ const useSearch = () => {
       } finally {
         //
       }
-    }, 500),
+    }, 300),
     []
   );
 
   const onOptionClick = (url: string) => {
     setSearchText('');
     navigate(url);
-    setDialogOpen(false);
   };
 
   const onSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
+    console.log(searchText);
     getResources(e.target.value);
   };
 
   return {
     options,
-    dialogOpen,
     searchText,
-    setDialogOpen,
     onOptionClick,
     onSearchTextChange,
   };

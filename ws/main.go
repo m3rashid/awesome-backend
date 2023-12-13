@@ -1,13 +1,15 @@
 package ws
 
 import (
+	"encoding/json"
 	"log"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
+	"github.com/m3rashid/awesome/utils"
 )
 
-// Do this better
 func SetupWebsockets(app *fiber.App) {
 	app.Use("/ws", func(c *fiber.Ctx) error {
 		if websocket.IsWebSocketUpgrade(c) {
@@ -17,32 +19,53 @@ func SetupWebsockets(app *fiber.App) {
 		return fiber.ErrUpgradeRequired
 	})
 
-	app.Get("/ws/:id", websocket.New(func(c *websocket.Conn) {
-		// c.Locals is added to the *websocket.Conn
-		log.Println(c.Locals("allowed"))  // true
-		log.Println(c.Params("id"))       // 123
-		log.Println(c.Query("v"))         // 1.0
-		log.Println(c.Cookies("session")) // ""
+	app.Get("/ws/:id", websocket.New(func(wsConnection *websocket.Conn) {
+		log.Println("IP ADDRESS: ", wsConnection.IP())
+		Register <- wsConnection
+		defer func() {
+			Unregister <- wsConnection
+			wsConnection.Close()
+		}()
 
-		// websocket.Conn bindings https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index
 		var (
-			mt  int
-			msg []byte
-			err error
+			messageType int
+			err         error
+			message     []byte
 		)
+
 		for {
-			if mt, msg, err = c.ReadMessage(); err != nil {
-				log.Println("read:", err)
+			if messageType, message, err = wsConnection.ReadMessage(); err != nil {
+				log.Println("ws message read error:", err)
 				break
 			}
-			log.Printf("recv: %s", msg)
 
-			if err = c.WriteMessage(mt, msg); err != nil {
-				log.Println("write:", err)
-				break
+			if messageType == websocket.TextMessage {
+				var wsMessage MessageFormat
+				err := json.Unmarshal([]byte(message), &wsMessage)
+				if err != nil || wsMessage.Token == "" || wsMessage.ActionType == "" {
+					SendServerMessage(wsConnection, "Wrong message format", NoAction)
+					continue
+				}
+
+				validate := validator.New()
+				err = validate.Struct(wsMessage)
+				if err != nil {
+					SendServerMessage(wsConnection, "Wrong message format", NoAction)
+					continue
+				}
+
+				claims, err := utils.CheckAuth(wsMessage.Token)
+				if err != nil || claims == nil {
+					SendServerMessage(wsConnection, "invalid token", Logout)
+					continue
+				}
+
+				wsMessage.ClientConnection = wsConnection
+				Broadcast <- wsMessage
+			} else {
+				log.Println("websocket message received of type", messageType)
 			}
 		}
-
 	}, websocket.Config{
 		RecoverHandler: func(conn *websocket.Conn) {
 			if err := recover(); err != nil {
