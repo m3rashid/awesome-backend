@@ -15,11 +15,17 @@ var WorkflowModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/": {
 			Description: "List all workflows",
-			Controller:  controller.List[models.Workflow](models.WORKFLOW_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Workflow](
+				models.WORKFLOW_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/create": {
 			Description: "Create a workflow",
-			Controller:  controller.Create[models.Workflow](),
+			Controller: controller.Create[models.Workflow](
+				models.WORKFLOW_MODEL_NAME,
+				controller.WorkflowOptions[models.Workflow]{},
+			),
 		},
 		"/update": {
 			Description: "Update a workflow",
@@ -31,7 +37,10 @@ var WorkflowModule = module.Module{
 		},
 		"/step/create": {
 			Description: "Create a workflow step",
-			Controller:  controller.Create[models.WorkflowStep](),
+			Controller: controller.Create[models.WorkflowStep](
+				models.WORKFLOW_STEP_MODEL_NAME,
+				controller.WorkflowOptions[models.WorkflowStep]{},
+			),
 		},
 		"/step/update": {
 			Description: "Update a workflow step",

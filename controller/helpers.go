@@ -56,3 +56,8 @@ type CreateRequestBody[T interface{}] struct {
 type ListOptions struct {
 	ModifyDbCall func(*gorm.DB, ListBody) (*gorm.DB, error)
 }
+
+type WorkflowOptions[T interface{}] struct {
+	Type string `json:"type" validate:"required"`
+	Data T      `json:"data" validate:""`
+}

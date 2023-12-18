@@ -18,7 +18,10 @@ var CRMModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/leads": {
 			Description: "List all leads",
-			Controller:  controller.List[models.Lead](models.LEAD_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Lead](
+				models.LEAD_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/leads/get": {
 			Description: "Get a single lead",
@@ -26,7 +29,10 @@ var CRMModule = module.Module{
 		},
 		"/leads/create": {
 			Description: "Create a lead",
-			Controller:  controller.Create[models.Lead](),
+			Controller: controller.Create[models.Lead](
+				models.LEAD_MODEL_NAME,
+				controller.WorkflowOptions[models.Lead]{},
+			),
 		},
 		"/leads/update": {
 			Description: "Update a lead",
@@ -35,7 +41,10 @@ var CRMModule = module.Module{
 
 		"/events": {
 			Description: "List all events",
-			Controller:  controller.List[models.LeadTimelineEvent](models.LEAD_TIMELINE_EVENT_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.LeadTimelineEvent](
+				models.LEAD_TIMELINE_EVENT_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/events/get": {
 			Description: "Get a single event",
@@ -43,7 +52,10 @@ var CRMModule = module.Module{
 		},
 		"/events/create": {
 			Description: "Create an event",
-			Controller:  controller.Create[models.LeadTimelineEvent](),
+			Controller: controller.Create[models.LeadTimelineEvent](
+				models.LEAD_TIMELINE_EVENT_MODEL_NAME,
+				controller.WorkflowOptions[models.LeadTimelineEvent]{},
+			),
 		},
 		"/events/update": {
 			Description: "Update an event",
@@ -52,7 +64,10 @@ var CRMModule = module.Module{
 
 		"/tasks": {
 			Description: "List all tasks",
-			Controller:  controller.List[models.LeadTask](models.LEAD_TASK_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.LeadTask](
+				models.LEAD_TASK_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/tasks/get": {
 			Description: "Get a single task",
@@ -60,7 +75,10 @@ var CRMModule = module.Module{
 		},
 		"/tasks/create": {
 			Description: "Create a task",
-			Controller:  controller.Create[models.LeadTask](),
+			Controller: controller.Create[models.LeadTask](
+				models.LEAD_TASK_MODEL_NAME,
+				controller.WorkflowOptions[models.LeadTask]{},
+			),
 		},
 		"/tasks/update": {
 			Description: "Update a task",
@@ -69,7 +87,10 @@ var CRMModule = module.Module{
 
 		"/campaigns": {
 			Description: "List all campaigns",
-			Controller:  controller.List[models.Campaign](models.CAMPAIGN_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Campaign](
+				models.CAMPAIGN_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/campaigns/get": {
 			Description: "Get a single campaign",
@@ -77,7 +98,10 @@ var CRMModule = module.Module{
 		},
 		"/campaigns/create": {
 			Description: "Create a campaign",
-			Controller:  controller.Create[models.Campaign](),
+			Controller: controller.Create[models.Campaign](
+				models.CAMPAIGN_MODEL_NAME,
+				controller.WorkflowOptions[models.Campaign]{},
+			),
 		},
 		"/campaigns/update": {
 			Description: "Update a campaign",
@@ -86,7 +110,10 @@ var CRMModule = module.Module{
 
 		"/referrals": {
 			Description: "List all referrals",
-			Controller:  controller.List[models.Referral](models.REFERRAL_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Referral](
+				models.REFERRAL_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/referrals/get": {
 			Description: "Get a single referral",
@@ -94,7 +121,10 @@ var CRMModule = module.Module{
 		},
 		"/referrals/create": {
 			Description: "Create a referral",
-			Controller:  controller.Create[models.Referral](),
+			Controller: controller.Create[models.Referral](
+				models.REFERRAL_MODEL_NAME,
+				controller.WorkflowOptions[models.Referral]{},
+			),
 		},
 		"/referrals/update": {
 			Description: "Update a referral",

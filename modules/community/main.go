@@ -19,11 +19,17 @@ var CommunityModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"/posts": {
 			Description: "Get all posts",
-			Controller:  controller.List[models.Post](models.POST_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Post](
+				models.POST_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/post/create": {
 			Description: "Create a post",
-			Controller:  controller.Create[models.Post](),
+			Controller: controller.Create[models.Post](
+				models.POST_MODEL_NAME,
+				controller.WorkflowOptions[models.Post]{},
+			),
 		},
 		"/post/get": {
 			Description: "Get a single post",
@@ -36,11 +42,17 @@ var CommunityModule = module.Module{
 
 		"/comments": {
 			Description: "List all comments",
-			Controller:  controller.List[models.Comment](models.COMMENT_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Comment](
+				models.COMMENT_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/comments/create": {
 			Description: "Create a comment",
-			Controller:  controller.Create[models.Comment](),
+			Controller: controller.Create[models.Comment](
+				models.COMMENT_MODEL_NAME,
+				controller.WorkflowOptions[models.Comment]{},
+			),
 		},
 		"/comments/get": {
 			Description: "Get a single comment",
@@ -53,11 +65,17 @@ var CommunityModule = module.Module{
 
 		"/friendships": {
 			Description: "List all friendships",
-			Controller:  controller.List[models.Friends](models.FRIENDS_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Friends](
+				models.FRIENDS_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/friendships/send-request": {
 			Description: "Send a friend request",
-			Controller:  controller.Create[models.FriendRequest](),
+			Controller: controller.Create[models.FriendRequest](
+				models.FRIENDS_MODEL_NAME,
+				controller.WorkflowOptions[models.FriendRequest]{},
+			),
 		},
 		"/friendships/update": {
 			Description: "Accept a friend request",
@@ -66,9 +84,11 @@ var CommunityModule = module.Module{
 
 		"/groups": {
 			Description: "List of groups",
-			Controller: controller.List[models.CommunityGroup](models.COMMUNITY_GROUP_MODEL_NAME, controller.ListOptions{
-				ModifyDbCall: GetUserGroupsModifyDbCall,
-			}),
+			Controller: controller.List[models.CommunityGroup](
+				models.COMMUNITY_GROUP_MODEL_NAME,
+				controller.ListOptions{
+					ModifyDbCall: GetUserGroupsModifyDbCall,
+				}),
 		},
 		"/groups/get": {
 			Description: "Get a single group",
@@ -76,7 +96,10 @@ var CommunityModule = module.Module{
 		},
 		"/groups/create": {
 			Description: "Create a group",
-			Controller:  controller.Create[models.CommunityGroup](),
+			Controller: controller.Create[models.CommunityGroup](
+				models.COMMUNITY_GROUP_MODEL_NAME,
+				controller.WorkflowOptions[models.CommunityGroup]{},
+			),
 		},
 		"/groups/update": {
 			Description: "Update a group",
@@ -85,11 +108,17 @@ var CommunityModule = module.Module{
 
 		"/chats": {
 			Description: "List of chats",
-			Controller:  controller.List[models.CommunityChatMessage](models.COMMUNITY_CHAT_MESSAGE_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.CommunityChatMessage](
+				models.COMMUNITY_CHAT_MESSAGE_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/chats/create": {
 			Description: "Create a chat",
-			Controller:  controller.Create[models.CommunityChatMessage](),
+			Controller: controller.Create[models.CommunityChatMessage](
+				models.COMMUNITY_CHAT_MESSAGE_MODEL_NAME,
+				controller.WorkflowOptions[models.CommunityChatMessage]{},
+			),
 		},
 		"/chats/update": {
 			Description: "Update a chat",

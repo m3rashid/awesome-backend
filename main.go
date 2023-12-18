@@ -110,6 +110,7 @@ func main() {
 	}
 
 	go ws.RunHub()
+	go workflow.RunWorkflowHub()
 	ws.SetupWebsockets(app)
 	module.RegisterRoutes(app, allModules)
 	drive.RegisterDriveRoutes(app, utils.CheckAuthMiddleware)

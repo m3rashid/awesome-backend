@@ -6,9 +6,9 @@ import (
 	"os"
 	"time"
 
-	// 	"github.com/Pacific73/gorm-cache/cache"
-	// "github.com/Pacific73/gorm-cache/config"
-	// "github.com/go-redis/redis/v8"
+	"github.com/Pacific73/gorm-cache/cache"
+	"github.com/Pacific73/gorm-cache/config"
+	"github.com/go-redis/redis/v8"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -37,29 +37,29 @@ func Init() error {
 		panic(err)
 	}
 
-	// redisClient := redis.NewClient(&redis.Options{
-	// 	Addr: fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT")),
-	// })
+	redisClient := redis.NewClient(&redis.Options{
+		Addr: fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT")),
+	})
 
-	// cache, err := cache.NewGorm2Cache(&config.CacheConfig{
-	// 	CacheLevel:           config.CacheLevelAll,
-	// 	CacheStorage:         config.CacheStorageRedis,
-	// 	RedisConfig:          cache.NewRedisConfigWithClient(redisClient),
-	// 	InvalidateWhenUpdate: true,   // when you create/update/delete objects, invalidate cache
-	// 	CacheTTL:             100000, // 100s
-	// 	CacheMaxItemCnt:      20,     // if length of objects retrieved one single time exceeds this number, then don't cache
-	// })
+	cache, err := cache.NewGorm2Cache(&config.CacheConfig{
+		CacheLevel:           config.CacheLevelAll,
+		CacheStorage:         config.CacheStorageRedis,
+		RedisConfig:          cache.NewRedisConfigWithClient(redisClient),
+		InvalidateWhenUpdate: true,   // when you create/update/delete objects, invalidate cache
+		CacheTTL:             100000, // 100s
+		CacheMaxItemCnt:      20,     // if length of objects retrieved one single time exceeds this number, then don't cache
+	})
 
-	// if err != nil {
-	// 	fmt.Println("Error creating caching layer: ", err)
-	// 	return err
-	// }
+	if err != nil {
+		fmt.Println("Error creating caching layer: ", err)
+		return err
+	}
 
-	// err = gormDB.Use(cache)
-	// if err != nil {
-	// 	fmt.Println("Error using caching layer: ", err)
-	// 	return err
-	// }
+	err = gormDB.Use(cache)
+	if err != nil {
+		fmt.Println("Error using caching layer: ", err)
+		return err
+	}
 
 	db = gormDB
 	return nil

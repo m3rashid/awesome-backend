@@ -15,15 +15,24 @@ var FormsModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"": {
 			Description: "List all forms",
-			Controller:  controller.List[models.Form](models.FORMS_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Form](
+				models.FORMS_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/responses": {
 			Description: "List all responses of a form",
-			Controller:  controller.List[models.Response](models.FORM_RESPONSE_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Response](
+				models.FORM_RESPONSE_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/create": {
 			Description: "Create form",
-			Controller:  controller.Create[models.Form](),
+			Controller: controller.Create[models.Form](
+				models.FORM_RESPONSE_MODEL_NAME,
+				controller.WorkflowOptions[models.Form]{},
+			),
 			Permissions: module.RoutePermissions{
 				"user": module.CREATE,
 			},
@@ -36,7 +45,10 @@ var FormsModule = module.Module{
 		},
 		"/response": {
 			Description: "Create response",
-			Controller:  controller.Create[models.Response](),
+			Controller: controller.Create[models.Response](
+				models.FORM_RESPONSE_MODEL_NAME,
+				controller.WorkflowOptions[models.Response]{},
+			),
 		},
 	},
 }

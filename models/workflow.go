@@ -11,13 +11,20 @@ const (
 	DeleteAction TriggerAction = "delete"
 )
 
+type WorkflowAction struct {
+	TableName string
+	Action    TriggerAction
+}
+
+var Flows = make(chan WorkflowAction)
+
 type Workflow struct {
 	BaseModel
 	Name          string         `json:"name" gorm:"column:name;not null" validate:"required"`
 	Description   string         `json:"description" gorm:"column:description" validate:""`
 	TriggerModel  string         `json:"triggerModel" gorm:"column:triggerModel;not null" validate:"required"`
 	TriggerAction TriggerAction  `json:"triggerAction" gorm:"column:triggerAction;not null" validate:"required"`
-	Steps         []WorkflowStep `json:"steps" gorm:"foreignKey:workflowId" validate:""`
+	Steps         []WorkflowStep `json:"steps" gorm:"foreignKey:workflowId" validate:""` // make it JSONB
 	// Steps         []*WorkflowStep `json:"steps" gorm:"many2many:workflowsteprelation" validate:""`
 }
 

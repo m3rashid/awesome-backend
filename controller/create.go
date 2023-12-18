@@ -10,7 +10,7 @@ import (
 	"github.com/m3rashid/awesome/models"
 )
 
-func Create[T interface{}]() func(*fiber.Ctx) error {
+func Create[T interface{}](tableName string, options WorkflowOptions[T]) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var data CreateRequestBody[T]
 		err := ctx.BodyParser(&data)
@@ -28,6 +28,11 @@ func Create[T interface{}]() func(*fiber.Ctx) error {
 		err = db.Create(&data.Body).Error
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+
+		models.Flows <- models.WorkflowAction{
+			TableName: tableName,
+			Action:    models.CreateAction,
 		}
 
 		if data.ResourceIndex.Name != "" && data.ResourceIndex.ResourceType != "" {

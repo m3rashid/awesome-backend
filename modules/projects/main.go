@@ -17,11 +17,17 @@ var ProjectModule = module.Module{
 	ProtectedRoutes: module.ProtectedRouteConfig{
 		"": {
 			Description: "List all projects",
-			Controller:  controller.List[models.Project](models.PROJECT_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Project](
+				models.PROJECT_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/create": {
 			Description: "Create a project",
-			Controller:  controller.Create[models.Project](),
+			Controller: controller.Create[models.Project](
+				models.PROJECT_MODEL_NAME,
+				controller.WorkflowOptions[models.Project]{},
+			),
 		},
 		"/get": {
 			Description: "Get a single Project",
@@ -34,11 +40,17 @@ var ProjectModule = module.Module{
 
 		"/tasks": {
 			Description: "List all tasks",
-			Controller:  controller.List[models.ProjectTask](models.PROJECT_TASK_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.ProjectTask](
+				models.PROJECT_TASK_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/tasks/create": {
 			Description: "Create a task",
-			Controller:  controller.Create[models.ProjectTask](),
+			Controller: controller.Create[models.ProjectTask](
+				models.PROJECT_TASK_MODEL_NAME,
+				controller.WorkflowOptions[models.ProjectTask]{},
+			),
 		},
 		"/tasks/get": {
 			Description: "Get a single task",
@@ -51,11 +63,17 @@ var ProjectModule = module.Module{
 
 		"/tags": {
 			Description: "List all tags",
-			Controller:  controller.List[models.ProjectTag](models.PROJECT_TAG_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.ProjectTag](
+				models.PROJECT_TAG_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/tags/create": {
 			Description: "Create a tag",
-			Controller:  controller.Create[models.ProjectTag](),
+			Controller: controller.Create[models.ProjectTag](
+				models.PROJECT_TAG_MODEL_NAME,
+				controller.WorkflowOptions[models.ProjectTag]{},
+			),
 		},
 		"/tags/get": {
 			Description: "Get a single tag",
@@ -68,11 +86,17 @@ var ProjectModule = module.Module{
 
 		"/comments": {
 			Description: "List all comments",
-			Controller:  controller.List[models.ProjectTaskComments](models.PROJECT_TASK_COMMENT_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.ProjectTaskComments](
+				models.PROJECT_TASK_COMMENT_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/comments/create": {
 			Description: "Create a comment",
-			Controller:  controller.Create[models.ProjectTaskComments](),
+			Controller: controller.Create[models.ProjectTaskComments](
+				models.PROJECT_TASK_COMMENT_MODEL_NAME,
+				controller.WorkflowOptions[models.ProjectTaskComments]{},
+			),
 		},
 		"/comments/get": {
 			Description: "Get a single comment",
