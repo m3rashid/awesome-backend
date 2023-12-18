@@ -9,3 +9,5 @@ tmp
 *.pid
 *.sock
 mockup
+data/*
+!data/.gitkeep

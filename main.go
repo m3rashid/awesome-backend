@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -12,7 +11,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
-	"github.com/m3rashid/awesome/cmd"
 	"github.com/m3rashid/awesome/db"
 	"github.com/m3rashid/awesome/module"
 	"github.com/m3rashid/awesome/modules/auth"
@@ -115,12 +113,18 @@ func main() {
 	module.RegisterRoutes(app, allModules)
 	drive.RegisterDriveRoutes(app, utils.CheckAuthMiddleware)
 
-	appShutDown := cmd.HandleCmdArgs(app, allModules, casbin)
-	if appShutDown {
-		fmt.Println("Server is gracefully shutting down")
-		app.ShutdownWithTimeout(time.Millisecond * 100)
-		return
+	// appShutDown := cmd.HandleCmdArgs(app, allModules, casbin)
+	// if appShutDown {
+	// 	fmt.Println("Server is gracefully shutting down")
+	// 	app.ShutdownWithTimeout(time.Millisecond * 100)
+	// 	return
+	// }
+
+	allModels := []interface{}{}
+	for _, module := range allModules {
+		allModels = append(allModels, module.Models...)
 	}
+	db.GormMigrate(allModels...)
 
 	log.Println("Server is running")
 	app.Listen(":" + os.Getenv("SERVER_PORT"))
