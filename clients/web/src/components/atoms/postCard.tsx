@@ -4,7 +4,6 @@ import {
   Caption1,
   Card,
   CardHeader,
-  Text,
 } from '@fluentui/react-components';
 import dayjs from 'dayjs';
 import React from 'react';
@@ -43,14 +42,15 @@ const PostCard: React.FC<PostCardProps> = ({ post, type }) => {
           description={<Caption1>{post.user.email}</Caption1>}
         />
 
-        <Text
+        <div
           className={`mb-1 ${type === 'list' ? 'cursor-pointer' : ''}`}
           onClick={() => {
             if (type === 'list') navigate(`/app/community/posts/${post.id}`);
           }}
-        >
-          {post.body}
-        </Text>
+          dangerouslySetInnerHTML={{
+            __html: post.body.replace(/\n/g, '<br />'),
+          }}
+        ></div>
       </Card>
 
       {type === 'detail' ? (

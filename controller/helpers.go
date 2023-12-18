@@ -43,9 +43,9 @@ type CreatedDBResponse struct {
 }
 
 type ResourceIndex struct {
-	Name         string `json:"name" validate:"required"`
+	Name         string `json:"name" validate:""`
 	Description  string `json:"description" validate:""`
-	ResourceType string `json:"resourceType" validate:"required"`
+	ResourceType string `json:"resourceType" validate:""`
 }
 
 type CreateRequestBody[T interface{}] struct {
