@@ -9,6 +9,7 @@
   "private": true,
   "workspaces": [
     "shared",
+		"admin",
     "web"
   ],
   "devDependencies": {

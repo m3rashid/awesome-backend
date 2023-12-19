@@ -1,8 +1,18 @@
 package models
 
+import "time"
+
 const USER_MODEL_NAME = "users"
 const PROFILE_MODEL_NAME = "profiles"
 const USER_GROUP_MODEL_NAME = "user_groups"
+const TENANT_MODEL_NAME = "tenants"
+
+type Tenant struct {
+	ID        uint      `gorm:"primary_key;column:id" json:"id"`
+	Name      string    `gorm:"column:name;not null" json:"name" validate:"required"`
+	TenantUrl string    `gorm:"column:slug;not null" json:"slug" validate:"required"`
+	CreatedAt time.Time `gorm:"column:createdAt; default:current_timestamp" json:"createdAt"`
+}
 
 type User struct {
 	BaseModel
@@ -36,6 +46,10 @@ var UserTableSchemaMap = map[string]string{
 	"password":    "string",
 }
 var ProfileTableSchemaMap = map[string]string{}
+
+func (*Tenant) TableName() string {
+	return TENANT_MODEL_NAME
+}
 
 func (*User) TableName() string {
 	return USER_MODEL_NAME
