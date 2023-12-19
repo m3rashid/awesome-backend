@@ -16,7 +16,7 @@ require (
 	github.com/google/uuid v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/tus/tusd/v2 v2.2.0
-	golang.org/x/crypto v0.16.0
+	golang.org/x/crypto v0.17.0
 	golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb
 	gorm.io/driver/postgres v1.5.4
 	gorm.io/gorm v1.25.5
