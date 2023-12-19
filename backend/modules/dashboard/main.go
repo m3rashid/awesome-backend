@@ -2,15 +2,15 @@ package dashboard
 
 import (
 	"awesome/models"
-	"awesome/module"
+	"awesome/utils"
 )
 
-var DashboardModule = module.Module{
+var DashboardModule = utils.Module{
 	Name: "dashboard",
 	Models: []interface{}{
 		&models.Dashboard{},
 		&models.DashboardWidget{},
 	},
-	ProtectedRoutes: module.ProtectedRouteConfig{},
-	AnonymousRoutes: module.AnonymousRouteConfig{},
+	ProtectedRoutes: utils.ProtectedRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRouteConfig{},
 }

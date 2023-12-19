@@ -5,8 +5,7 @@ import (
 	"os"
 	"time"
 
-	"awesome/db"
-	"awesome/module"
+	"awesome/models"
 	"awesome/modules/auth"
 	"awesome/modules/community"
 	"awesome/modules/crm"
@@ -48,17 +47,9 @@ func main() {
 			if e, ok := err.(*fiber.Error); ok {
 				code = e.Code
 			}
-			return ctx.Status(code).JSON(fiber.Map{
-				"success": false,
-				"message": err.Error(),
-			})
+			return ctx.Status(code).JSON(fiber.Map{"success": false, "message": err.Error()})
 		},
 	})
-
-	err = db.Init()
-	if err != nil {
-		log.Fatal("Error connecting to database")
-	}
 
 	casbin := permissions.InitCasbin()
 	app.Use(func(c *fiber.Ctx) error {
@@ -67,7 +58,7 @@ func main() {
 	})
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:3000, http://hp:3000",
+		AllowOrigins:     "*",
 		AllowCredentials: true,
 	}))
 
@@ -95,7 +86,7 @@ func main() {
 		}))
 	}
 
-	allModules := []module.Module{
+	allModules := []utils.Module{
 		crm.CRMModule,
 		auth.AuthModule,
 		drive.DriveModule,
@@ -108,24 +99,18 @@ func main() {
 		community.CommunityModule,
 	}
 
+	for _, module := range allModules {
+		utils.Models = append(utils.Models, module.Models...)
+	}
+
 	go ws.RunHub()
 	go workflow.RunWorkflowHub()
 	ws.SetupWebsockets(app)
-	module.RegisterRoutes(app, allModules)
+	utils.RegisterRoutes(app, allModules)
 	drive.RegisterDriveRoutes(app, utils.CheckAuthMiddleware)
 
-	// appShutDown := cmd.HandleCmdArgs(app, allModules, casbin)
-	// if appShutDown {
-	// 	fmt.Println("Server is gracefully shutting down")
-	// 	app.ShutdownWithTimeout(time.Millisecond * 100)
-	// 	return
-	// }
-
-	allModels := []interface{}{}
-	for _, module := range allModules {
-		allModels = append(allModels, module.Models...)
-	}
-	db.GormMigrate(allModels...)
+	db := utils.GetHostDB()
+	db.AutoMigrate(&models.TenantOwner{}, &models.Tenant{})
 
 	log.Println("Server is running")
 	app.Listen(":" + os.Getenv("SERVER_PORT"))

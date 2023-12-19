@@ -2,21 +2,40 @@ package controller
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
-	"awesome/db"
 	"awesome/models"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
-func Create[T interface{}](tableName string, options WorkflowOptions[T]) func(*fiber.Ctx) error {
+func Create[T interface{}](tableName string, options CreateOptions[T]) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var data CreateRequestBody[T]
 		err := ctx.BodyParser(&data)
 		if err != nil {
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+		}
+
+		var db *gorm.DB
+		if options.GetDB != nil {
+			db = options.GetDB()
+		} else {
+			db, err = GetDbFromRequestOrigin(ctx)
+			if err != nil {
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			}
+		}
+
+		if options.PreCreate != nil {
+			err = options.PreCreate(ctx, db, &data.Body)
+			if err != nil {
+				log.Println("Pre Create Error: ", err.Error())
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			}
 		}
 
 		validate := validator.New()
@@ -25,10 +44,17 @@ func Create[T interface{}](tableName string, options WorkflowOptions[T]) func(*f
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		db := db.GetDb()
 		err = db.Create(&data.Body).Error
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+
+		if options.PostCreate != nil {
+			err = options.PostCreate(ctx, db, &data.Body)
+			if err != nil {
+				log.Println("Post Create Error: ", err.Error())
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			}
 		}
 
 		models.Flows <- models.WorkflowAction{

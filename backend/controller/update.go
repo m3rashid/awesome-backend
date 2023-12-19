@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"awesome/db"
 	"awesome/models"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
-func Update[T interface{}](tableName string) func(*fiber.Ctx) error {
+func Update[T interface{}](tableName string, options UpdateOptions[T]) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var updateBody UpdateBody
 		err := ctx.BodyParser(&updateBody)
@@ -32,7 +32,16 @@ func Update[T interface{}](tableName string) func(*fiber.Ctx) error {
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		db := db.GetDb()
+		var db *gorm.DB
+		if options.GetDB != nil {
+			db = options.GetDB()
+		} else {
+			db, err = GetDbFromRequestOrigin(ctx)
+			if err != nil {
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			}
+		}
+
 		err = db.Table(tableName).Where(searchCriteria).Updates(update).Error
 		if err != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})

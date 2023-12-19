@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"awesome/db"
 	"awesome/models"
+	"awesome/utils"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -33,7 +33,7 @@ func Login() fiber.Handler {
 		}
 
 		var user models.User
-		db := db.GetDb()
+		db := utils.GetHostDB()
 		err = db.Where("email = ?", loginBody.Email).First(&user).Error
 		if err != nil {
 			log.Println(err)
@@ -88,7 +88,7 @@ func Register() fiber.Handler {
 		password := HashPassword(newUser.Password)
 		newUser.Password = password
 
-		db := db.GetDb()
+		db := utils.GetHostDB()
 		result := db.Create(&newUser)
 		if result.Error != nil {
 			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
@@ -123,7 +123,7 @@ func GetInitialUser() fiber.Handler {
 		}
 
 		var user models.User
-		db := db.GetDb()
+		db := utils.GetHostDB()
 		err := db.Where("id = ?", ctx.Locals("userId")).First(&user).Error
 		if err != nil {
 			log.Println(err)

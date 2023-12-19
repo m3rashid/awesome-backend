@@ -3,9 +3,8 @@ package controller
 import (
 	"net/http"
 
-	"awesome/db"
-
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 func List[T interface{}](tableName string, options ListOptions) func(*fiber.Ctx) error {
@@ -30,9 +29,17 @@ func List[T interface{}](tableName string, options ListOptions) func(*fiber.Ctx)
 			searchCriteria = map[string]interface{}{}
 		}
 
-		db := db.GetDb()
-		var results []T
+		var db *gorm.DB
+		if options.GetDB != nil {
+			db = options.GetDB()
+		} else {
+			db, err = GetDbFromRequestOrigin(ctx)
+			if err != nil {
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			}
+		}
 
+		var results []T
 		if listBody.Populate != nil {
 			for _, populate := range listBody.Populate {
 				db = db.Preload(populate)

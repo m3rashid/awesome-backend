@@ -1,5 +1,3 @@
-clients
-.vscode
 .gitignore
-.git
-README.md
+Dockerfile
+

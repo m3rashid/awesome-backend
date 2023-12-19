@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"log"
 
-	"awesome/db"
 	"awesome/models"
+	"awesome/utils"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/contrib/websocket"
@@ -32,7 +32,7 @@ func CommunityChatMessageHandler(wsMessage MessageFormat) {
 		return
 	}
 
-	db := db.GetDb()
+	db := utils.GetHostDB()
 	err = db.Preload("Sender").Create(&communityChatMsg).Error
 	if err != nil {
 		log.Println("Error in saving message", err)

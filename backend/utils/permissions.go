@@ -1,4 +1,4 @@
-package module
+package utils
 
 import (
 	"github.com/gofiber/fiber/v2"

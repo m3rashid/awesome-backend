@@ -1,13 +1,12 @@
 package permissions
 
 import (
+	"awesome/utils"
 	"fmt"
 	"path/filepath"
 
 	"github.com/casbin/casbin/v2"
 	// "github.com/gofiber/contrib/casbin" use this library instead
-
-	"awesome/db"
 
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 )
@@ -23,7 +22,7 @@ func InitCasbin() *Casbin {
 		panic(err)
 	}
 
-	gormAdapter, err := gormadapter.NewAdapterByDB(db.GetDb())
+	gormAdapter, err := gormadapter.NewAdapterByDB(utils.GetHostDB())
 	if err != nil {
 		fmt.Println("casbin init error, cannot create adapter")
 		panic(err)

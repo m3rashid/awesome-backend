@@ -3,55 +3,71 @@ package auth
 import (
 	"awesome/controller"
 	"awesome/models"
-	"awesome/module"
+	"awesome/utils"
 )
 
-var AuthModule = module.Module{
+var AuthModule = utils.Module{
 	Name: "auth",
 	Models: []interface{}{
 		&models.UserGroup{},
 		&models.Profile{},
 		&models.User{},
 	},
-	ProtectedRoutes: module.ProtectedRouteConfig{
+	ProtectedRoutes: utils.ProtectedRouteConfig{
 		"/all": {
 			Description: "List all users",
-			Controller:  controller.List[models.User](models.USER_MODEL_NAME, controller.ListOptions{}),
-			Permissions: module.RoutePermissions{
-				"user": module.LIST,
+			Controller: controller.List[models.User](
+				models.USER_MODEL_NAME,
+				controller.ListOptions{},
+			),
+			Permissions: utils.RoutePermissions{
+				"user": utils.LIST,
 			},
 		},
 		"/user": {
 			Description: "Get any user",
-			Controller:  controller.Get[models.User](),
+			Controller: controller.Get[models.User](
+				controller.GetOptions[models.User]{},
+			),
 		},
 		"/update": {
 			Description: "Update user",
-			Controller:  controller.Update[models.User](models.USER_MODEL_NAME),
-			Permissions: module.RoutePermissions{
-				"user": module.EDIT,
+			Controller: controller.Update[models.User](
+				models.USER_MODEL_NAME,
+				controller.UpdateOptions[models.User]{},
+			),
+			Permissions: utils.RoutePermissions{
+				"user": utils.EDIT,
 			},
 		},
 
 		"/init": {
 			Description: "Init automatic auth at refresh",
 			Controller:  GetInitialUser(),
-			Permissions: module.RoutePermissions{},
+			Permissions: utils.RoutePermissions{},
 		},
 		"/profiles": {
 			Description: "List all profiles",
-			Controller:  controller.List[models.Profile](models.PROFILE_MODEL_NAME, controller.ListOptions{}),
+			Controller: controller.List[models.Profile](
+				models.PROFILE_MODEL_NAME,
+				controller.ListOptions{},
+			),
 		},
 		"/profile": {
 			Description: "Get profile",
-			Controller:  controller.Get[models.Profile](),
+			Controller: controller.Get[models.Profile](
+				controller.GetOptions[models.Profile]{},
+			),
 		},
 		"/profile/update": {
 			Description: "Update profile",
-			Controller:  controller.Update[models.Profile](models.PROFILE_MODEL_NAME),
+			Controller: controller.Update[models.Profile](
+				models.PROFILE_MODEL_NAME,
+				controller.UpdateOptions[models.Profile]{},
+			),
 		},
 	},
-	AnonymousRoutes: module.AnonymousRouteConfig{
+	AnonymousRoutes: utils.AnonymousRouteConfig{
 		"/login": {
 			Description: "Login",
 			Controller:  Login(),

@@ -1,4 +1,4 @@
-module.exports = {
+utils.exports = {
 	root: true,
 	env: { browser: true, es2020: true },
 	extends: [

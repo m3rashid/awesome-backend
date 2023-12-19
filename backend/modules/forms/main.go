@@ -3,16 +3,16 @@ package forms
 import (
 	"awesome/controller"
 	"awesome/models"
-	"awesome/module"
+	"awesome/utils"
 )
 
-var FormsModule = module.Module{
+var FormsModule = utils.Module{
 	Name: "forms",
 	Models: []interface{}{
 		&models.Form{},
 		&models.Response{},
 	},
-	ProtectedRoutes: module.ProtectedRouteConfig{
+	ProtectedRoutes: utils.ProtectedRouteConfig{
 		"": {
 			Description: "List all forms",
 			Controller: controller.List[models.Form](
@@ -31,23 +31,25 @@ var FormsModule = module.Module{
 			Description: "Create form",
 			Controller: controller.Create[models.Form](
 				models.FORM_RESPONSE_MODEL_NAME,
-				controller.WorkflowOptions[models.Form]{},
+				controller.CreateOptions[models.Form]{},
 			),
-			Permissions: module.RoutePermissions{
-				"user": module.CREATE,
+			Permissions: utils.RoutePermissions{
+				"user": utils.CREATE,
 			},
 		},
 	},
-	AnonymousRoutes: module.AnonymousRouteConfig{
+	AnonymousRoutes: utils.AnonymousRouteConfig{
 		"/get": {
 			Description: "Get form by id",
-			Controller:  controller.Get[models.Form](),
+			Controller: controller.Get[models.Form](
+				controller.GetOptions[models.Form]{},
+			),
 		},
 		"/response": {
 			Description: "Create response",
 			Controller: controller.Create[models.Response](
 				models.FORM_RESPONSE_MODEL_NAME,
-				controller.WorkflowOptions[models.Response]{},
+				controller.CreateOptions[models.Response]{},
 			),
 		},
 	},

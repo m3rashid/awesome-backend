@@ -3,12 +3,11 @@ package controller
 import (
 	"net/http"
 
-	"awesome/db"
-
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
-func Get[T interface{}]() func(*fiber.Ctx) error {
+func Get[T interface{}](options GetOptions[T]) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var requestBody GetBody[T]
 		err := ctx.BodyParser(&requestBody)
@@ -16,8 +15,17 @@ func Get[T interface{}]() func(*fiber.Ctx) error {
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
+		var db *gorm.DB
+		if options.GetDB != nil {
+			db = options.GetDB()
+		} else {
+			db, err = GetDbFromRequestOrigin(ctx)
+			if err != nil {
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			}
+		}
+
 		var column T
-		db := db.GetDb()
 		if requestBody.Populate != nil {
 			for _, populate := range requestBody.Populate {
 				db = db.Preload(populate)

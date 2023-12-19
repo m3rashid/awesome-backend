@@ -1,4 +1,4 @@
-module.exports = {
+utils.exports = {
 	project: {
 		ios: {},
 		android: {},

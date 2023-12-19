@@ -39,8 +39,8 @@ public class ReactNativeFlipper {
       client.addPlugin(CrashReporterPlugin.getInstance());
 
       NetworkFlipperPlugin networkFlipperPlugin = new NetworkFlipperPlugin();
-      NetworkingModule.setCustomClientBuilder(
-          new NetworkingModule.CustomClientBuilder() {
+      Networkingutils.setCustomClientBuilder(
+          new Networkingutils.CustomClientBuilder() {
             @Override
             public void apply(OkHttpClient.Builder builder) {
               builder.addNetworkInterceptor(new FlipperOkhttpInterceptor(networkFlipperPlugin));

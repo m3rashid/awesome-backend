@@ -1,6 +1,11 @@
 package controller
 
-import "gorm.io/gorm"
+import (
+	"awesome/utils"
+
+	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+)
 
 const SKIP_VALIDATION_KEY = "skipValidation"
 const CREATED_AT_FIELD = "createdAt"
@@ -54,10 +59,25 @@ type CreateRequestBody[T interface{}] struct {
 }
 
 type ListOptions struct {
+	GetDB        func() *gorm.DB
 	ModifyDbCall func(*gorm.DB, ListBody) (*gorm.DB, error)
 }
 
-type WorkflowOptions[T interface{}] struct {
-	Type string `json:"type" validate:"required"`
-	Data T      `json:"data" validate:""`
+type CreateOptions[T interface{}] struct {
+	GetDB      func() *gorm.DB
+	PreCreate  func(*fiber.Ctx, *gorm.DB, *T) error
+	PostCreate func(*fiber.Ctx, *gorm.DB, *T) error
+}
+
+type GetOptions[T interface{}] struct {
+	GetDB func() *gorm.DB
+}
+
+type UpdateOptions[T interface{}] struct {
+	GetDB func() *gorm.DB
+}
+
+func GetDbFromRequestOrigin(ctx *fiber.Ctx) (*gorm.DB, error) {
+	reqHeaders := ctx.GetReqHeaders()
+	return utils.GetTenantDB(reqHeaders["Origin"][0])
 }

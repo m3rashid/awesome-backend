@@ -3,10 +3,10 @@ package community
 import (
 	"awesome/controller"
 	"awesome/models"
-	"awesome/module"
+	"awesome/utils"
 )
 
-var CommunityModule = module.Module{
+var CommunityModule = utils.Module{
 	Name: "community",
 	Models: []interface{}{
 		&models.Post{},
@@ -16,7 +16,7 @@ var CommunityModule = module.Module{
 		&models.CommunityGroup{},
 		&models.CommunityChatMessage{},
 	},
-	ProtectedRoutes: module.ProtectedRouteConfig{
+	ProtectedRoutes: utils.ProtectedRouteConfig{
 		"/posts": {
 			Description: "Get all posts",
 			Controller: controller.List[models.Post](
@@ -28,16 +28,21 @@ var CommunityModule = module.Module{
 			Description: "Create a post",
 			Controller: controller.Create[models.Post](
 				models.POST_MODEL_NAME,
-				controller.WorkflowOptions[models.Post]{},
+				controller.CreateOptions[models.Post]{},
 			),
 		},
 		"/post/get": {
 			Description: "Get a single post",
-			Controller:  controller.Get[models.Post](),
+			Controller: controller.Get[models.Post](
+				controller.GetOptions[models.Post]{},
+			),
 		},
 		"/post/update": {
 			Description: "Update a post",
-			Controller:  controller.Update[models.Post](models.POST_MODEL_NAME),
+			Controller: controller.Update[models.Post](
+				models.POST_MODEL_NAME,
+				controller.UpdateOptions[models.Post]{},
+			),
 		},
 
 		"/comments": {
@@ -51,16 +56,21 @@ var CommunityModule = module.Module{
 			Description: "Create a comment",
 			Controller: controller.Create[models.Comment](
 				models.COMMENT_MODEL_NAME,
-				controller.WorkflowOptions[models.Comment]{},
+				controller.CreateOptions[models.Comment]{},
 			),
 		},
 		"/comments/get": {
 			Description: "Get a single comment",
-			Controller:  controller.Get[models.Comment](),
+			Controller: controller.Get[models.Comment](
+				controller.GetOptions[models.Comment]{},
+			),
 		},
 		"/comments/update": {
 			Description: "Update a comment",
-			Controller:  controller.Update[models.Comment](models.COMMENT_MODEL_NAME),
+			Controller: controller.Update[models.Comment](
+				models.COMMENT_MODEL_NAME,
+				controller.UpdateOptions[models.Comment]{},
+			),
 		},
 
 		"/friendships": {
@@ -74,12 +84,15 @@ var CommunityModule = module.Module{
 			Description: "Send a friend request",
 			Controller: controller.Create[models.FriendRequest](
 				models.FRIENDS_MODEL_NAME,
-				controller.WorkflowOptions[models.FriendRequest]{},
+				controller.CreateOptions[models.FriendRequest]{},
 			),
 		},
 		"/friendships/update": {
 			Description: "Accept a friend request",
-			Controller:  controller.Update[models.FriendRequest](models.FRIEND_REQUEST_MODEL_NAME),
+			Controller: controller.Update[models.FriendRequest](
+				models.FRIEND_REQUEST_MODEL_NAME,
+				controller.UpdateOptions[models.FriendRequest]{},
+			),
 		},
 
 		"/groups": {
@@ -92,18 +105,23 @@ var CommunityModule = module.Module{
 		},
 		"/groups/get": {
 			Description: "Get a single group",
-			Controller:  controller.Get[models.CommunityGroup](),
+			Controller: controller.Get[models.CommunityGroup](
+				controller.GetOptions[models.CommunityGroup]{},
+			),
 		},
 		"/groups/create": {
 			Description: "Create a group",
 			Controller: controller.Create[models.CommunityGroup](
 				models.COMMUNITY_GROUP_MODEL_NAME,
-				controller.WorkflowOptions[models.CommunityGroup]{},
+				controller.CreateOptions[models.CommunityGroup]{},
 			),
 		},
 		"/groups/update": {
 			Description: "Update a group",
-			Controller:  controller.Update[models.CommunityGroup](models.COMMUNITY_GROUP_MODEL_NAME),
+			Controller: controller.Update[models.CommunityGroup](
+				models.COMMUNITY_GROUP_MODEL_NAME,
+				controller.UpdateOptions[models.CommunityGroup]{},
+			),
 		},
 
 		"/chats": {
@@ -117,13 +135,16 @@ var CommunityModule = module.Module{
 			Description: "Create a chat",
 			Controller: controller.Create[models.CommunityChatMessage](
 				models.COMMUNITY_CHAT_MESSAGE_MODEL_NAME,
-				controller.WorkflowOptions[models.CommunityChatMessage]{},
+				controller.CreateOptions[models.CommunityChatMessage]{},
 			),
 		},
 		"/chats/update": {
 			Description: "Update a chat",
-			Controller:  controller.Update[models.CommunityChatMessage](models.COMMUNITY_CHAT_MESSAGE_MODEL_NAME),
+			Controller: controller.Update[models.CommunityChatMessage](
+				models.COMMUNITY_CHAT_MESSAGE_MODEL_NAME,
+				controller.UpdateOptions[models.CommunityChatMessage]{},
+			),
 		},
 	},
-	AnonymousRoutes: module.AnonymousRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRouteConfig{},
 }

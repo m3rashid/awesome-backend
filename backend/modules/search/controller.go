@@ -1,8 +1,8 @@
 package search
 
 import (
-	"awesome/db"
 	"awesome/models"
+	"awesome/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -17,7 +17,7 @@ func HandleSearch() fiber.Handler {
 		}
 
 		var resources []models.Resource
-		db := db.GetDb()
+		db := utils.GetHostDB()
 		err := db.Where("name ILIKE ?", "%"+searchBody.Text+"%").Or("description ILIKE ?", "%"+searchBody.Text+"%").Find(&resources).Error
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Find Resources")

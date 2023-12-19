@@ -1,4 +1,4 @@
-module.exports = {
+utils.exports = {
 	root: true,
 	extends: '@react-native',
 	rules: {

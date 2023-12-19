@@ -3,10 +3,10 @@ package crm
 import (
 	"awesome/controller"
 	"awesome/models"
-	"awesome/module"
+	"awesome/utils"
 )
 
-var CRMModule = module.Module{
+var CRMModule = utils.Module{
 	Name: "crm",
 	Models: []interface{}{
 		&models.Lead{},
@@ -15,7 +15,7 @@ var CRMModule = module.Module{
 		&models.Campaign{},
 		&models.Referral{},
 	},
-	ProtectedRoutes: module.ProtectedRouteConfig{
+	ProtectedRoutes: utils.ProtectedRouteConfig{
 		"/leads": {
 			Description: "List all leads",
 			Controller: controller.List[models.Lead](
@@ -25,18 +25,23 @@ var CRMModule = module.Module{
 		},
 		"/leads/get": {
 			Description: "Get a single lead",
-			Controller:  controller.Get[models.Lead](),
+			Controller: controller.Get[models.Lead](
+				controller.GetOptions[models.Lead]{},
+			),
 		},
 		"/leads/create": {
 			Description: "Create a lead",
 			Controller: controller.Create[models.Lead](
 				models.LEAD_MODEL_NAME,
-				controller.WorkflowOptions[models.Lead]{},
+				controller.CreateOptions[models.Lead]{},
 			),
 		},
 		"/leads/update": {
 			Description: "Update a lead",
-			Controller:  controller.Update[models.Lead](models.LEAD_MODEL_NAME),
+			Controller: controller.Update[models.Lead](
+				models.LEAD_MODEL_NAME,
+				controller.UpdateOptions[models.Lead]{},
+			),
 		},
 
 		"/events": {
@@ -48,18 +53,23 @@ var CRMModule = module.Module{
 		},
 		"/events/get": {
 			Description: "Get a single event",
-			Controller:  controller.Get[models.LeadTimelineEvent](),
+			Controller: controller.Get[models.LeadTimelineEvent](
+				controller.GetOptions[models.LeadTimelineEvent]{},
+			),
 		},
 		"/events/create": {
 			Description: "Create an event",
 			Controller: controller.Create[models.LeadTimelineEvent](
 				models.LEAD_TIMELINE_EVENT_MODEL_NAME,
-				controller.WorkflowOptions[models.LeadTimelineEvent]{},
+				controller.CreateOptions[models.LeadTimelineEvent]{},
 			),
 		},
 		"/events/update": {
 			Description: "Update an event",
-			Controller:  controller.Update[models.LeadTimelineEvent](models.LEAD_TIMELINE_EVENT_MODEL_NAME),
+			Controller: controller.Update[models.LeadTimelineEvent](
+				models.LEAD_TIMELINE_EVENT_MODEL_NAME,
+				controller.UpdateOptions[models.LeadTimelineEvent]{},
+			),
 		},
 
 		"/tasks": {
@@ -71,18 +81,23 @@ var CRMModule = module.Module{
 		},
 		"/tasks/get": {
 			Description: "Get a single task",
-			Controller:  controller.Get[models.LeadTask](),
+			Controller: controller.Get[models.LeadTask](
+				controller.GetOptions[models.LeadTask]{},
+			),
 		},
 		"/tasks/create": {
 			Description: "Create a task",
 			Controller: controller.Create[models.LeadTask](
 				models.LEAD_TASK_MODEL_NAME,
-				controller.WorkflowOptions[models.LeadTask]{},
+				controller.CreateOptions[models.LeadTask]{},
 			),
 		},
 		"/tasks/update": {
 			Description: "Update a task",
-			Controller:  controller.Update[models.LeadTask](models.LEAD_TASK_MODEL_NAME),
+			Controller: controller.Update[models.LeadTask](
+				models.LEAD_TASK_MODEL_NAME,
+				controller.UpdateOptions[models.LeadTask]{},
+			),
 		},
 
 		"/campaigns": {
@@ -94,18 +109,23 @@ var CRMModule = module.Module{
 		},
 		"/campaigns/get": {
 			Description: "Get a single campaign",
-			Controller:  controller.Get[models.Campaign](),
+			Controller: controller.Get[models.Campaign](
+				controller.GetOptions[models.Campaign]{},
+			),
 		},
 		"/campaigns/create": {
 			Description: "Create a campaign",
 			Controller: controller.Create[models.Campaign](
 				models.CAMPAIGN_MODEL_NAME,
-				controller.WorkflowOptions[models.Campaign]{},
+				controller.CreateOptions[models.Campaign]{},
 			),
 		},
 		"/campaigns/update": {
 			Description: "Update a campaign",
-			Controller:  controller.Update[models.Campaign](models.CAMPAIGN_MODEL_NAME),
+			Controller: controller.Update[models.Campaign](
+				models.CAMPAIGN_MODEL_NAME,
+				controller.UpdateOptions[models.Campaign]{},
+			),
 		},
 
 		"/referrals": {
@@ -117,19 +137,24 @@ var CRMModule = module.Module{
 		},
 		"/referrals/get": {
 			Description: "Get a single referral",
-			Controller:  controller.Get[models.Referral](),
+			Controller: controller.Get[models.Referral](
+				controller.GetOptions[models.Referral]{},
+			),
 		},
 		"/referrals/create": {
 			Description: "Create a referral",
 			Controller: controller.Create[models.Referral](
 				models.REFERRAL_MODEL_NAME,
-				controller.WorkflowOptions[models.Referral]{},
+				controller.CreateOptions[models.Referral]{},
 			),
 		},
 		"/referrals/update": {
 			Description: "Update a referral",
-			Controller:  controller.Update[models.Referral](models.REFERRAL_MODEL_NAME),
+			Controller: controller.Update[models.Referral](
+				models.REFERRAL_MODEL_NAME,
+				controller.UpdateOptions[models.Referral]{},
+			),
 		},
 	},
-	AnonymousRoutes: module.AnonymousRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRouteConfig{},
 }
