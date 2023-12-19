@@ -1,0 +1,11 @@
+bin/*
+!bin/.gitkeep
+data/*
+!data/.gitkeep
+tmp
+*.out
+*.pid
+*.sock
+mockup
+.env*
+!.env.example
