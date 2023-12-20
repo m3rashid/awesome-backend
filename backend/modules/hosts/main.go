@@ -4,40 +4,42 @@ import (
 	"awesome/controller"
 	"awesome/models"
 	"awesome/utils"
-
-	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm"
 )
 
 var HostModule = utils.Module{
 	Name:   "host",
-	Models: []interface{}{},
+	Models: []interface{}{
+		// Tenant module is not listed here,
+		// because we don't want to create tenant table in the tenant's database
+	},
 	ProtectedRoutes: utils.ProtectedRouteConfig{
 		"/create": {
 			Description: "Create a tenant",
-			Controller: controller.Create[models.Tenant](
+			Controller:  CreateTenant,
+		},
+		"/list": {
+			Description: "List all tenants",
+			Controller: controller.List[models.Tenant](
 				models.TENANT_MODEL_NAME,
-				controller.CreateOptions[models.Tenant]{
+				controller.ListOptions{
 					GetDB: utils.GetHostDB,
-					PreCreate: func(ctx *fiber.Ctx, db *gorm.DB, tenant *models.Tenant) error {
-						newDatabase, err := utils.CreateDatabase(tenant.Name, db)
-						if err != nil {
-							return err
-						}
-
-						tenant.TenantDBConnectionString = newDatabase
-						tenant.TenantOwnerID = ctx.Locals("userId").(uint)
-						return nil
-					},
-					PostCreate: func(ctx *fiber.Ctx, db *gorm.DB, tenant *models.Tenant) error {
-						tenantDB, err := utils.GetTenantDB(tenant.TenantUrl)
-						if err != nil {
-							return err
-						}
-
-						err = utils.GormMigrate(tenantDB)
-						return err
-					},
+				},
+			),
+		},
+		"/get": {
+			Description: "Get a tenant by id",
+			Controller: controller.Get[models.Tenant](
+				controller.GetOptions[models.Tenant]{
+					GetDB: utils.GetHostDB,
+				},
+			),
+		},
+		"/update": {
+			Description: "Update a tenant by id",
+			Controller: controller.Update[models.Tenant](
+				models.TENANT_MODEL_NAME,
+				controller.UpdateOptions[models.Tenant]{
+					GetDB: utils.GetHostDB,
 				},
 			),
 		},

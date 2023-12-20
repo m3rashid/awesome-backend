@@ -110,7 +110,7 @@ func main() {
 	drive.RegisterDriveRoutes(app, utils.CheckAuthMiddleware)
 
 	db := utils.GetHostDB()
-	db.AutoMigrate(&models.TenantOwner{}, &models.Tenant{})
+	db.AutoMigrate(&models.User{}, &models.Tenant{})
 
 	log.Println("Server is running")
 	app.Listen(":" + os.Getenv("SERVER_PORT"))
