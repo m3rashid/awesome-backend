@@ -1,18 +1,18 @@
+import React from 'react';
 import {
-  Button,
   Card,
-  Field,
-  Input,
   Link,
+  Input,
+  Field,
+  Button,
   Spinner,
 } from '@fluentui/react-components';
 import { Password20Regular } from '@fluentui/react-icons';
-import React from 'react';
 
-import BrandHeader from '../../components/atoms/brandHeader';
-import { LoginRegisterFormProps, useAuth } from '../../hooks/auth';
+import BrandHeader from './brandHeader';
+import useAuth, { FormProps } from '../hooks/auth';
 
-const LoginRegisterForm: React.FC<LoginRegisterFormProps> = ({ formType }) => {
+const AuthForm: React.FC<FormProps> = ({ authType, formType }) => {
   const {
     login,
     loading,
@@ -20,7 +20,7 @@ const LoginRegisterForm: React.FC<LoginRegisterFormProps> = ({ formType }) => {
     handleFormSubmit,
     changeState,
     registerFormElement,
-  } = useAuth();
+  } = useAuth({ formType, authType });
 
   return (
     <div className='h-screen w-screen all-center'>
@@ -65,11 +65,15 @@ const LoginRegisterForm: React.FC<LoginRegisterFormProps> = ({ formType }) => {
           </Button>
         </form>
 
-        <div className='flex item-center justify-center'>
+        <div className='flex item-center flex-col justify-center'>
           <Link onClick={() => changeState(formType)}>
             {formType === 'login'
-              ? "Don't have an account? Create one"
-              : 'Already have an account? Login Here'}
+              ? authType === 'tenant'
+                ? "Don't have an account? Create one"
+                : "Don't have your organization"
+              : authType === 'tenant'
+              ? 'Already have an account? Login Here'
+              : 'Already have organization account'}
           </Link>
         </div>
       </Card>
@@ -77,4 +81,4 @@ const LoginRegisterForm: React.FC<LoginRegisterFormProps> = ({ formType }) => {
   );
 };
 
-export default LoginRegisterForm;
+export default AuthForm;

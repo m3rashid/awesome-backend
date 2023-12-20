@@ -43,7 +43,9 @@ var AuthModule = utils.Module{
 
 		"/init": {
 			Description: "Init automatic auth at refresh",
-			Controller:  GetInitialUser(),
+			Controller: utils.GetInitialUser(utils.AuthControllerOptions{
+				IsTenant: true,
+			}),
 			Permissions: utils.RoutePermissions{},
 		},
 		"/profiles": {
@@ -70,11 +72,15 @@ var AuthModule = utils.Module{
 	AnonymousRoutes: utils.AnonymousRouteConfig{
 		"/login": {
 			Description: "Login",
-			Controller:  Login(),
+			Controller: utils.Login(utils.AuthControllerOptions{
+				IsTenant: true,
+			}),
 		},
 		"/register": {
 			Description: "Register",
-			Controller:  Register(),
+			Controller: utils.Register(utils.AuthControllerOptions{
+				IsTenant: true,
+			}),
 		},
 	},
 }

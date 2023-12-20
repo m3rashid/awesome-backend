@@ -19,7 +19,7 @@ import { emoticonToEmoji } from 'to-emoji';
 
 import PageContainer from '../../../components/pageContainer';
 import useWebSocketConnection from '../../../components/websockets/useConnection';
-import { service } from '../../../helpers/service';
+import { service } from '@awesome/shared-web/utils/service';
 
 const SingleChat: React.FC = () => {
   const { chatId } = useParams();

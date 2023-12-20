@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FluentUiProvider from './fluentUiProvider';
+import FluentUiProvider from '@awesome/shared-web/components/fluentUiProvider';
 
 const AppRoutes = React.lazy(() => import('../routes'));
 
@@ -8,7 +8,9 @@ const Init: React.FC = () => {
   return (
     <FluentUiProvider>
       <div className='w-screen h-screen'>
-        <AppRoutes />
+        <div className='w-screen h-screen'>
+          <AppRoutes />
+        </div>
       </div>
     </FluentUiProvider>
   );

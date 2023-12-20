@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { service } from '../helpers/service';
+import { service } from '@awesome/shared-web/utils/service';
 
 export interface Pid {
   cpu: number;

@@ -2,12 +2,77 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <title>Awesome Admin</title>
+    <style>
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+    </style>
+    <script>
+      var customViewportCorrectionVariable = 'vh';
+
+      function setViewportProperty(doc) {
+        var prevClientHeight;
+        var customVar = '--' + (customViewportCorrectionVariable || 'vh');
+        function handleResize() {
+          var clientHeight = doc.clientHeight;
+          if (clientHeight === prevClientHeight) return;
+          requestAnimationFrame(function updateViewportHeight() {
+            doc.style.setProperty(customVar, clientHeight * 0.01 + 'px');
+            prevClientHeight = clientHeight;
+          });
+        }
+        handleResize();
+        return handleResize;
+      }
+      window.addEventListener(
+        'resize',
+        setViewportProperty(document.documentElement)
+      );
+    </script>
   </head>
-  <body>
-    <div id="root"></div>
+  <body style="padding: 0; margin: 0">
+    <div id="root">
+      <div
+        style="
+          width: 100vw;
+          height: calc(100 * var(--vh, 1vh));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: '#E9E9E9';
+          position: fixed;
+          position: 'fixed';
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        "
+      >
+        <img
+          src="/icons/favicon.png"
+          style="
+            width: 100px;
+            height: 100px;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+          "
+        />
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

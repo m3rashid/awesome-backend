@@ -13,8 +13,8 @@ import React, { useEffect, useState } from 'react';
 
 import PostCard from '../../../components/atoms/postCard';
 import PageContainer from '../../../components/pageContainer';
-import { service } from '../../../helpers/service';
-import useForm from '../../../hooks/form';
+import { service } from '@awesome/shared-web/utils/service';
+import useForm from '@awesome/shared-web/hooks/form';
 
 const Posts: React.FC = () => {
   const auth = useAuthValue();

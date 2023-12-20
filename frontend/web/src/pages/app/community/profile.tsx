@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import PostCard from '../../../components/atoms/postCard';
 import PageContainer from '../../../components/pageContainer';
-import { service } from '../../../helpers/service';
+import { service } from '@awesome/shared-web/utils/service';
 
 const CommunityProfile: React.FC = () => {
   const { userId } = useParams();

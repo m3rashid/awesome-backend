@@ -1,4 +1,4 @@
-package hosts
+package host
 
 import (
 	"awesome/controller"
@@ -13,6 +13,10 @@ var HostModule = utils.Module{
 		// because we don't want to create tenant table in the tenant's database
 	},
 	ProtectedRoutes: utils.ProtectedRouteConfig{
+		"/init": {
+			Description: "Init automatic auth at refresh",
+			Controller:  utils.GetInitialUser(utils.AuthControllerOptions{}),
+		},
 		"/create": {
 			Description: "Create a tenant",
 			Controller:  CreateTenant,
@@ -44,5 +48,14 @@ var HostModule = utils.Module{
 			),
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRouteConfig{
+		"/login": {
+			Description: "Host Login",
+			Controller:  utils.Login(utils.AuthControllerOptions{}),
+		},
+		"/register": {
+			Description: "Host Register",
+			Controller:  utils.Register(utils.AuthControllerOptions{}),
+		},
+	},
 }

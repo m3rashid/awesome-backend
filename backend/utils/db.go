@@ -11,6 +11,7 @@ import (
 	"github.com/Pacific73/gorm-cache/cache"
 	"github.com/Pacific73/gorm-cache/config"
 	"github.com/go-redis/redis/v8"
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -172,4 +173,9 @@ func GormMigrate(gormDB *gorm.DB) error {
 
 	fmt.Println("Migration completed, Migrated " + fmt.Sprint(len(Models)) + " models")
 	return nil
+}
+
+func GetDbFromRequestOrigin(ctx *fiber.Ctx) (*gorm.DB, error) {
+	reqHeaders := ctx.GetReqHeaders()
+	return GetTenantDB(reqHeaders["Origin"][0])
 }

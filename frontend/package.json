@@ -8,6 +8,7 @@
   },
   "private": true,
   "workspaces": [
+		"shared-web",
     "shared",
 		"admin",
     "web"

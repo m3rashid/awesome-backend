@@ -2,7 +2,7 @@ import resourceTypes from '@awesome/shared/constants/resourceTypes';
 import useLoading from '@awesome/shared/hooks/loading';
 import { SubmitHandler, useForm as useHookForm } from 'react-hook-form';
 
-import { service } from '../helpers/service';
+import { service } from '@awesome/shared-web/utils/service';
 
 type useFormProps<T> = {
   submitEndpoint: string;

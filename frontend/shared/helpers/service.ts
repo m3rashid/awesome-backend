@@ -18,7 +18,6 @@ export const service = <Res = any>(
       url,
       method: options.method || 'GET',
       baseURL: OtherOptions.noBaseURL ? '' : baseUrl,
-      withCredentials: true,
       ...(config || {}),
       headers: {
         ...(options.headers || {}),

@@ -1,7 +1,7 @@
 import { Method } from 'axios';
 import { useEffect, useState } from 'react';
 
-import { service } from '../helpers/service';
+import { service } from '../utils/service';
 
 type PaginationOptions = { currentPage: number; limit: number };
 

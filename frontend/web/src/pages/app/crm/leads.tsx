@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import PageContainer from '../../../components/pageContainer';
-import { service } from '../../../helpers/service';
+import { service } from '@awesome/shared-web/utils/service';
 
 const Leads: React.FC = () => {
   const [loads, setLeads] = useState<any | null>(null);

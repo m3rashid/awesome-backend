@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FluentUiProvider from '../atoms/fluentUiProvider';
+import FluentUiProvider from '@awesome/shared-web/components/fluentUiProvider';
 import useWebSocketConnection from '../websockets/useConnection';
 
 const AppRoutes = React.lazy(() => import('./routes'));

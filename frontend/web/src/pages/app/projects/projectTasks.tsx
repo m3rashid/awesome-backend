@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import AddUpdateProjectTask from '../../../components/atoms/addUpdateProjectTask';
 import PageContainer from '../../../components/pageContainer';
-import { service } from '../../../helpers/service';
+import { service } from '@awesome/shared-web/utils/service';
 
 const ProjectTasks: React.FC = () => {
   const { projectId } = useParams();

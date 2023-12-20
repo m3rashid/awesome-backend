@@ -10,7 +10,7 @@ import { Chat20Regular } from '@fluentui/react-icons';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 
-import { service } from '../../helpers/service';
+import { service } from '@awesome/shared-web/utils/service';
 import AddPostComment from './addPostComment';
 
 export type PostCommentSectionProps = {

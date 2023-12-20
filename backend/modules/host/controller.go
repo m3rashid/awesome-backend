@@ -1,4 +1,4 @@
-package hosts
+package host
 
 import (
 	"awesome/controller"
@@ -21,7 +21,9 @@ func CreateTenant(ctx *fiber.Ctx) error {
 				}
 
 				tenant.TenantDBConnectionString = newDatabase
-				tenant.UserID = ctx.Locals("userId").(uint)
+				tenant.TenantOwnerID = ctx.Locals("userId").(uint)
+				// TODO: change this to the actual url (bit of a hack for now)
+				tenant.TenantUrl = "http://localhost:300" + ctx.Locals("userId").(string)
 				return nil
 			},
 			PostCreate: func(ctx *fiber.Ctx, db *gorm.DB, tenant *models.Tenant) error {
@@ -37,9 +39,13 @@ func CreateTenant(ctx *fiber.Ctx) error {
 
 				hostDB := utils.GetHostDB()
 				var user models.User
-				err = hostDB.First(&user, tenant.UserID).Error
+				err = hostDB.First(&user, tenant.TenantOwnerID).Error
 				if err != nil {
 					return err
+				}
+
+				if user.ID == 0 {
+					return fiber.ErrNotFound
 				}
 
 				tenantUser := models.User{

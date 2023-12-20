@@ -16,7 +16,7 @@ const BrandHeader: FC<BrandHeaderProps> = ({
 }) => {
   if (!inline) {
     return (
-      <div className='flex items-center justify-center text-center my-4'>
+      <div className='flex items-center justify-center text-center my-4 bg-red-500'>
         <Link to={url}>
           <Image
             width={64}
@@ -53,10 +53,7 @@ const BrandHeader: FC<BrandHeaderProps> = ({
         <div>
           <Text as='b'>{appConfig.name}</Text>
           <br />
-          <Text>
-            {/*  type='secondary'> */}
-            {appConfig.tagline}
-          </Text>
+          <Text>{appConfig.tagline}</Text>
         </div>
       )}
     </div>

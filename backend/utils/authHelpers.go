@@ -1,12 +1,10 @@
-package auth
+package utils
 
 import (
 	"log"
 	"os"
 	"strconv"
 	"time"
-
-	"awesome/utils"
 
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
@@ -34,7 +32,7 @@ func VerifyPassword(hashedPassword string, password string) bool {
 
 func GenerateJWT(userId uint, email string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
-	claims := &utils.Claims{
+	claims := &Claims{
 		Email:  email,
 		UserID: strconv.FormatUint(uint64(userId), 10),
 		RegisteredClaims: jwt.RegisteredClaims{

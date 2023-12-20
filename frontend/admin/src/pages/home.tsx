@@ -1,10 +1,23 @@
+import { Button, Text } from '@fluentui/react-components';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import CommonHeader from '@awesome/shared-web/components/commonHeader';
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <>
-      <div>Home</div>
-    </>
+    <div className='w-screen'>
+      <CommonHeader type='host'>
+        <Button appearance='subtle' onClick={() => navigate('/')}>
+          Go to App
+        </Button>
+      </CommonHeader>
+
+      <div className='p-2 sm:p-4 pt-[40px] sm:pt-[50px]'>
+        <Text>Home</Text>
+      </div>
+    </div>
   );
 };
 

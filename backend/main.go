@@ -13,6 +13,7 @@ import (
 	"awesome/modules/drive"
 	"awesome/modules/emails"
 	"awesome/modules/forms"
+	"awesome/modules/host"
 	"awesome/modules/permissions"
 	"awesome/modules/projects"
 	"awesome/modules/search"
@@ -51,16 +52,7 @@ func main() {
 		},
 	})
 
-	casbin := permissions.InitCasbin()
-	app.Use(func(c *fiber.Ctx) error {
-		c.Locals("casbin", casbin)
-		return c.Next()
-	})
-
-	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "*",
-		AllowCredentials: true,
-	}))
+	app.Use(cors.New())
 
 	app.Static("/public", "./public", fiber.Static{
 		MaxAge:        3600,
@@ -86,9 +78,16 @@ func main() {
 		}))
 	}
 
+	casbin := permissions.InitCasbin()
+	app.Use(func(c *fiber.Ctx) error {
+		c.Locals("casbin", casbin)
+		return c.Next()
+	})
+
 	allModules := []utils.Module{
 		crm.CRMModule,
 		auth.AuthModule,
+		host.HostModule,
 		drive.DriveModule,
 		forms.FormsModule,
 		emails.EmailModule,
@@ -110,7 +109,7 @@ func main() {
 	drive.RegisterDriveRoutes(app, utils.CheckAuthMiddleware)
 
 	db := utils.GetHostDB()
-	db.AutoMigrate(&models.User{}, &models.Tenant{})
+	db.AutoMigrate(&models.Tenant{}, &models.TenantOwner{})
 
 	log.Println("Server is running")
 	app.Listen(":" + os.Getenv("SERVER_PORT"))

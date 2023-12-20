@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 // import { atom } from 'recoil';
-import { service } from '../../helpers/service';
+import { service } from '@awesome/shared-web/utils/service';
 // import { DashboardBuilder, dashboardBuilderDefault } from './constants';
 
 // const dashboardBuilderAtom = atom<DashboardBuilder>({

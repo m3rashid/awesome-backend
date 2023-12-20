@@ -27,8 +27,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import PageContainer from '../../../components/pageContainer';
-import { service } from '../../../helpers/service';
-import useForm from '../../../hooks/form';
+import { service } from '@awesome/shared-web/utils/service';
+import useForm from '@awesome/shared-web/hooks/form';
 
 const Forms: React.FC = () => {
   const auth = useAuthValue();

@@ -1,21 +1,23 @@
-import { useAuthState } from '@awesome/shared/atoms/auth';
-import useLoading from '@awesome/shared/hooks/loading';
 import {
   LoginResponse,
   RegisterResponse,
 } from '@awesome/shared/types/api/auth';
+import useLoading from '@awesome/shared/hooks/loading';
+import { useAuthState } from '@awesome/shared/atoms/auth';
+
 import { useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useQueryParam } from 'use-query-params';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { service } from '../helpers/service';
+import { service } from '../utils/service';
 
-export type LoginRegisterFormProps = {
+export type FormProps = {
   formType: 'login' | 'register';
+  authType: 'tenant' | 'host';
 };
 
-export const useAuth = () => {
+const useAuth = (props: FormProps) => {
   const navigate = useNavigate();
   const [auth, setAuth] = useAuthState();
   const { loading, start, stop } = useLoading();
@@ -34,23 +36,29 @@ export const useAuth = () => {
     formState,
   } = useForm<Inputs>();
 
-  const changeState = (currentState: LoginRegisterFormProps['formType']) => {
+  const changeState = (currentState: FormProps['formType']) => {
     const nextState = currentState === 'login' ? 'register' : 'login';
     if (redirectUrl) navigate(`/auth/${nextState}?redirect=${redirectUrl}`);
     else navigate(`/auth/${nextState}`);
   };
 
   useEffect(() => {
-    if (auth?.user) navigate(redirectUrl ? redirectUrl : '/app');
+    if (auth?.user)
+      navigate(
+        redirectUrl ? redirectUrl : props.authType === 'tenant' ? '/app' : '/'
+      );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login: SubmitHandler<Inputs> = async (values) => {
     try {
       start('login');
-      const res = await service<LoginResponse>('/api/anonymous/auth/login', {
-        method: 'POST',
-      })({ data: values });
+      const res = await service<LoginResponse>(
+        props.authType === 'tenant'
+          ? '/api/anonymous/auth/login'
+          : '/api/anonymous/host/login',
+        { method: 'POST' }
+      )({ data: values });
       setAuth({ user: res.data.user, token: res.data.token });
       localStorage.setItem('awesome:token', res.data.token);
       if (redirectUrl) navigate(redirectUrl);
@@ -65,9 +73,12 @@ export const useAuth = () => {
   const createAccount: SubmitHandler<Inputs> = async (values) => {
     try {
       start('register');
-      await service<RegisterResponse>('/api/anonymous/auth/register', {
-        method: 'POST',
-      })({ data: values });
+      await service<RegisterResponse>(
+        props.authType === 'tenant'
+          ? '/api/anonymous/auth/register'
+          : '/api/anonymous/host/register',
+        { method: 'POST' }
+      )({ data: values });
       if (redirectUrl) navigate(redirectUrl);
       else navigate('/app');
     } catch (err: any) {
@@ -89,3 +100,5 @@ export const useAuth = () => {
     registerFormElement,
   };
 };
+
+export default useAuth;

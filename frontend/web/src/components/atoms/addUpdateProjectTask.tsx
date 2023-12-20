@@ -16,7 +16,7 @@ import {
 import { DatePicker } from '@fluentui/react-datepicker-compat';
 import React from 'react';
 
-import useForm from '../../hooks/form';
+import useForm from '@awesome/shared-web/hooks/form';
 
 const taskStatus = ['backlog', 'todo', 'inprogress', 'review', 'done'];
 

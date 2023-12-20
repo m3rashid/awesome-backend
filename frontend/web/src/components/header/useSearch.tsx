@@ -3,7 +3,7 @@ import { debounce } from 'lodash-es';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { service } from '../../helpers/service';
+import { service } from '@awesome/shared-web/utils/service';
 
 const resourceTypeToUrl: Record<keyof typeof resourceTypes, string> = {
   users: '/app/community/profile/:resourceId',

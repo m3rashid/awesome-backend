@@ -3,14 +3,14 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Footer from '../components/footer';
-import CommonHeader from '../components/header/commonHeader';
+import CommonHeader from '@awesome/shared-web/components/commonHeader';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
 
   return (
     <div className='w-screen'>
-      <CommonHeader>
+      <CommonHeader type='tenant'>
         <Button appearance='subtle' onClick={() => navigate('/app')}>
           Go to App
         </Button>
