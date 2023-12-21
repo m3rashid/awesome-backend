@@ -1,3 +1,4 @@
+import React from 'react';
 import DefaultPageContainer, {
   PageContainerProps,
 } from '@awesome/shared-web/components/pageContainer';

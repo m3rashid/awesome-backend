@@ -1,7 +1,4 @@
-import {
-  LoginResponse,
-  RegisterResponse,
-} from '@awesome/shared/types/api/auth';
+import { LoginResponse, RegisterResponse } from '@awesome/shared/types/auth';
 import useLoading from '@awesome/shared/hooks/loading';
 import { useAuthState } from '@awesome/shared/atoms/auth';
 
@@ -62,7 +59,7 @@ const useAuth = (props: FormProps) => {
       setAuth({ user: res.data.user, token: res.data.token });
       localStorage.setItem('awesome:token', res.data.token);
       if (redirectUrl) navigate(redirectUrl);
-      else navigate('/app');
+      else navigate(props.authType === 'tenant' ? '/app' : '/');
     } catch (err: any) {
       console.log(err);
     } finally {
@@ -80,7 +77,7 @@ const useAuth = (props: FormProps) => {
         { method: 'POST' }
       )({ data: values });
       if (redirectUrl) navigate(redirectUrl);
-      else navigate('/app');
+      else navigate(props.authType === 'tenant' ? '/app' : '/');
     } catch (err: any) {
       console.log(err);
     } finally {

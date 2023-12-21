@@ -31,7 +31,7 @@ var HostModule = utils.Module{
 			),
 		},
 		"/get": {
-			Description: "Get a tenant by id",
+			Description: "Get a tenant",
 			Controller: controller.Get[models.Tenant](
 				controller.GetOptions[models.Tenant]{
 					GetDB: utils.GetHostDB,
@@ -39,7 +39,7 @@ var HostModule = utils.Module{
 			),
 		},
 		"/update": {
-			Description: "Update a tenant by id",
+			Description: "Update a tenant",
 			Controller: controller.Update[models.Tenant](
 				models.TENANT_MODEL_NAME,
 				controller.UpdateOptions[models.Tenant]{

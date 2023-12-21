@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 const LEAD_MODEL_NAME = "leads"
 const LEAD_TASK_MODEL_NAME = "lead_tasks"
 const LEAD_TIMELINE_EVENT_MODEL_NAME = "lead_timeline_events"
@@ -8,7 +10,7 @@ const REFERRAL_MODEL_NAME = "referrals"
 
 type LeadStatus string
 type LeadTaskStatus string
-type CallType string
+type EventType string
 
 type Lead struct {
 	BaseModel
@@ -31,22 +33,22 @@ type LeadTask struct {
 
 type LeadTimelineEvent struct {
 	BaseModel
-	LeadID              uint     `json:"leadId" gorm:"column:leadId;not null" validate:"required"`
-	Lead                *Lead    `json:"lead" gorm:"column:leadId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
-	Time                string   `json:"time" gorm:"column:time;not null" validate:"required"`
-	Notes               string   `json:"notes,omitempty" gorm:"column:note" validate:""`
-	NextConnectDateTime string   `json:"nextConnectDateTime" gorm:"column:nextConnectDateTime" validate:""`
-	CallType            CallType `json:"callType" gorm:"column:callType" validate:""`
-	AttendedByID        uint     `json:"attendedById" gorm:"column:attendedById;noy null" validate:"required"`
-	AttendedBy          *User    `json:"attendedBy" gorm:"column:attendedById;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	LeadID              uint      `json:"leadId" gorm:"column:leadId;not null" validate:"required"`
+	Lead                *Lead     `json:"lead" gorm:"column:leadId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	Time                time.Time `json:"time" gorm:"column:time;default:current_timestamp" validate:""`
+	Notes               string    `json:"notes,omitempty" gorm:"column:note" validate:""`
+	NextConnectDateTime time.Time `json:"nextConnectDateTime" gorm:"column:nextConnectDateTime" validate:""`
+	EventType           EventType `json:"eventType" gorm:"column:eventType" validate:""`
+	AttendedByID        uint      `json:"attendedById" gorm:"column:attendedById;noy null" validate:"required"`
+	AttendedBy          *User     `json:"attendedBy" gorm:"column:attendedById;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 }
 
 type Campaign struct {
 	BaseModel
-	Name        string `json:"name" gorm:"column:name;not null" validate:"required"`
-	Description string `json:"description" gorm:"column:description" validate:""`
-	ValidTill   string `json:"validTill" gorm:"column:validTill" validate:""`
-	ValidFrom   string `json:"validFrom" gorm:"column:validFrom" validate:""`
+	Name        string    `json:"name" gorm:"column:name;not null" validate:"required"`
+	Description string    `json:"description" gorm:"column:description" validate:""`
+	ValidTill   time.Time `json:"validTill" gorm:"column:validTill" validate:"required"`
+	ValidFrom   time.Time `json:"validFrom" gorm:"column:validFrom" validate:"required"`
 }
 
 type Referral struct {

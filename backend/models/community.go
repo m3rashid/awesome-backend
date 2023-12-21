@@ -48,7 +48,7 @@ type Comment struct {
 	Status      CommentStatus `json:"status" gorm:"column:status;default:pending" validate:""`
 }
 
-type Friends struct {
+type Friend struct {
 	BaseModel
 	UserID   uint  `json:"userId" gorm:"column:userId;not null" validate:"required"`
 	User     *User `json:"user" gorm:"column:userId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
@@ -68,7 +68,7 @@ type FriendRequest struct {
 type CommunityGroup struct {
 	BaseModel
 	Name        string  `json:"name" gorm:"column:name;not null" validate:"required"`
-	Description string  `json:"description" gorm:"column:description;not null" validate:"required"`
+	Description string  `json:"description" gorm:"column:description" validate:""`
 	CreatedByID uint    `json:"createdById" gorm:"column:createdById;not null" validate:"required"`
 	CreatedBy   *User   `json:"createdBy" gorm:"column:createdById;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	Members     []*User `json:"members" gorm:"many2many:community_group_members_relation;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
@@ -76,11 +76,11 @@ type CommunityGroup struct {
 
 type CommunityChatMessage struct {
 	BaseModel
-	SenderID uint   `json:"senderId" gorm:"column:senderId;not null" validate:"required"`
-	Sender   *User  `json:"sender" gorm:"column:senderId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
-	GroupID  uint   `json:"groupId" gorm:"column:groupId;not null" validate:"required"`
-	Group    *User  `json:"group" gorm:"column:groupId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
-	Body     string `json:"body" gorm:"column:body;not null" validate:"required"`
+	SenderID uint            `json:"senderId" gorm:"column:senderId;not null" validate:"required"`
+	Sender   *User           `json:"sender" gorm:"column:senderId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	GroupID  uint            `json:"groupId" gorm:"column:groupId;not null" validate:"required"`
+	Group    *CommunityGroup `json:"group" gorm:"column:groupId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+	Body     string          `json:"body" gorm:"column:body;not null" validate:"required"`
 }
 
 func (*Post) TableName() string {
@@ -91,7 +91,7 @@ func (*Comment) TableName() string {
 	return COMMENT_MODEL_NAME
 }
 
-func (*Friends) TableName() string {
+func (*Friend) TableName() string {
 	return FRIENDS_MODEL_NAME
 }
 

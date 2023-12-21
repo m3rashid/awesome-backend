@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { InitResponse } from '@awesome/shared/types/api/auth';
 import { service } from '../utils/service';
+import { InitResponse } from '@awesome/shared/types/auth';
 
 export type UseInitProps = {
   authType: 'host' | 'tenant';

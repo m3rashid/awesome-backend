@@ -22,7 +22,7 @@ type ActionLog struct {
 }
 
 type Resource struct {
-	ID           uint   `gorm:"primary_key" json:"id"`
+	ID           uint   `json:"id" gorm:"primary_key"`
 	Name         string `json:"name" gorm:"column:name;not null" validate:"required"`
 	Description  string `json:"description" gorm:"column:description" validate:""`
 	ResourceID   uint   `json:"resourceId" gorm:"column:resourceId;not null" validate:"required"`

@@ -3,9 +3,11 @@ package utils
 import (
 	"awesome/models"
 	"database/sql"
+	"errors"
 	"fmt"
 	"os"
 	"regexp"
+	"strings"
 	"time"
 
 	"github.com/Pacific73/gorm-cache/cache"
@@ -44,7 +46,7 @@ func GetRedisClient() *redis.Client {
 	return redisClient
 }
 
-func getDbConnection(connectionString string) (*gorm.DB, error) {
+func GetDbConnection(connectionString string) (*gorm.DB, error) {
 	sqlDB, err := sql.Open("pgx", connectionString)
 	if err != nil {
 		return nil, err
@@ -94,7 +96,7 @@ func GetHostDB() *gorm.DB {
 			os.Getenv("POSTGRES_DB"),
 		)
 
-		gormDB, err := getDbConnection(dbStr)
+		gormDB, err := GetDbConnection(dbStr)
 		if err != nil {
 			fmt.Println("Error initializing host db: ", err)
 			panic(err)
@@ -108,13 +110,13 @@ func GetHostDB() *gorm.DB {
 
 func GetTenantDB(tenantUrl string) (*gorm.DB, error) {
 	if tenantUrl == "" {
-		return nil, fmt.Errorf("tenantUrl is empty")
+		return nil, errors.New("tenantUrl is empty")
 	}
 
 	if tenantsDBMap[tenantUrl].Connection == nil || time.Since(tenantsDBMap[tenantUrl].CreatedAt) > CONNECTION_REFRESH_INTERVAL {
 		db := GetHostDB()
 		var tenant models.Tenant
-		err := db.Where("tenantUrl = ?", tenantUrl).First(&tenant).Error
+		err := db.Where("\"tenantUrl\" = ?", tenantUrl).First(&tenant).Error
 		if err != nil {
 			fmt.Println("Error fetching tenant: ", err)
 			return nil, err
@@ -130,7 +132,7 @@ func GetTenantDB(tenantUrl string) (*gorm.DB, error) {
 		}
 
 		fmt.Println("Creating new tenant db connection for", tenantUrl)
-		gormDB, err := getDbConnection(tenant.TenantDBConnectionString)
+		gormDB, err := GetDbConnection(tenant.TenantDBConnectionString)
 		if err != nil {
 			fmt.Println("Error initializing tenant db: ", err)
 			return nil, err
@@ -147,7 +149,7 @@ func GetTenantDB(tenantUrl string) (*gorm.DB, error) {
 
 func CreateDatabase(tenantName string, gormDB *gorm.DB) (string, error) {
 	regex := regexp.MustCompile("[^a-zA-Z0-9]+")
-	dbName := regex.ReplaceAllString(tenantName, "")
+	dbName := strings.ToLower(regex.ReplaceAllString(tenantName, ""))
 
 	if err := gormDB.Exec("CREATE DATABASE " + dbName).Error; err != nil {
 		fmt.Println("Error creating database: ", err)

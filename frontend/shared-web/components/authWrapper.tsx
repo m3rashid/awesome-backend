@@ -2,9 +2,11 @@ import { useAuthValue } from '@awesome/shared/atoms/auth';
 import React, { useEffect } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import RootContainer from './rootContainer';
+export type AuthWrapperProps = React.PropsWithChildren & {
+  Container: React.FC<React.PropsWithChildren>;
+};
 
-const AuthWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
+const AuthWrapper: React.FC<AuthWrapperProps> = ({ children, Container }) => {
   const auth = useAuthValue();
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,7 +24,7 @@ const AuthWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
       />
     );
 
-  return <RootContainer>{children}</RootContainer>;
+  return <Container>{children}</Container>;
 };
 
 export default AuthWrapper;

@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 const PROJECT_MODEL_NAME = "projects"
 const PROJECT_TAG_MODEL_NAME = "project_tags"
 const PROJECT_TASK_MODEL_NAME = "project_tasks"
@@ -31,7 +33,7 @@ type ProjectTask struct {
 	Project      *Project      `json:"project" gorm:"column:projectId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	Name         string        `json:"name" gorm:"column:name;not null" validate:"required"`
 	Description  string        `json:"description" gorm:"column:description" validate:""`
-	Deadline     string        `json:"deadline" gorm:"column:deadline" validate:""`
+	Deadline     time.Time     `json:"deadline" gorm:"column:deadline" validate:""`
 	Completed    bool          `json:"completed" gorm:"column:completed;default:false" validate:""`
 	TaskStatus   TaskStatus    `json:"taskStatus" gorm:"column:taskStatus;not null" validate:"required"`
 	ReportedByID uint          `json:"reportedById" gorm:"column:reportedById;not null" validate:"required"`

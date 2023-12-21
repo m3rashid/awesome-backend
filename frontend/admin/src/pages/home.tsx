@@ -1,23 +1,49 @@
-import { Button, Text } from '@fluentui/react-components';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CommonHeader from '@awesome/shared-web/components/commonHeader';
+import { Tenant } from '@awesome/shared/types/host';
+import { service } from '@awesome/shared-web/utils/service';
+import { useAuthValue } from '@awesome/shared/atoms/auth';
+import CreateTenantForm from '../components/createTenantForm';
+import useLoading from '@awesome/shared/hooks/loading';
+import Loader from '@awesome/shared-web/components/loader';
+import PageContainer from '../components/pageContainer';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const { loading, start, stop } = useLoading();
+  const [tenantDetails, setTenantDetails] = useState<Tenant | null>(null);
+  const auth = useAuthValue();
+
+  const getTenantDetails = async () => {
+    try {
+      start('createTenant');
+      const { data } = await service('/api/host/get', { method: 'POST' })({
+        data: { searchCriteria: { tenantOwnerId: auth?.user?.id } },
+      });
+      setTenantDetails(data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      stop('createTenant');
+    }
+  };
+
+  useEffect(() => {
+    getTenantDetails();
+  }, []);
 
   return (
-    <div className='w-screen'>
-      <CommonHeader type='host'>
-        <Button appearance='subtle' onClick={() => navigate('/')}>
-          Go to App
-        </Button>
-      </CommonHeader>
-
-      <div className='p-2 sm:p-4 pt-[40px] sm:pt-[50px]'>
-        <Text>Home</Text>
-      </div>
-    </div>
+    <PageContainer>
+      {loading ? (
+        <Loader />
+      ) : tenantDetails ? (
+        <div>{JSON.stringify({ tenantDetails, auth })}</div>
+      ) : (
+        <div className='h-[calc(100vh-102px)] w-screen all-center'>
+          <CreateTenantForm onSuccess={getTenantDetails} />
+        </div>
+      )}
+    </PageContainer>
   );
 };
 

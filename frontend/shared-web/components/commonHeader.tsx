@@ -1,5 +1,10 @@
-import appConfig from '@awesome/shared/constants/appConfig';
 import { Image, Text } from '@fluentui/react-components';
+import appConfig from '@awesome/shared/constants/appConfig';
+
+// TAILWIND not working,
+// so using inline styles
+// TODO: fix tailwind
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,11 +30,22 @@ const CommonHeader: React.FC<CommonHeaderProps> = ({ type, children }) => {
     >
       <div
         onClick={() => navigate(type === 'tenant' ? '/app' : '/')}
-        className='h-full mb-0 flex gap-1 items-center cursor-pointer'
+        // className='h-full mb-0 flex items-center cursor-pointer gap-2'
+        style={{
+          height: '100%',
+          marginBottom: 0,
+          display: 'flex',
+          alignItems: 'center',
+          cursor: 'pointer',
+          gap: 2,
+        }}
       >
-        <Image src='/favicon.ico' height={30} width={30} />
+        <Image src='/favicon.ico' height={30} width={30} className='' />
 
-        <div className='flex flex-col'>
+        <div
+          // className='flex flex-col'
+          style={{ display: 'flex', flexDirection: 'column' }}
+        >
           <Text
             as='strong'
             style={{

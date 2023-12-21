@@ -1,8 +1,8 @@
-import resourceTypes from '@awesome/shared/constants/resourceTypes';
 import useLoading from '@awesome/shared/hooks/loading';
 import { SubmitHandler, useForm as useHookForm } from 'react-hook-form';
 
 import { service } from '@awesome/shared-web/utils/service';
+import { resourceTypes } from '@awesome/shared/types/search';
 
 type useFormProps<T> = {
   submitEndpoint: string;
@@ -14,7 +14,7 @@ type useFormProps<T> = {
     body: T;
     resourceIndex?: {
       name: string;
-      resourceType: (typeof resourceTypes)[keyof typeof resourceTypes];
+      resourceType: (typeof resourceTypes)[number];
       description?: string;
     };
   };

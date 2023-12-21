@@ -1,8 +1,8 @@
 import React from 'react';
 
 import CommonHeader from '@awesome/shared-web/components/commonHeader';
-import Search from './search';
 import UserActions from './userActions';
+import Search from './search';
 
 const Header: React.FC = () => {
   return (

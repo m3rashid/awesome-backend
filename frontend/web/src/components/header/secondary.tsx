@@ -17,65 +17,63 @@ const SecondaryHeader: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <>
-      <div className='h-[30px] bg-blue-100 flex items-center gap-2'>
-        {appPaths.map((routeConfig) => {
-          if (!routeConfig.children || routeConfig.children.length === 0) {
-            return (
-              <Tooltip
-                key={routeConfig.route}
-                relationship='description'
-                content={routeConfig.description}
+    <div className='h-[30px] bg-blue-100 flex items-center gap-2'>
+      {appPaths.map((routeConfig) => {
+        if (!routeConfig.children || routeConfig.children.length === 0) {
+          return (
+            <Tooltip
+              key={routeConfig.route}
+              relationship='description'
+              content={routeConfig.description}
+            >
+              <Button
+                size='small'
+                iconPosition='after'
+                appearance='transparent'
+                onClick={() => navigate(routeConfig.route)}
               >
+                {routeConfig.name}
+              </Button>
+            </Tooltip>
+          );
+        }
+
+        return (
+          <Menu key={routeConfig.route}>
+            <Tooltip
+              relationship='description'
+              content={routeConfig.description}
+            >
+              <MenuTrigger>
                 <Button
                   size='small'
                   iconPosition='after'
                   appearance='transparent'
-                  onClick={() => navigate(routeConfig.route)}
+                  icon={<ChevronDown16Regular />}
                 >
                   {routeConfig.name}
                 </Button>
-              </Tooltip>
-            );
-          }
+              </MenuTrigger>
+            </Tooltip>
 
-          return (
-            <Menu key={routeConfig.route}>
-              <Tooltip
-                relationship='description'
-                content={routeConfig.description}
-              >
-                <MenuTrigger>
-                  <Button
-                    size='small'
-                    iconPosition='after'
-                    appearance='transparent'
-                    icon={<ChevronDown16Regular />}
-                  >
-                    {routeConfig.name}
-                  </Button>
-                </MenuTrigger>
-              </Tooltip>
-
-              <MenuPopover>
-                <MenuList>
-                  {routeConfig.children?.map((child) => {
-                    return (
-                      <MenuItem
-                        key={child.route}
-                        onClick={() => navigate(child.route)}
-                      >
-                        {child.name}
-                      </MenuItem>
-                    );
-                  })}
-                </MenuList>
-              </MenuPopover>
-            </Menu>
-          );
-        })}
-      </div>
-    </>
+            <MenuPopover>
+              <MenuList>
+                {routeConfig.children?.map((child) => {
+                  return (
+                    <MenuItem
+                      key={child.route}
+                      onClick={() => navigate(child.route)}
+                    >
+                      {child.name}
+                    </MenuItem>
+                  );
+                })}
+              </MenuList>
+            </MenuPopover>
+          </Menu>
+        );
+      })}
+    </div>
   );
 };
 

@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
@@ -50,8 +52,13 @@ func CheckAuthMiddleware() fiber.Handler {
 			c.Status(fiber.StatusUnauthorized).SendString(err.Error())
 		}
 
+		userIdU64, err := strconv.ParseUint(claims.UserID, 10, 32)
+		if err != nil {
+			return fmt.Errorf("error parsing user id: %v", err)
+		}
+
 		c.Locals("email", claims.Email)
-		c.Locals("userId", claims.UserID)
+		c.Locals("userId", uint(userIdU64))
 		c.Locals("authorized", true)
 
 		return c.Next()

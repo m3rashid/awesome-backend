@@ -179,13 +179,7 @@ func Register(options AuthControllerOptions) fiber.Handler {
 			password := HashPassword(newUser.Password)
 			newUser.Password = password
 
-			db, err = GetDbFromRequestOrigin(ctx)
-			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
-					"message": "Could not login",
-				})
-			}
-
+			db = GetHostDB()
 			result := db.Create(&newUser)
 			if result.Error != nil {
 				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{

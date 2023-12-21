@@ -1,6 +1,27 @@
 import { z } from 'zod';
-import { User } from '../../types/schema';
+import { BaseSchema, SqlID } from './base';
 
+export type User = BaseSchema & {
+  name: string;
+  email: string;
+  phone?: string;
+  avatar?: string;
+  deactivated: boolean;
+  password: string;
+};
+
+export type Profile = BaseSchema & {
+  userId: SqlID;
+  user?: User;
+};
+
+export type UserGroup = BaseSchema & {
+  groupName: string;
+  description: string;
+  users?: Array<User>;
+};
+
+// ********** VALIDATIONS ********** //
 export const loginRequestBodySchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),

@@ -11,7 +11,7 @@ var CommunityModule = utils.Module{
 	Models: []interface{}{
 		&models.Post{},
 		&models.Comment{},
-		&models.Friends{},
+		&models.Friend{},
 		&models.FriendRequest{},
 		&models.CommunityGroup{},
 		&models.CommunityChatMessage{},
@@ -75,7 +75,7 @@ var CommunityModule = utils.Module{
 
 		"/friendships": {
 			Description: "List all friendships",
-			Controller: controller.List[models.Friends](
+			Controller: controller.List[models.Friend](
 				models.FRIENDS_MODEL_NAME,
 				controller.ListOptions{},
 			),

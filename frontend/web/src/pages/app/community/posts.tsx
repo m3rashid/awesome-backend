@@ -12,9 +12,9 @@ import _ from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 
 import PostCard from '../../../components/atoms/postCard';
-import PageContainer from '../../../components/pageContainer';
 import { service } from '@awesome/shared-web/utils/service';
 import useForm from '@awesome/shared-web/hooks/form';
+import PageContainer from '../../../components/pageContainer';
 
 const Posts: React.FC = () => {
   const auth = useAuthValue();

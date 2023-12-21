@@ -1,5 +1,5 @@
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
-import { User } from '../types/schema';
+import { User } from '../types/auth';
 
 export type AuthAtom = {
   token: string;

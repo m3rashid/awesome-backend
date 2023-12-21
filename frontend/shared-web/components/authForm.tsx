@@ -16,9 +16,9 @@ const AuthForm: React.FC<FormProps> = ({ authType, formType }) => {
   const {
     login,
     loading,
+    changeState,
     createAccount,
     handleFormSubmit,
-    changeState,
     registerFormElement,
   } = useAuth({ formType, authType });
 
@@ -28,7 +28,8 @@ const AuthForm: React.FC<FormProps> = ({ authType, formType }) => {
         <BrandHeader />
 
         <form
-          className='flex flex-col gap-4'
+          // className='flex flex-col gap-4'
+          style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
           onSubmit={handleFormSubmit(
             formType === 'login' ? login : createAccount
           )}
@@ -65,15 +66,22 @@ const AuthForm: React.FC<FormProps> = ({ authType, formType }) => {
           </Button>
         </form>
 
-        <div className='flex item-center flex-col justify-center'>
+        <div
+          // className='flex item-center flex-col justify-center'
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           <Link onClick={() => changeState(formType)}>
             {formType === 'login'
               ? authType === 'tenant'
                 ? "Don't have an account? Create one"
-                : "Don't have your organization"
+                : "Don't have your organization account? Create one"
               : authType === 'tenant'
               ? 'Already have an account? Login Here'
-              : 'Already have organization account'}
+              : 'Already an organization holder? Login Here'}
           </Link>
         </div>
       </Card>
