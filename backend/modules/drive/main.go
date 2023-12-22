@@ -22,6 +22,10 @@ var DriveModule = utils.Module{
 				"driveFile": utils.LIST,
 			},
 		},
+		"/signed-url/put": {
+			Description: "Get a signed URL to upload a file",
+			Controller:  GetSignedUrlForPut,
+		},
 	},
 	AnonymousRoutes: utils.AnonymousRouteConfig{},
 }

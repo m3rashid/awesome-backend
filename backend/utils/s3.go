@@ -13,13 +13,18 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 )
 
+var _s3Client *s3.Client
+
 func getS3Client() *s3.Client {
-	config, err := config.LoadDefaultConfig(context.TODO())
-	if err != nil {
-		log.Fatal(err)
+	if _s3Client == nil {
+		config, err := config.LoadDefaultConfig(context.TODO())
+		if err != nil {
+			log.Fatal(err)
+		}
+		_s3Client = s3.NewFromConfig(config)
 	}
 
-	return s3.NewFromConfig(config)
+	return _s3Client
 }
 
 type Presigner struct {
