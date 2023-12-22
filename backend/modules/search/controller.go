@@ -17,8 +17,11 @@ func HandleSearch() fiber.Handler {
 		}
 
 		var resources []models.Resource
-		db := utils.GetHostDB()
-		err := db.Where("name ILIKE ?", "%"+searchBody.Text+"%").Or("description ILIKE ?", "%"+searchBody.Text+"%").Find(&resources).Error
+		db, err := utils.GetDbFromRequestOrigin(ctx)
+		if err != nil {
+			return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Find Resources")
+		}
+		err = db.Where("name ILIKE ?", "%"+searchBody.Text+"%").Or("description ILIKE ?", "%"+searchBody.Text+"%").Find(&resources).Error
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Find Resources")
 		}

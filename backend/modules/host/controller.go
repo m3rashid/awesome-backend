@@ -72,6 +72,13 @@ func CreateTenant(ctx *fiber.Ctx) error {
 					return err
 				}
 
+				newResourceIndex := models.Resource{
+					Name:         tenantUser.Name,
+					ResourceType: "users",
+					ResourceID:   tenantUser.ID,
+				}
+
+				err = tenantDB.Create(&newResourceIndex).Error
 				return err
 			},
 		},

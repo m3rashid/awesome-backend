@@ -28,8 +28,7 @@ const AuthForm: React.FC<FormProps> = ({ authType, formType }) => {
         <BrandHeader />
 
         <form
-          // className='flex flex-col gap-4'
-          style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
+          className='flex flex-col gap-4'
           onSubmit={handleFormSubmit(
             formType === 'login' ? login : createAccount
           )}
@@ -66,14 +65,7 @@ const AuthForm: React.FC<FormProps> = ({ authType, formType }) => {
           </Button>
         </form>
 
-        <div
-          // className='flex item-center flex-col justify-center'
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <div className='flex item-center flex-col justify-center'>
           <Link onClick={() => changeState(formType)}>
             {formType === 'login'
               ? authType === 'tenant'
