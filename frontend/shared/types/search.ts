@@ -15,6 +15,7 @@ export const resourceTypes = [
   'forms',
   'projects',
   'community_groups',
+  'leads',
 ] as const;
 export type Resource = {
   id: SqlID;

@@ -6,3 +6,13 @@ export type BaseSchema = {
   deleted: boolean;
   createdAt: Time;
 };
+
+export type PaginatedResponse<T> = {
+  docs: T[];
+  count: number;
+  limit: number;
+  totalDocs: number;
+  currentPage: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+};
