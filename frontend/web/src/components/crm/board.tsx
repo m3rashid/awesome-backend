@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   DndContext,
   MouseSensor,
@@ -7,20 +6,20 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { Lead, leadStatus } from '@awesome/shared/types/crm';
-
+import React from 'react';
 import KanbanLane from './kanbanLane';
+import { Lead, LeadStatus } from '@awesome/shared/types/crm';
 
 export type BoardProps = {
   items: BoardItems;
   setItems: React.Dispatch<React.SetStateAction<BoardItems>>;
 };
 
-export type BoardItems = Record<(typeof leadStatus)[number], Lead[]>;
+export type BoardItems = Record<LeadStatus, Lead[]>;
 
 const Board: React.FC<BoardProps> = ({ items, setItems }) => {
-  const mouseSensor = useSensor(MouseSensor); // Initialize mouse sensor
-  const touchSensor = useSensor(TouchSensor); // Initialize touch sensor
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
   const sensors = useSensors(mouseSensor, touchSensor);
 
   return (
@@ -28,7 +27,6 @@ const Board: React.FC<BoardProps> = ({ items, setItems }) => {
       sensors={sensors}
       collisionDetection={rectIntersection}
       onDragEnd={(e) => {
-        // console.log({ current: e.active.data.current, over: e.over });
         const desinationLane = e.over?.id;
         if (!e.active.data.current) {
           console.log('no data');
@@ -46,14 +44,14 @@ const Board: React.FC<BoardProps> = ({ items, setItems }) => {
 
         setItems((prev) => {
           const newItems = { ...prev };
-          newItems[desinationLane] = [
-            ...newItems[desinationLane],
-            e.active.data.current.lead,
+          newItems[desinationLane as LeadStatus] = [
+            ...newItems[desinationLane as LeadStatus],
+            e.active.data.current?.lead,
           ];
 
-          newItems[e.active.data.current.parent] = newItems[
-            e.active.data.current.parent
-          ].filter((item) => item.id !== e.active.data.current.lead.id);
+          newItems[e.active.data.current?.parent as LeadStatus] = newItems[
+            e.active.data.current?.parent as LeadStatus
+          ].filter((item) => item.id !== e.active.data.current?.lead.id);
           return newItems;
         });
       }}
@@ -91,12 +89,14 @@ const Board: React.FC<BoardProps> = ({ items, setItems }) => {
       //   }
       // }}
     >
-      <div className='flex gap-2 flex-col'>
-        <div className='flex gap-2'>
-          <KanbanLane items={items.todo} laneIdentifier='todo' />
-          <KanbanLane items={items.in_progress} laneIdentifier='in_progress' />
-          <KanbanLane items={items.done} laneIdentifier='done' />
-        </div>
+      <div className='flex gap-2 overflow-x-auto mt-4 h-[calc(100vh-158px)] hide-scrollbar'>
+        {Object.keys(items).map((key) => (
+          <KanbanLane
+            key={key}
+            items={items[key as LeadStatus]}
+            laneIdentifier={key as LeadStatus}
+          />
+        ))}
       </div>
     </DndContext>
   );

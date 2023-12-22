@@ -106,7 +106,6 @@ func main() {
 	go workflow.RunWorkflowHub()
 	ws.SetupWebsockets(app)
 	utils.RegisterRoutes(app, allModules)
-	drive.RegisterDriveRoutes(app, utils.CheckAuthMiddleware)
 
 	db := utils.GetHostDB()
 	db.AutoMigrate(&models.Tenant{}, &models.TenantOwner{})

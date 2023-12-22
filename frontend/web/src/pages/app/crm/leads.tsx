@@ -23,7 +23,14 @@ const Leads: React.FC = () => {
     })({ data: { searchCriteria: {} } });
     const filtered = data.docs.reduce<BoardItems>(
       (acc, lead) => ({ ...acc, [lead.status]: [...acc[lead.status], lead] }),
-      { done: [], in_progress: [], todo: [] }
+      {
+        done: [],
+        in_progress: [],
+        todo: [],
+        backlog: [],
+        blocked: [],
+        review: [],
+      }
     );
     setItems(filtered);
   };

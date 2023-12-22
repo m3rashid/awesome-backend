@@ -1,16 +1,17 @@
-import resourceTypes from '@awesome/shared/constants/resourceTypes';
+import { ResourceType } from '@awesome/shared/types/search';
+import { service } from '@awesome/shared-web/utils/service';
+
 import { debounce } from 'lodash-es';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { service } from '@awesome/shared-web/utils/service';
-
-const resourceTypeToUrl: Record<keyof typeof resourceTypes, string> = {
+const resourceTypeToUrl: Record<ResourceType, string> = {
   users: '/app/community/profile/:resourceId',
   posts: '/app/community/posts/:resourceId',
   community_groups: '/app/community/chats/:resourceId',
   forms: '/app/forms/:resourceId',
   projects: '/app/projects/:resourceId',
+  leads: '/app/crm/leads/:resourceId',
 };
 
 const useSearch = () => {
@@ -29,7 +30,7 @@ const useSearch = () => {
         const resources = data.resources.map((resource: any) => ({
           ...resource,
           url: resourceTypeToUrl[
-            resource.resourceType as keyof typeof resourceTypes
+            resource.resourceType as ResourceType
           ]?.replace(':resourceId', resource.resourceId),
         }));
         setOptions(resources);
@@ -49,7 +50,6 @@ const useSearch = () => {
 
   const onSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
-    console.log(searchText);
     getResources(e.target.value);
   };
 

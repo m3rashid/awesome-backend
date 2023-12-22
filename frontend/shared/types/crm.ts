@@ -2,7 +2,15 @@ import { User } from './auth';
 import { BaseSchema, SqlID, Time } from './base';
 
 // TODO
-export const leadStatus = ['todo', 'in_progress', 'done'] as const;
+export const leadStatus = [
+  'todo',
+  'in_progress',
+  'done',
+  'backlog',
+  'blocked',
+  'review',
+] as const;
+export type LeadStatus = (typeof leadStatus)[number];
 export type Lead = BaseSchema & {
   name: string;
   email: string;

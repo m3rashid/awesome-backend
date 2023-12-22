@@ -17,6 +17,7 @@ export const resourceTypes = [
   'community_groups',
   'leads',
 ] as const;
+export type ResourceType = (typeof resourceTypes)[number];
 export type Resource = {
   id: SqlID;
   name: string;
