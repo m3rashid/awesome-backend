@@ -10,7 +10,7 @@ type User struct {
 	Email       string `json:"email" gorm:"column:email;unique;not null" validate:"required,email"`
 	Phone       string `json:"phone,omitempty" gorm:"column:phone" validate:""`
 	Avatar      string `json:"avatar,omitempty" gorm:"column:avatar" validate:""`
-	Deactivated bool   `json:"deactivated" gorm:"column:deactivated" validate:""`
+	Deactivated bool   `json:"-" gorm:"column:deactivated" validate:""`
 	Password    string `json:"password" gorm:"column:password;not null" validate:"required"`
 }
 

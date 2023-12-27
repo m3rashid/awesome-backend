@@ -6,8 +6,6 @@ export type User = BaseSchema & {
   email: string;
   phone?: string;
   avatar?: string;
-  deactivated: boolean;
-  password: string;
 };
 
 export type Profile = BaseSchema & {

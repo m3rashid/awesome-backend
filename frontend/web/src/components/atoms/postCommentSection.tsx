@@ -54,9 +54,13 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId }) => {
             image={<Avatar />}
             header={
               <div className='flex justify-between w-full'>
-                <Body1>
-                  <b>{comment.user.name}</b>
-                </Body1>
+                <div className='flex flex-col'>
+                  <Body1>
+                    <b>{comment.user.name}</b> &nbsp;&#x2022;&nbsp;
+                    {dayjs(comment.createdAt).fromNow()}
+                  </Body1>
+                  <Caption1>{comment.user.email}</Caption1>
+                </div>
 
                 <Button
                   appearance='subtle'
@@ -71,9 +75,6 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId }) => {
                   {replyTo === comment.id ? 'Cancel' : 'Reply'}
                 </Button>
               </div>
-            }
-            description={
-              <Caption1>{dayjs(comment.createdAt).fromNow()}</Caption1>
             }
           />
           <p>{comment.body}</p>

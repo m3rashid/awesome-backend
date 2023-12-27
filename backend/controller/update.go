@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"awesome/models"
@@ -16,6 +17,7 @@ func Update[T interface{}](tableName string, options UpdateOptions[T]) func(*fib
 		var updateBody UpdateBody
 		err := ctx.BodyParser(&updateBody)
 		if err != nil {
+			log.Println(err)
 			return ctx.Status(400).JSON(fiber.Map{"error": err.Error()})
 		}
 
@@ -29,6 +31,7 @@ func Update[T interface{}](tableName string, options UpdateOptions[T]) func(*fib
 		validate := validator.New()
 		err = validate.Struct(update)
 		if err != nil {
+			log.Println(err)
 			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 

@@ -115,7 +115,7 @@ func Register(options AuthControllerOptions) fiber.Handler {
 			if err != nil {
 				log.Println(err)
 				return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
-					"message": "Bad Request",
+					"message": "Bad Request, not a user",
 				})
 			}
 
@@ -125,8 +125,9 @@ func Register(options AuthControllerOptions) fiber.Handler {
 			validator := validator.New()
 			err = validator.Struct(newUser)
 			if err != nil {
+				log.Println(err)
 				return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
-					"message": "Bad Request",
+					"message": "Bad Request, validation failed",
 				})
 			}
 
@@ -136,7 +137,7 @@ func Register(options AuthControllerOptions) fiber.Handler {
 			db, err = GetDbFromRequestOrigin(ctx)
 			if err != nil {
 				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
-					"message": "Could not login",
+					"message": "Could not register",
 				})
 			}
 

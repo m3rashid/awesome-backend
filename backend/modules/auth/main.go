@@ -14,7 +14,7 @@ var AuthModule = utils.Module{
 		&models.User{},
 	},
 	ProtectedRoutes: utils.ProtectedRouteConfig{
-		"/all": {
+		"/users": {
 			Description: "List all users",
 			Controller: controller.List[models.User](
 				models.USER_MODEL_NAME,
@@ -24,13 +24,17 @@ var AuthModule = utils.Module{
 				"user": utils.LIST,
 			},
 		},
-		"/user": {
+		"/users/search": {
+			Description: "Search Users",
+			Controller:  SearchUsers,
+		},
+		"/users/get": {
 			Description: "Get any user",
 			Controller: controller.Get[models.User](
 				controller.GetOptions[models.User]{},
 			),
 		},
-		"/update": {
+		"/users/update": {
 			Description: "Update user",
 			Controller: controller.Update[models.User](
 				models.USER_MODEL_NAME,

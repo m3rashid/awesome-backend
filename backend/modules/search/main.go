@@ -15,7 +15,7 @@ var SearchModule = utils.Module{
 	AnonymousRoutes: utils.AnonymousRouteConfig{
 		"/": {
 			Description: "Search",
-			Controller:  HandleSearch(),
+			Controller:  HandleSearch,
 		},
 	},
 }

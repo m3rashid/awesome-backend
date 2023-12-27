@@ -9,15 +9,15 @@ import {
 import React from 'react';
 import KanbanLane from './kanbanLane';
 import { Lead, LeadStatus } from '@awesome/shared/types/crm';
+import useLeads from './useLeads';
 
-export type BoardProps = {
-  items: BoardItems;
-  setItems: React.Dispatch<React.SetStateAction<BoardItems>>;
-};
+export type BoardProps = {};
 
 export type BoardItems = Record<LeadStatus, Lead[]>;
 
-const Board: React.FC<BoardProps> = ({ items, setItems }) => {
+const Board: React.FC<BoardProps> = () => {
+  const { items, setItems } = useLeads();
+
   const mouseSensor = useSensor(MouseSensor);
   const touchSensor = useSensor(TouchSensor);
   const sensors = useSensors(mouseSensor, touchSensor);
@@ -91,11 +91,7 @@ const Board: React.FC<BoardProps> = ({ items, setItems }) => {
     >
       <div className='flex gap-2 overflow-x-auto mt-4 h-[calc(100vh-158px)] hide-scrollbar'>
         {Object.keys(items).map((key) => (
-          <KanbanLane
-            key={key}
-            items={items[key as LeadStatus]}
-            laneIdentifier={key as LeadStatus}
-          />
+          <KanbanLane key={key} laneIdentifier={key as LeadStatus} />
         ))}
       </div>
     </DndContext>

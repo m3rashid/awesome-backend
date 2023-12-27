@@ -9,14 +9,9 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 const CommunityProfile = lazy(
   () => import('../../pages/app/community/profile')
 );
-const ProjectTasks = lazy(
-  () => import('../../pages/app/projects/projectTasks')
-);
+const ProjectTasks = lazy(() => import('../../pages/app/projects/details'));
 const DashboardBuilder = lazy(
   () => import('../../pages/app/tools/dashboardBuilder')
-);
-const ProjectUserDashboard = lazy(
-  () => import('../../pages/app/projects/userDashboard')
 );
 const Home = lazy(() => import('../../pages/home'));
 const AppHome = lazy(() => import('../../pages/app'));
@@ -26,17 +21,18 @@ const Drive = lazy(() => import('../../pages/app/drive'));
 const Login = lazy(() => import('../../pages/auth/login'));
 const Users = lazy(() => import('../../pages/app/iam/users'));
 const Leads = lazy(() => import('../../pages/app/crm/leads'));
-const Projects = lazy(() => import('../../pages/app/projects'));
 const PrivacyPolicy = lazy(() => import('../../pages/privacy'));
 const Register = lazy(() => import('../../pages/auth/register'));
 const TermsAndConditions = lazy(() => import('../../pages/terms'));
 const Posts = lazy(() => import('../../pages/app/community/posts'));
+const Projects = lazy(() => import('../../pages/app/projects/all'));
 const Campaigns = lazy(() => import('../../pages/app/crm/campaigns'));
 const Workspaces = lazy(() => import('../../pages/app/iam/workspaces'));
 const UserGroups = lazy(() => import('../../pages/app/iam/userGroups'));
 const AllChats = lazy(() => import('../../pages/app/community/allChats'));
 const LeadDetails = lazy(() => import('../../pages/app/crm/leadDetails'));
 const SingleForm = lazy(() => import('../../pages/app/forms/singleForm'));
+const ProjectUserDashboard = lazy(() => import('../../pages/app/projects'));
 const FormBuilderPage = lazy(() => import('../../pages/app/forms/builder'));
 const FormResponses = lazy(() => import('../../pages/app/forms/responses'));
 const PortalSettings = lazy(() => import('../../pages/app/settings/portal'));

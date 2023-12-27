@@ -1,16 +1,18 @@
 import React from 'react';
-
-import LeadCard from './leadCard';
 import { useDroppable } from '@dnd-kit/core';
 import { Body1Strong } from '@fluentui/react-components';
-import { Lead, LeadStatus } from '@awesome/shared/types/crm';
+
+import { LeadStatus } from '@awesome/shared/types/crm';
+
+import LeadCard from './leadCard';
+import useLeads from './useLeads';
 
 export type KanbanLaneProps = {
   laneIdentifier: LeadStatus;
-  items: Lead[];
 };
 
-const KanbanLane: React.FC<KanbanLaneProps> = ({ items, laneIdentifier }) => {
+const KanbanLane: React.FC<KanbanLaneProps> = ({ laneIdentifier }) => {
+  const { items: allLeads } = useLeads();
   const { setNodeRef } = useDroppable({ id: laneIdentifier });
 
   return (
@@ -22,7 +24,7 @@ const KanbanLane: React.FC<KanbanLaneProps> = ({ items, laneIdentifier }) => {
       </div>
 
       <div className='flex flex-col gap-2 h-full p-2' ref={setNodeRef}>
-        {items.map((lead, index) => (
+        {allLeads[laneIdentifier].map((lead, index) => (
           <LeadCard
             lead={lead}
             key={lead.id}

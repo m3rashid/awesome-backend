@@ -16,3 +16,13 @@ export type PaginatedResponse<T> = {
   hasNextPage: boolean;
   hasPreviousPage: boolean;
 };
+
+export const defaultPaginatedResponse: PaginatedResponse<any> = {
+  docs: [],
+  count: 0,
+  limit: 0,
+  totalDocs: 0,
+  currentPage: 0,
+  hasNextPage: false,
+  hasPreviousPage: false,
+};

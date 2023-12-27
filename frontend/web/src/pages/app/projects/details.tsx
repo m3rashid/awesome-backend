@@ -3,13 +3,18 @@ import { Add20Regular } from '@fluentui/react-icons';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import AddUpdateProjectTask from '../../../components/atoms/addUpdateProjectTask';
+import AddUpdateProjectTask from '../../../components/projects/addUpdateProjectTask';
 import PageContainer from '../../../components/pageContainer';
 import { service } from '@awesome/shared-web/utils/service';
+import AddRemoveMembersToProject from '../../../components/projects/addRemoveMembers';
 
 const ProjectTasks: React.FC = () => {
   const { projectId } = useParams();
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [addUpdateProjectTaskDialogOpen, setAddUpdateProjectTaskDialogOpen] =
+    useState(false);
+  const [addOrRemoveMembersDialogOpen, setAddOrRemoveMembersDialogOpen] =
+    useState(false);
+
   const [project, setProject] = useState<any | null>(null);
   const [projectTasks, setProjectTasks] = useState<any | null>(null);
 
@@ -41,18 +46,36 @@ const ProjectTasks: React.FC = () => {
       header={{
         title: project.name,
         extra: (
-          <Button
-            appearance='primary'
-            icon={<Add20Regular />}
-            onClick={() => setDialogOpen(true)}
-          >
-            Create a new Task
-          </Button>
+          <div className='flex items-center gap-2'>
+            <Button
+              icon={<Add20Regular />}
+              onClick={() => setAddUpdateProjectTaskDialogOpen(true)}
+            >
+              Create Task
+            </Button>
+
+            <Button onClick={() => setAddOrRemoveMembersDialogOpen(true)}>
+              Add or Remove Members
+            </Button>
+          </div>
         ),
       }}
     >
       <AddUpdateProjectTask
-        {...{ dialogOpen, getTasks, projectId: projectId!, setDialogOpen }}
+        {...{
+          getTasks,
+          projectId: projectId!,
+          dialogOpen: addUpdateProjectTaskDialogOpen,
+          setDialogOpen: setAddUpdateProjectTaskDialogOpen,
+        }}
+      />
+
+      <AddRemoveMembersToProject
+        {...{
+          dialogOpen: addOrRemoveMembersDialogOpen,
+          setDialogOpen: setAddOrRemoveMembersDialogOpen,
+          projectId: projectId!,
+        }}
       />
 
       {/* show tasks kanban board */}

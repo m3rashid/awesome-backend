@@ -1,4 +1,4 @@
-package search
+package auth
 
 import (
 	"awesome/models"
@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func HandleSearch(ctx *fiber.Ctx) error {
+func SearchUsers(ctx *fiber.Ctx) error {
 	searchBody := struct {
 		Text string `json:"text" validate:"required"`
 	}{}
@@ -15,17 +15,15 @@ func HandleSearch(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Parse Body")
 	}
 
-	var resources []models.Resource
+	var users []models.User
 	db, err := utils.GetDbFromRequestOrigin(ctx)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Find Resources")
 	}
-	err = db.Where("name ILIKE ?", "%"+searchBody.Text+"%").Or("description ILIKE ?", "%"+searchBody.Text+"%").Find(&resources).Error
+	err = db.Where("name ILIKE ?", "%"+searchBody.Text+"%").Or("email ILIKE ?", "%"+searchBody.Text+"%").Find(&users).Error
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).SendString("Could Not Find Resources")
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"resources": resources,
-	})
+	return ctx.Status(fiber.StatusOK).JSON(users)
 }
