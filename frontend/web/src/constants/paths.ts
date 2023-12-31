@@ -58,6 +58,7 @@ export const appPaths: AppPath[] = [
       { name: 'Data Ingestor', route: '/app/tools/data-ingestor' },
       { name: 'Dashboard Builder', route: '/app/tools/dashboard-builder' },
       { name: 'Server Metrics', route: '/app/tools/server-metrics' },
+      { name: 'Workflow Builder', route: '/app/tools/workflow-builder' },
     ],
   },
   {

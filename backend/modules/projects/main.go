@@ -14,7 +14,11 @@ var ProjectModule = utils.Module{
 		&models.ProjectTag{},
 		&models.ProjectTaskComments{},
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{
+	SchemaMap: utils.SchemaMap{
+		models.PROJECT_MODEL_NAME:      models.ProjectTableSchemaMap,
+		models.PROJECT_TASK_MODEL_NAME: models.ProjectTaskTableSchemaMap,
+	},
+	ProtectedRoutes: utils.ProtectedRoutes{
 		"": {
 			Description: "List all projects",
 			Controller: controller.List[models.Project](
@@ -127,5 +131,5 @@ var ProjectModule = utils.Module{
 			),
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRoutes{},
 }

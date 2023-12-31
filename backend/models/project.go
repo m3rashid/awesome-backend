@@ -27,6 +27,13 @@ type Project struct {
 	Completed      bool    `json:"completed" gorm:"column:completed;default:false" validate:""`
 }
 
+var ProjectTableSchemaMap = map[string]string{
+	"name":           "string",
+	"projectOwnerId": "number",
+	"completed":      "boolean",
+	"createdAt":      "time",
+}
+
 type ProjectTask struct {
 	BaseModel
 	ProjectID    uint          `json:"projectId" gorm:"column:projectId;not null" validate:"required"`
@@ -41,6 +48,17 @@ type ProjectTask struct {
 	AssignedToID uint          `json:"assignedToId" gorm:"column:assignedToId;" validate:""`
 	AssignedTo   *User         `json:"assignedTo" gorm:"column:assignedToId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	Tags         []*ProjectTag `json:"tags" gorm:"many2many:project_task_tags_relation" validate:""`
+}
+
+var ProjectTaskTableSchemaMap = map[string]string{
+	"projectId":    "number",
+	"name":         "string",
+	"completed":    "boolean",
+	"deadline":     "time",
+	"taskStatus":   "string",
+	"reportedById": "number",
+	"assignedToId": "number",
+	"createdAt":    "time",
 }
 
 type ProjectTag struct {

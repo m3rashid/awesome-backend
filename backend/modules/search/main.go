@@ -11,8 +11,9 @@ var SearchModule = utils.Module{
 		&models.Resource{},
 		&models.ActionLog{},
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{},
-	AnonymousRoutes: utils.AnonymousRouteConfig{
+	SchemaMap:       utils.SchemaMap{},
+	ProtectedRoutes: utils.ProtectedRoutes{},
+	AnonymousRoutes: utils.AnonymousRoutes{
 		"/": {
 			Description: "Search",
 			Controller:  HandleSearch,

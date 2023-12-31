@@ -16,7 +16,11 @@ var CommunityModule = utils.Module{
 		&models.CommunityGroup{},
 		&models.CommunityChatMessage{},
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{
+	SchemaMap: utils.SchemaMap{
+		models.POST_MODEL_NAME:    models.PostTableSchemaMap,
+		models.COMMENT_MODEL_NAME: models.CommentTableSchemaMap,
+	},
+	ProtectedRoutes: utils.ProtectedRoutes{
 		"/posts": {
 			Description: "Get all posts",
 			Controller: controller.List[models.Post](
@@ -146,5 +150,5 @@ var CommunityModule = utils.Module{
 			),
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRoutes{},
 }

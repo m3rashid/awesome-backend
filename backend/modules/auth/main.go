@@ -13,7 +13,12 @@ var AuthModule = utils.Module{
 		&models.Profile{},
 		&models.User{},
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{
+	SchemaMap: utils.SchemaMap{
+		models.USER_MODEL_NAME:       models.UserTableSchemaMap,
+		models.PROFILE_MODEL_NAME:    models.ProfileTableSchemaMap,
+		models.USER_GROUP_MODEL_NAME: models.UserGroupTableSchemaMap,
+	},
+	ProtectedRoutes: utils.ProtectedRoutes{
 		"/users": {
 			Description: "List all users",
 			Controller: controller.List[models.User](
@@ -73,7 +78,7 @@ var AuthModule = utils.Module{
 			),
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{
+	AnonymousRoutes: utils.AnonymousRoutes{
 		"/login": {
 			Description: "Login",
 			Controller: utils.Login(utils.AuthControllerOptions{

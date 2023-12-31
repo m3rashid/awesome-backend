@@ -16,22 +16,26 @@ const (
 
 type RoutePermissions = map[string]ResourcePermission
 
-type ProtectedRouteConfig = map[string]struct {
+type ProtectedRoutes = map[string]struct {
 	HttpMethod  string // default POST
 	Controller  fiber.Handler
 	Description string
 	Permissions RoutePermissions
 }
 
-type AnonymousRouteConfig = map[string]struct {
+type AnonymousRoutes = map[string]struct {
 	HttpMethod  string
 	Controller  fiber.Handler
 	Description string
 }
 
+type Schema = map[string]string
+type SchemaMap = map[string]Schema
+
 type Module struct {
 	Name            string
+	SchemaMap       SchemaMap
 	Models          []interface{}
-	AnonymousRoutes AnonymousRouteConfig
-	ProtectedRoutes ProtectedRouteConfig
+	AnonymousRoutes AnonymousRoutes
+	ProtectedRoutes ProtectedRoutes
 }

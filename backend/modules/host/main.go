@@ -12,7 +12,8 @@ var HostModule = utils.Module{
 		// Tenant module is not listed here,
 		// because we don't want to create tenant table in the tenant's database
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{
+	SchemaMap: utils.SchemaMap{},
+	ProtectedRoutes: utils.ProtectedRoutes{
 		"/init": {
 			Description: "Init automatic auth at refresh",
 			Controller:  utils.GetInitialUser(utils.AuthControllerOptions{}),
@@ -48,7 +49,7 @@ var HostModule = utils.Module{
 			),
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{
+	AnonymousRoutes: utils.AnonymousRoutes{
 		"/login": {
 			Description: "Host Login",
 			Controller:  utils.Login(utils.AuthControllerOptions{}),

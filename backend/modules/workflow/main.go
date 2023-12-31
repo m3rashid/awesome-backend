@@ -9,45 +9,48 @@ import (
 var WorkflowModule = utils.Module{
 	Name: "workflow",
 	Models: []interface{}{
-		&models.Workflow{},
+		&models.WorkflowTemplate{},
 		&models.WorkflowStep{},
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{
-		"/": {
-			Description: "List all workflows",
-			Controller: controller.List[models.Workflow](
-				models.WORKFLOW_MODEL_NAME,
+	SchemaMap: utils.SchemaMap{
+		models.WORKFLOW_TEMPLATE_MODEL_NAME: models.WorkflowTableSchemaMap,
+	},
+	ProtectedRoutes: utils.ProtectedRoutes{
+		"/templates": {
+			Description: "List all workflow templates",
+			Controller: controller.List[models.WorkflowTemplate](
+				models.WORKFLOW_TEMPLATE_MODEL_NAME,
 				controller.ListOptions{},
 			),
 		},
-		"/create": {
-			Description: "Create a workflow",
-			Controller: controller.Create[models.Workflow](
-				models.WORKFLOW_MODEL_NAME,
-				controller.CreateOptions[models.Workflow]{},
+		"/templates/create": {
+			Description: "Create a workflow templaet",
+			Controller: controller.Create[models.WorkflowTemplate](
+				models.WORKFLOW_TEMPLATE_MODEL_NAME,
+				controller.CreateOptions[models.WorkflowTemplate]{},
 			),
 		},
-		"/update": {
-			Description: "Update a workflow",
-			Controller: controller.Update[models.Workflow](
-				models.WORKFLOW_MODEL_NAME,
-				controller.UpdateOptions[models.Workflow]{},
+		"/templates/update": {
+			Description: "Update a workflow template",
+			Controller: controller.Update[models.WorkflowTemplate](
+				models.WORKFLOW_TEMPLATE_MODEL_NAME,
+				controller.UpdateOptions[models.WorkflowTemplate]{},
 			),
 		},
-		"/get": {
-			Description: "Get a workflow",
-			Controller: controller.Get[models.Workflow](
-				controller.GetOptions[models.Workflow]{},
+		"/templates/get": {
+			Description: "Get a workflow template",
+			Controller: controller.Get[models.WorkflowTemplate](
+				controller.GetOptions[models.WorkflowTemplate]{},
 			),
 		},
-		"/step/create": {
+		"/templates/steps/create": {
 			Description: "Create a workflow step",
 			Controller: controller.Create[models.WorkflowStep](
 				models.WORKFLOW_STEP_MODEL_NAME,
 				controller.CreateOptions[models.WorkflowStep]{},
 			),
 		},
-		"/step/update": {
+		"/templates/steps/update": {
 			Description: "Update a workflow step",
 			Controller: controller.Update[models.WorkflowStep](
 				models.WORKFLOW_STEP_MODEL_NAME,
@@ -55,5 +58,5 @@ var WorkflowModule = utils.Module{
 			),
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRoutes{},
 }

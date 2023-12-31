@@ -11,7 +11,10 @@ var EmailModule = utils.Module{
 	Models: []interface{}{
 		&models.Email{},
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{
+	SchemaMap: utils.SchemaMap{
+		models.EMAIL_MODEL_NAME: models.EmailTableSchemaMap,
+	},
+	ProtectedRoutes: utils.ProtectedRoutes{
 		"/all": {
 			Description: "List all emails",
 			Controller: controller.List[models.Email](
@@ -22,5 +25,5 @@ var EmailModule = utils.Module{
 			},
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRoutes{},
 }

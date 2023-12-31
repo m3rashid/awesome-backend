@@ -12,7 +12,11 @@ var FormsModule = utils.Module{
 		&models.Form{},
 		&models.Response{},
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{
+	SchemaMap: utils.SchemaMap{
+		models.FORMS_MODEL_NAME:         models.FormTableSchemaMap,
+		models.FORM_RESPONSE_MODEL_NAME: models.FormResponseTableSchemaMap,
+	},
+	ProtectedRoutes: utils.ProtectedRoutes{
 		"": {
 			Description: "List all forms",
 			Controller: controller.List[models.Form](
@@ -38,7 +42,7 @@ var FormsModule = utils.Module{
 			},
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{
+	AnonymousRoutes: utils.AnonymousRoutes{
 		"/get": {
 			Description: "Get form by id",
 			Controller: controller.Get[models.Form](

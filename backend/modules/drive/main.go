@@ -11,8 +11,10 @@ var DriveModule = utils.Module{
 	Models: []interface{}{
 		&models.DriveFile{},
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{
-		// other drive routes are directly registered
+	SchemaMap: utils.SchemaMap{
+		models.DRIVE_FILE_MODEL_NAME: models.DriveFileTableSchemaMap,
+	},
+	ProtectedRoutes: utils.ProtectedRoutes{
 		"/all": {
 			Description: "List all files",
 			Controller: controller.List[models.DriveFile](
@@ -27,5 +29,5 @@ var DriveModule = utils.Module{
 			Controller:  GetSignedUrlForPut,
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRoutes{},
 }

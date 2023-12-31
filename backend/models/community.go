@@ -35,6 +35,13 @@ type Post struct {
 	Status     PostStatus `json:"status" gorm:"column:status;default:pending" validate:""`
 }
 
+var PostTableSchemaMap = map[string]string{
+	"toxicScore": "number",
+	"status":     "string",
+	"userId":     "number",
+	"createdAt":  "time",
+}
+
 type Comment struct {
 	BaseModel
 	PostID      uint          `json:"postId" gorm:"column:postId;not null" validate:"required"`
@@ -46,6 +53,13 @@ type Comment struct {
 	RepliedTo   *Comment      `json:"repliedTo" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	ToxicScore  float64       `json:"toxicScore" gorm:"column:toxicScore" validate:""`
 	Status      CommentStatus `json:"status" gorm:"column:status;default:pending" validate:""`
+}
+
+var CommentTableSchemaMap = map[string]string{
+	"toxicScore": "number",
+	"status":     "string",
+	"userId":     "number",
+	"createdAt":  "time",
 }
 
 type Friend struct {

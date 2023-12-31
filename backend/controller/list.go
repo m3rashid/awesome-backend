@@ -7,12 +7,17 @@ import (
 	"gorm.io/gorm"
 )
 
-func List[T interface{}](tableName string, options ListOptions) func(*fiber.Ctx) error {
+func List[T interface{}](
+	tableName string,
+	options ListOptions,
+) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var listBody ListBody
 		err := ctx.BodyParser(&listBody)
 		if err != nil {
-			return ctx.Status(400).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(400).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		paginationOptions := listBody.PaginationOptions
@@ -35,7 +40,9 @@ func List[T interface{}](tableName string, options ListOptions) func(*fiber.Ctx)
 		} else {
 			db, err = GetDbFromRequestOrigin(ctx)
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
 			}
 		}
 
@@ -49,15 +56,27 @@ func List[T interface{}](tableName string, options ListOptions) func(*fiber.Ctx)
 		if options.ModifyDbCall != nil {
 			db, err = options.ModifyDbCall(db, listBody)
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
 			}
-			err = db.Limit(paginationOptions.Limit).Offset(int(paginationOptions.Page - 1*paginationOptions.Limit)).Find(&results).Error
+			err = db.Limit(
+				paginationOptions.Limit,
+			).Offset(
+				int(paginationOptions.Page - 1*paginationOptions.Limit),
+			).Find(&results).Error
 		} else {
-			err = db.Order("id DESC").Limit(paginationOptions.Limit).Offset(int(paginationOptions.Page-1*paginationOptions.Limit)).Find(&results, searchCriteria).Error
+			err = db.Order("id DESC").Limit(
+				paginationOptions.Limit,
+			).Offset(
+				int(paginationOptions.Page-1*paginationOptions.Limit),
+			).Find(&results, searchCriteria).Error
 		}
 
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		var docsCount int64
@@ -68,7 +87,9 @@ func List[T interface{}](tableName string, options ListOptions) func(*fiber.Ctx)
 		}
 
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		response := PaginationResponse[T]{

@@ -22,6 +22,16 @@ type Lead struct {
 	Status  LeadStatus `json:"status,omitempty" gorm:"column:status;not null" validate:"required"`
 }
 
+var LeadTableSchemaMap = map[string]string{
+	"name":      "string",
+	"email":     "string",
+	"phone":     "string",
+	"address":   "string",
+	"notes":     "string",
+	"status":    "strnig",
+	"createdAt": "time",
+}
+
 type LeadTask struct {
 	BaseModel
 	LeadID uint           `json:"leadId" gorm:"column:leadId;not null" validate:"required"`
@@ -51,6 +61,14 @@ type Campaign struct {
 	ValidFrom   time.Time `json:"validFrom" gorm:"column:validFrom" validate:"required"`
 }
 
+var CampaignTableSchemaMap = map[string]string{
+	"name":        "string",
+	"description": "string",
+	"validTill":   "time",
+	"validFrom":   "time",
+	"createdAt":   "time",
+}
+
 type Referral struct {
 	BaseModel
 	CampaignID  uint      `json:"campaignId" gorm:"column:campaignId" validate:"required"`
@@ -61,6 +79,14 @@ type Referral struct {
 	Code        string    `json:"code" gorm:"column:code;not null" validate:"required"`
 	Active      bool      `json:"active" gorm:"column:active;not null" validate:"required"`
 	Discount    float64   `json:"discount" gorm:"column:discount;not null" validate:"required"`
+}
+
+var ReferralTableSchemaMap = map[string]string{
+	"campaignId": "number",
+	"code":       "string",
+	"active":     "boolean",
+	"discount":   "number",
+	"createdAt":  "time",
 }
 
 func (*Lead) TableName() string {

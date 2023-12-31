@@ -24,6 +24,16 @@ type Form struct {
 	Published    bool   `json:"published" gorm:"column:published;default:false" validate:""`
 }
 
+var FormTableSchemaMap = map[string]string{
+	"title":        "string",
+	"createdById":  "number",
+	"authRequired": "boolean",
+	"visits":       "number",
+	"shareId":      "number",
+	"published":    "boolean",
+	"createdAt":    "time",
+}
+
 func (form *Form) BeforeCreate(tx *gorm.DB) (err error) {
 	form.ShareID = uuid.NewString()
 	return
@@ -34,8 +44,14 @@ type Response struct {
 	FormID       uint   `json:"formId" gorm:"column:formId;not null" validate:"required"`
 	Form         *Form  `json:"form" gorm:"column:formId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
 	ResponseData string `json:"responseData" gorm:"column:responseData;not null" validate:"required"`
-	UserID       *uint  `json:"userId" gorm:"column:userId" validate:""`
+	UserID       uint   `json:"userId" gorm:"column:userId" validate:""`
 	User         *User  `json:"user" gorm:"column:userId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" validate:""`
+}
+
+var FormResponseTableSchemaMap = map[string]string{
+	"userId":    "number",
+	"formId":    "number",
+	"createdAt": "time",
 }
 
 func (Form) TableName() string {

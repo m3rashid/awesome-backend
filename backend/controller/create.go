@@ -12,12 +12,17 @@ import (
 	"gorm.io/gorm"
 )
 
-func Create[T interface{}](tableName string, options CreateOptions[T]) func(*fiber.Ctx) error {
+func Create[T interface{}](
+	tableName string,
+	options CreateOptions[T],
+) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var data CreateRequestBody[T]
 		err := ctx.BodyParser(&data)
 		if err != nil {
-			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		var db *gorm.DB
@@ -26,7 +31,9 @@ func Create[T interface{}](tableName string, options CreateOptions[T]) func(*fib
 		} else {
 			db, err = GetDbFromRequestOrigin(ctx)
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
 			}
 		}
 
@@ -34,59 +41,78 @@ func Create[T interface{}](tableName string, options CreateOptions[T]) func(*fib
 			err = options.PreCreate(ctx, db, &data.Body)
 			if err != nil {
 				log.Println("Pre Create Error: ", err.Error())
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
 			}
 		}
 
 		validate := validator.New()
 		err = validate.Struct(data)
 		if err != nil {
-			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		err = db.Create(&data.Body).Error
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		if options.PostCreate != nil {
 			err = options.PostCreate(ctx, db, &data.Body)
 			if err != nil {
 				log.Println("Post Create Error: ", err.Error())
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
 			}
+		}
+
+		jsonByte, err := json.Marshal(data.Body)
+		if err != nil {
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		var createdResponse CreatedDBResponse
+		err = json.Unmarshal(jsonByte, &createdResponse)
+		if err != nil {
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		models.Flows <- models.WorkflowAction{
-			TableName: tableName,
-			Action:    models.CreateAction,
+			TriggerModel:  tableName,
+			TriggerAction: models.CreateAction,
+			TenantUrl:     ctx.GetReqHeaders()["Origin"][0],
+			ObjectID:      createdResponse.ID,
+			RetryIndex:    0,
 		}
 
 		if data.ResourceIndex.Name != "" && data.ResourceIndex.ResourceType != "" {
-			jsonByte, err := json.Marshal(data.Body)
-			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-			}
-
-			var createdResponse CreatedDBResponse
-			err = json.Unmarshal(jsonByte, &createdResponse)
-			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-			}
-
 			newResource := models.Resource{
+				ResourceID:   createdResponse.ID,
 				Name:         data.ResourceIndex.Name,
 				Description:  data.ResourceIndex.Description,
-				ResourceID:   createdResponse.ID,
 				ResourceType: data.ResourceIndex.ResourceType,
 			}
 
 			err = db.Create(&newResource).Error
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
 			}
 		}
 
-		return ctx.Status(http.StatusCreated).JSON(fiber.Map{"message": "Created Successfully"})
+		return ctx.Status(http.StatusCreated).JSON(fiber.Map{
+			"message": "Created Successfully",
+		})
 	}
 }

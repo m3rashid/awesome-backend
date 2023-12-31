@@ -12,27 +12,36 @@ import (
 	"gorm.io/gorm"
 )
 
-func Update[T interface{}](tableName string, options UpdateOptions[T]) func(*fiber.Ctx) error {
+func Update[T interface{}](
+	tableName string,
+	options UpdateOptions[T],
+) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		var updateBody UpdateBody
 		err := ctx.BodyParser(&updateBody)
 		if err != nil {
 			log.Println(err)
-			return ctx.Status(400).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(400).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		update := updateBody.Update
 		searchCriteria := updateBody.SearchCriteria
 
 		if searchCriteria == nil {
-			return ctx.Status(400).JSON(fiber.Map{"error": "search criteria is required"})
+			return ctx.Status(400).JSON(fiber.Map{
+				"error": "search criteria is required",
+			})
 		}
 
 		validate := validator.New()
 		err = validate.Struct(update)
 		if err != nil {
 			log.Println(err)
-			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+				"error": err.Error(),
+			})
 		}
 
 		var db *gorm.DB
@@ -41,27 +50,43 @@ func Update[T interface{}](tableName string, options UpdateOptions[T]) func(*fib
 		} else {
 			db, err = GetDbFromRequestOrigin(ctx)
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
 			}
 		}
 
 		err = db.Table(tableName).Where(searchCriteria).Updates(update).Error
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		jsonByte, err := json.Marshal(update)
+		if err != nil {
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		var createdResponse CreatedDBResponse
+		err = json.Unmarshal(jsonByte, &createdResponse)
+		if err != nil {
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		}
+
+		models.Flows <- models.WorkflowAction{
+			TriggerModel:  tableName,
+			TriggerAction: models.UpdateAction,
+			TenantUrl:     ctx.GetReqHeaders()["Origin"][0],
+			ObjectID:      createdResponse.ID, // handle this
+			RetryIndex:    0,
 		}
 
 		if updateBody.ResourceIndex.Name != "" && updateBody.ResourceIndex.ResourceType != "" {
-			jsonByte, err := json.Marshal(update)
-			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-			}
-
-			var createdResponse CreatedDBResponse
-			err = json.Unmarshal(jsonByte, &createdResponse)
-			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-			}
-
 			newResource := models.Resource{
 				Name:         updateBody.ResourceIndex.Name,
 				Description:  updateBody.ResourceIndex.Description,
@@ -71,10 +96,14 @@ func Update[T interface{}](tableName string, options UpdateOptions[T]) func(*fib
 
 			err = db.Table(models.RESOURCE_MODEL_NAME).Where("resourceId = ?", createdResponse.ID).Updates(&newResource).Error
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+					"error": err.Error(),
+				})
 			}
 		}
 
-		return ctx.Status(http.StatusOK).JSON(fiber.Map{"message": "Document updated successfully"})
+		return ctx.Status(http.StatusOK).JSON(fiber.Map{
+			"message": "Document updated successfully",
+		})
 	}
 }

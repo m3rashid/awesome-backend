@@ -102,6 +102,12 @@ func main() {
 		utils.Models = append(utils.Models, module.Models...)
 	}
 
+	for _, module := range allModules {
+		for key, value := range module.SchemaMap {
+			dashboard.AllSchemaMaps[key] = value
+		}
+	}
+
 	go ws.RunHub()
 	go workflow.RunWorkflowHub()
 	ws.SetupWebsockets(app)

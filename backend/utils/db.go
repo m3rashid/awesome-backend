@@ -178,6 +178,5 @@ func GormMigrate(gormDB *gorm.DB) error {
 }
 
 func GetDbFromRequestOrigin(ctx *fiber.Ctx) (*gorm.DB, error) {
-	reqHeaders := ctx.GetReqHeaders()
-	return GetTenantDB(reqHeaders["Origin"][0])
+	return GetTenantDB(ctx.GetReqHeaders()["Origin"][0])
 }

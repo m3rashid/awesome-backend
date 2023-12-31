@@ -15,7 +15,11 @@ var CRMModule = utils.Module{
 		&models.Campaign{},
 		&models.Referral{},
 	},
-	ProtectedRoutes: utils.ProtectedRouteConfig{
+	SchemaMap: utils.SchemaMap{
+		models.LEAD_MODEL_NAME:     models.LeadTableSchemaMap,
+		models.CAMPAIGN_MODEL_NAME: models.CampaignTableSchemaMap,
+	},
+	ProtectedRoutes: utils.ProtectedRoutes{
 		"/leads": {
 			Description: "List all leads",
 			Controller: controller.List[models.Lead](
@@ -156,5 +160,5 @@ var CRMModule = utils.Module{
 			),
 		},
 	},
-	AnonymousRoutes: utils.AnonymousRouteConfig{},
+	AnonymousRoutes: utils.AnonymousRoutes{},
 }

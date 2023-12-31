@@ -28,6 +28,7 @@ const Posts = lazy(() => import('../../pages/app/community/posts'));
 const Projects = lazy(() => import('../../pages/app/projects/all'));
 const Campaigns = lazy(() => import('../../pages/app/crm/campaigns'));
 const Workspaces = lazy(() => import('../../pages/app/iam/workspaces'));
+const Workflows = lazy(() => import('../../pages/app/tools/workflows'));
 const UserGroups = lazy(() => import('../../pages/app/iam/userGroups'));
 const AllChats = lazy(() => import('../../pages/app/community/allChats'));
 const LeadDetails = lazy(() => import('../../pages/app/crm/leadDetails'));
@@ -104,6 +105,7 @@ const AppRoutes = () => {
               <Route path='data-ingestor' Component={DataIngestor} />
               <Route path='dashboard-builder' Component={DashboardBuilder} />
               <Route path='server-metrics' Component={ServerMetrics} />
+              <Route path='workflow-builder' Component={Workflows} />
             </Route>
 
             <Route path='forms'>
@@ -125,7 +127,7 @@ const AppRoutes = () => {
 
             <Route path='settings'>
               <Route path='' element={<Navigate to='general' />} />
-              <Route path='general' Component={PortalSettings} />R R
+              <Route path='general' Component={PortalSettings} />
             </Route>
           </Route>
           <Route path='*' Component={NotFound} />

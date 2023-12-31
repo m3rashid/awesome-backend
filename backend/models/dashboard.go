@@ -12,6 +12,7 @@ const (
 
 type DashboardWidget struct {
 	BaseModel
+	ModelName   string     `json:"modelName" gorm:"modelName" validate:"required"`
 	Name        string     `json:"name" gorm:"column:name;not null" validate:"required"`
 	XField      string     `json:"xField" gorm:"column:xField;not null" validate:"required"`
 	YField      string     `json:"yField" gorm:"column:yField;not null" validate:"required"`
