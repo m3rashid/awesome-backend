@@ -53,3 +53,14 @@
 2. React Navigation for routing
 3. Axios for API calls
 4. Recoil for state management
+
+<hr />
+
+### COMING SOON
+
+1. Dashboard Builder with custom data and widgets
+2. Multi-tenancy support for mobile apps
+3. ETL (Extract, Transform, Load) for seamless data migration
+4. CLI to generate modules, models, controllers, etc
+5. Bundling the whole project as a low code tool for non-technical users
+6. More granular and configurable permissions management
