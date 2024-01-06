@@ -1,12 +1,14 @@
 ## Awesome
 
+Awesome follows a multi-tenannt architecture, where data is segregated at the database level. It keeps each tenant data separate in separate databases (keeping in mind, the compliance to GDPR and other data-protection policies)
+
 ### Setting up the project locally
 - Make sure you have nodejs installed v20 LTS
 - Make sure you have react native development environment setup properly (kindly refer the react native docs for this section) [https://reactnative.dev/docs/environment-setup?guide=native](https://reactnative.dev/docs/environment-setup?guide=native) 
 - If you have docker setup on your computer, you can run the backend directly via `docker compose up`. This will setup all the backend requirements and you can develop along, while the backend app runs inside the docker containers
 - Else, make sure you have latest version of go v1.21.5, postgres:latest and redis:latest installed on your system. Make sure you have air installed on your system (to constantly restart the server during development) You can install air via go `go install github.com/cosmtrek/air@latest`. Add the respective connection url string in the environment variables file (.env) and start the development server using the command `air`. 
 - Start the frontend web by first installing the packages (running `yarn` in the root of frontend folder). Then start the frontend app by yarn dev
-- Start the react native app directly by running `yarn android` and then `yarn start`
+- Start the react native app directly by running `yarn android` and then `yarn start` in the mobile folder.
 
 
 ### BACKEND
