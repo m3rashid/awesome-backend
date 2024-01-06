@@ -1,5 +1,14 @@
 ## Awesome
 
+### Setting up the project locally
+- Make sure you have nodejs installed v20 LTS
+- Make sure you have react native development environment setup properly (kindly refer the react native docs for this section) [https://reactnative.dev/docs/environment-setup?guide=native](https://reactnative.dev/docs/environment-setup?guide=native) 
+- If you have docker setup on your computer, you can run the backend directly via `docker compose up`. This will setup all the backend requirements and you can develop along, while the backend app runs inside the docker containers
+- Else, make sure you have latest version of go v1.21.5, postgres:latest and redis:latest installed on your system. Add the respective connection url string in the environment variables file (.env)
+- Start the frontend web by first installing the packages (running `yarn` in the root of frontend folder). Then start the frontend app by yarn dev
+- Start the react native app directly by running `yarn android` and then `yarn start`
+
+
 ### BACKEND
 
 1. Built with Golang and Fiber (PostgresQL as database)
