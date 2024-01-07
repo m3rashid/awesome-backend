@@ -41,53 +41,44 @@
 
 **Backend**
 
-1. Built with Golang and Fiber (PostgresQL as database)
+1. Built with Golang and Fiber Framework
 2. JWT based authentication
-3. Secure and Scalable assets management with signed URL asset uploads
-4. Email: Sending Emails, Email Templates
-5. Defaults Caching Solution with Redis
-6. Permissions Management with Casbin and RBAC
-7. Module system
+3. Secure assets management with signed URL asset uploads
+4. Defaults Caching Solution with Redis
+5. Permissions Management with Casbin and RBAC
+6. Module system
    - Auto DB migrations
    - Error handling
    - Automatic routes
    - single configuration file for each module
-8. Master (Default) router/controller setup
-9. Input sanitization and validation with struct validators
-10. Multi-tenancy support with separate database for each tenant (clients)
-11. Configurable and runtime user-defined workflows based on server actions and event driven architecture
-12. Easy to use and extendable logging system with log levels and log rotation
-13. Easy to use and extendable configuration system
-14. Day-One support for websockets
-15. Day-One support for Docker and Docker Compose
-16. Hot module reloading for development (also works with docker and docker-compose)
+7. Master (Default) router/controller setup
+8. Multi-tenancy support with separate database for each tenant (clients)
+9. Easy to use and extendable logging system with log levels and log rotation
+10. Day-One support for websockets, Docker and Docker Compose
+11. Hot module reloading for development (also works with docker and docker-compose)
 
 <br />
 
 **Frontends**
 
-1. Built with React and Typescript
+1. Built with Typescript and React
 2. Modular Architecture with prime focus on Reusability and de-duplication
-3. Authentication and Authorization
-4. Multi-tenancy support
-5. Package management for code reuse between admin web, tenant web and mobile apps
-6. Configurable UI components
-7. Shippable as a standalone native desktop app (Windows, Linux, MacOS)
-8. Auto-pick the correct node version on directory change
-9. Hot module reloading for development
-10. Data sanitization and validation with ZOD
-11. State management with Recoil, Axios for API calls, React Hook Form for form management
-12. Services for API calls handling all the boilerplate code for authorization, error handling, etc, typescript-typed responses etc.
-13. Web
-    - Microsoft Fluent UI for UI components
-    - React Router for routing
-14. Mobile
+3. Authentication and Authorization with Multi-tenancy support
+4. Package management for code reuse between admin web, tenant web and mobile apps
+5. Shippable as a standalone native desktop app (Windows, Linux, MacOS)
+6. Auto-pick the correct node version on directory change
+7. State management, API calls, form management etc. set up and ready to use
+8. Services for API calls handling all the boilerplate code for authorization, error handling, etc, typescript-typed responses etc.
+9. Website
+   - Microsoft Fluent UI for UI components
+   - React Router for routing
+10. Mobile
     - Gluestack UI for UI components
     - React Navigation for routing
 
 ---
 
-### COMING SOON
+### Coming Soon
 
 1. Dashboard Builder with custom data and widgets
 2. Multi-tenancy support for mobile apps
@@ -95,3 +86,4 @@
 4. CLI to generate modules, models, controllers, etc
 5. Bundling the whole project as a low code tool for non-technical users
 6. More granular and configurable permissions management
+7. Configurable and runtime user-defined workflows based on server actions and event driven architecture
