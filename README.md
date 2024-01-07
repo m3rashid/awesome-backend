@@ -1,17 +1,45 @@
-## Awesome
+### Awesome
 
-Awesome follows a multi-tenannt architecture, where data is segregated at the database level. It keeps each tenant data separate in separate databases (keeping in mind, the compliance to GDPR and other data-protection policies)
+- Awesome follows a multi-tenannt architecture, where data is segregated at the database level.
+- It keeps each tenant data separate in separate databases (keeping in mind, the compliance to common data-protection policies).
+- It also provides a multi-tenant admin web app, where the admin can manage all the tenants, users, roles, permissions, etc.
+- It also provides a multi-tenant web app, where the tenants can manage their own data.
+- Currently, the mobile app does not support multi-tenancy, but it will be added soon.
+
+---
 
 ### Setting up the project locally
+
+**Frontend**
+
 - Make sure you have nodejs installed v20 LTS
-- Make sure you have react native development environment setup properly (kindly refer the react native docs for this section) [https://reactnative.dev/docs/environment-setup?guide=native](https://reactnative.dev/docs/environment-setup?guide=native) 
-- If you have docker setup on your computer, you can run the backend directly via `docker compose up`. This will setup all the backend requirements and you can develop along, while the backend app runs inside the docker containers
-- Else, make sure you have latest version of go v1.21.5, postgres:latest and redis:latest installed on your system. Make sure you have air installed on your system (to constantly restart the server during development) You can install air via go `go install github.com/cosmtrek/air@latest`. Add the respective connection url string in the environment variables file (.env) and start the development server using the command `air`. 
-- Start the frontend web by first installing the packages (running `yarn` in the root of frontend folder). Then start the frontend app by yarn dev
-- Start the react native app directly by running `yarn android` and then `yarn start` in the mobile folder.
+- Make sure you have react native development environment setup properly kindly refer the [react native installation docs](https://reactnative.dev/docs/environment-setup?guide=native) for this section
+- Go to the frontend folder and run `yarn` to install all the dependencies
+- `cd web` and run `yarn dev` to start the web app
+- `cd mobile` and run `yarn android` and then `yarn start` to start the mobile app
 
+<br />
 
-### BACKEND
+**Backend**
+
+1. With Docker
+   - Make sure you have docker installed on your system
+   - Go to the backend folder and run `docker compose up`
+   - you can also develop along, while the backend app runs inside the docker containers
+2. Without Docker
+   - Make sure the following dependencies are installed
+     - Golang v1.21.5
+     - PostgresQL
+     - Redis
+   - Install Air (for hot module reloading) `go install github.com/cosmtrek/air@latest`
+   - Add the respective connection url string in the environment variables file (.env) for postgres and redis
+   - Go to the backend folder and start the development server using the command `air`.
+
+---
+
+### Project Structure
+
+**Backend**
 
 1. Built with Golang and Fiber (PostgresQL as database)
 2. JWT based authentication
@@ -34,9 +62,9 @@ Awesome follows a multi-tenannt architecture, where data is segregated at the da
 15. Day-One support for Docker and Docker Compose
 16. Hot module reloading for development (also works with docker and docker-compose)
 
-<hr />
+<br />
 
-### FRONTEND
+**Frontends**
 
 1. Built with React and Typescript
 2. Modular Architecture with prime focus on Reusability and de-duplication
@@ -48,24 +76,16 @@ Awesome follows a multi-tenannt architecture, where data is segregated at the da
 8. Auto-pick the correct node version on directory change
 9. Hot module reloading for development
 10. Data sanitization and validation with ZOD
-11. Services for API calls handling all the boilerplate code for authorization, error handling, etc, typescript-typed responses etc.
+11. State management with Recoil, Axios for API calls, React Hook Form for form management
+12. Services for API calls handling all the boilerplate code for authorization, error handling, etc, typescript-typed responses etc.
+13. Web
+    - Microsoft Fluent UI for UI components
+    - React Router for routing
+14. Mobile
+    - Gluestack UI for UI components
+    - React Navigation for routing
 
-### WEB FRONTEND
-
-1.  Microsoft Fluent UI for UI components
-2.  React Router for routing
-3.  Recoil for state management
-4.  Axios for API calls
-5.  React Hook Form for form management
-
-### MOBILE FRONTEND
-
-1. Gluestack UI for UI components
-2. React Navigation for routing
-3. Axios for API calls
-4. Recoil for state management
-
-<hr />
+---
 
 ### COMING SOON
 
