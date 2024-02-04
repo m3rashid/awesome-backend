@@ -3,7 +3,6 @@ package controller
 import (
 	"encoding/json"
 	"log"
-	"net/http"
 
 	"awesome/models"
 
@@ -39,7 +38,7 @@ func Update[T interface{}](
 		err = validate.Struct(update)
 		if err != nil {
 			log.Println(err)
-			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -50,7 +49,7 @@ func Update[T interface{}](
 		} else {
 			db, err = GetDbFromRequestOrigin(ctx)
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": err.Error(),
 				})
 			}
@@ -58,14 +57,14 @@ func Update[T interface{}](
 
 		err = db.Table(tableName).Where(searchCriteria).Updates(update).Error
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
 
 		jsonByte, err := json.Marshal(update)
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -73,7 +72,7 @@ func Update[T interface{}](
 		var createdResponse CreatedDBResponse
 		err = json.Unmarshal(jsonByte, &createdResponse)
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -96,13 +95,13 @@ func Update[T interface{}](
 
 			err = db.Table(models.RESOURCE_MODEL_NAME).Where("resourceId = ?", createdResponse.ID).Updates(&newResource).Error
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": err.Error(),
 				})
 			}
 		}
 
-		return ctx.Status(http.StatusOK).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 			"message": "Document updated successfully",
 		})
 	}

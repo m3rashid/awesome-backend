@@ -3,7 +3,6 @@ package controller
 import (
 	"encoding/json"
 	"log"
-	"net/http"
 
 	"awesome/models"
 
@@ -20,7 +19,7 @@ func Create[T interface{}](
 		var data CreateRequestBody[T]
 		err := ctx.BodyParser(&data)
 		if err != nil {
-			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -31,7 +30,7 @@ func Create[T interface{}](
 		} else {
 			db, err = GetDbFromRequestOrigin(ctx)
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": err.Error(),
 				})
 			}
@@ -41,7 +40,7 @@ func Create[T interface{}](
 			err = options.PreCreate(ctx, db, &data.Body)
 			if err != nil {
 				log.Println("Pre Create Error: ", err.Error())
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": err.Error(),
 				})
 			}
@@ -50,14 +49,14 @@ func Create[T interface{}](
 		validate := validator.New()
 		err = validate.Struct(data)
 		if err != nil {
-			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
 
 		err = db.Create(&data.Body).Error
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -66,7 +65,7 @@ func Create[T interface{}](
 			err = options.PostCreate(ctx, db, &data.Body)
 			if err != nil {
 				log.Println("Post Create Error: ", err.Error())
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": err.Error(),
 				})
 			}
@@ -74,7 +73,7 @@ func Create[T interface{}](
 
 		jsonByte, err := json.Marshal(data.Body)
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -82,7 +81,7 @@ func Create[T interface{}](
 		var createdResponse CreatedDBResponse
 		err = json.Unmarshal(jsonByte, &createdResponse)
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -105,13 +104,13 @@ func Create[T interface{}](
 
 			err = db.Create(&newResource).Error
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": err.Error(),
 				})
 			}
 		}
 
-		return ctx.Status(http.StatusCreated).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
 			"message": "Created Successfully",
 		})
 	}

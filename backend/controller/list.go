@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"net/http"
-
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -40,7 +38,7 @@ func List[T interface{}](
 		} else {
 			db, err = GetDbFromRequestOrigin(ctx)
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": err.Error(),
 				})
 			}
@@ -56,7 +54,7 @@ func List[T interface{}](
 		if options.ModifyDbCall != nil {
 			db, err = options.ModifyDbCall(db, listBody)
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": err.Error(),
 				})
 			}
@@ -74,7 +72,7 @@ func List[T interface{}](
 		}
 
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -87,7 +85,7 @@ func List[T interface{}](
 		}
 
 		if err != nil {
-			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -101,6 +99,6 @@ func List[T interface{}](
 			HasNextPage:     docsCount > int64(paginationOptions.Page*paginationOptions.Limit),
 			HasPreviousPage: paginationOptions.Page > 1,
 		}
-		return ctx.Status(http.StatusOK).JSON(response)
+		return ctx.Status(fiber.StatusOK).JSON(response)
 	}
 }

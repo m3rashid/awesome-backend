@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"net/http"
-
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -12,7 +10,7 @@ func Get[T interface{}](options GetOptions[T]) func(*fiber.Ctx) error {
 		var requestBody GetBody[T]
 		err := ctx.BodyParser(&requestBody)
 		if err != nil {
-			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
@@ -23,7 +21,7 @@ func Get[T interface{}](options GetOptions[T]) func(*fiber.Ctx) error {
 		} else {
 			db, err = GetDbFromRequestOrigin(ctx)
 			if err != nil {
-				return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": err.Error(),
 				})
 			}
@@ -38,10 +36,10 @@ func Get[T interface{}](options GetOptions[T]) func(*fiber.Ctx) error {
 
 		err = db.Where(requestBody.SearchCriteria).First(&column).Error
 		if err != nil {
-			return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": err.Error(),
 			})
 		}
-		return ctx.Status(http.StatusOK).JSON(column)
+		return ctx.Status(fiber.StatusOK).JSON(column)
 	}
 }
