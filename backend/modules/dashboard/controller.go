@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-var AllSchemaMaps utils.SchemaMap
+var AllSchemaMaps = make(utils.SchemaMap)
 
 const MAX_LAST_ENTRIES = 20
 

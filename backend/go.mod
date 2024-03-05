@@ -1,6 +1,6 @@
 module awesome
 
-go 1.21.5
+go 1.22
 
 require (
 	github.com/Pacific73/gorm-cache v1.1.1

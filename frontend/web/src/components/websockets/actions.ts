@@ -1,5 +1,3 @@
-import { AuthAtom } from '@awesome/shared/atoms/auth';
-import { ServerToClientMessageFormat } from '@awesome/shared/types/ws';
 import { SetterOrUpdater } from 'recoil';
 
 const handleServerMessage = (

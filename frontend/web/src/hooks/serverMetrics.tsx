@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { service } from '@awesome/shared-web/utils/service';
+import { service } from '@awesome/shared/utils/service';
 
 export interface Pid {
   cpu: number;
@@ -44,7 +44,9 @@ const useMetrics = () => {
   const [error, seError] = useState(false);
 
   const [metrics, setMetrics] = useState<Metrics>(initialMetrics);
-  const getMetricsService = service<{ pid: Pid; os: Os }>('/metrics');
+  const getMetricsService = service<{ pid: Pid; os: Os }>('/metrics', {
+    method: 'GET',
+  });
 
   const refreshData = async () => {
     try {

@@ -95,7 +95,6 @@ func GetHostDB() *gorm.DB {
 			os.Getenv("POSTGRES_PORT"),
 			os.Getenv("POSTGRES_DB"),
 		)
-
 		gormDB, err := GetDbConnection(dbStr)
 		if err != nil {
 			fmt.Println("Error initializing host db: ", err)

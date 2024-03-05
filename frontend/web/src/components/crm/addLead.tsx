@@ -1,5 +1,4 @@
-import useForm from '@awesome/shared-web/hooks/form';
-import { leadStatus } from '@awesome/shared/types/crm';
+import useForm from '@awesome/shared/hooks/form';
 import {
   Button,
   Dialog,
@@ -14,6 +13,7 @@ import {
 } from '@fluentui/react-components';
 import React from 'react';
 import useLeads from './useLeads';
+import { leadStatus } from '@awesome/shared/types/crm';
 
 export type AddLeadProps = {};
 

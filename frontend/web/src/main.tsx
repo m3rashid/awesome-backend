@@ -1,4 +1,4 @@
-import '@awesome/shared-web/index.css';
+import '@awesome/shared/index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

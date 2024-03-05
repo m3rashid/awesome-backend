@@ -1,5 +1,4 @@
-import { ResourceType } from '@awesome/shared/types/search';
-import { service } from '@awesome/shared-web/utils/service';
+import { service } from '@awesome/shared/utils/service';
 
 import { debounce } from 'lodash-es';
 import { useCallback, useState } from 'react';

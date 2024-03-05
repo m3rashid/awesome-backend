@@ -1,4 +1,4 @@
-import { service } from '@awesome/shared-web/utils/service';
+import { service } from '@awesome/shared/utils/service';
 import {
   Button,
   Dialog,

@@ -1,8 +1,8 @@
-import { PaginatedResponse } from '@awesome/shared/types/base';
-import { Lead, leadStatus } from '@awesome/shared/types/crm';
 import { atom, useRecoilState } from 'recoil';
 import { BoardItems } from './board';
-import { service } from '@awesome/shared-web/utils/service';
+import { service } from '@awesome/shared/utils/service';
+import { Lead, leadStatus } from '@awesome/shared/types/crm';
+import { PaginatedResponse } from '@awesome/shared/types/base';
 
 export const leadsModalAtom = atom({
   key: 'leadsModalAtom',

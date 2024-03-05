@@ -2,7 +2,6 @@ import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import { useDraggable } from '@dnd-kit/core';
 import { Card } from '@fluentui/react-components';
-import { Lead } from '@awesome/shared/types/crm';
 import { useNavigate } from 'react-router-dom';
 
 export type LeadCardProps = {

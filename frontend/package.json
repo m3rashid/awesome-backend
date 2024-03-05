@@ -2,21 +2,6 @@
   "name": "clients",
   "version": "1.0.0",
   "license": "MIT",
-  "scripts": {
-    "watch": "nodemon --exec ./watch.sh --watch shared/**/*",
-    "postinstall": "cd mobile && yarn && cd .. && ./watch.sh"
-  },
-  "private": true,
-  "workspaces": [
-		"shared-web",
-    "shared",
-		"admin",
-    "web"
-  ],
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
-	"engines": {
-		"node": "=20.10.0"
-	}
+  "scripts": {},
+  "private": true
 }

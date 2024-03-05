@@ -1,4 +1,4 @@
-import CommonHeader from '@awesome/shared-web/components/commonHeader';
+import CommonHeader from '@awesome/shared/components/commonHeader';
 import { Avatar } from '@fluentui/react-components';
 import React, { PropsWithChildren } from 'react';
 

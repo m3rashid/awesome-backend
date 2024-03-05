@@ -1,10 +1,9 @@
-import { useAuthValue } from '@awesome/shared/atoms/auth';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import PostCard from '../../../components/atoms/postCard';
 import PageContainer from '../../../components/pageContainer';
-import { service } from '@awesome/shared-web/utils/service';
+import { service } from '@awesome/shared/utils/service';
 
 const CommunityProfile: React.FC = () => {
   const { userId } = useParams();

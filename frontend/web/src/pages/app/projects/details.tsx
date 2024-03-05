@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import AddUpdateProjectTask from '../../../components/projects/addUpdateProjectTask';
 import PageContainer from '../../../components/pageContainer';
-import { service } from '@awesome/shared-web/utils/service';
+import { service } from '@awesome/shared/utils/service';
 import AddRemoveMembersToProject from '../../../components/projects/addRemoveMembers';
 
 const ProjectTasks: React.FC = () => {

@@ -8,8 +8,9 @@ import {
 } from '@dnd-kit/core';
 import React from 'react';
 import KanbanLane from './kanbanLane';
-import { Lead, LeadStatus } from '@awesome/shared/types/crm';
 import useLeads from './useLeads';
+
+import { LeadStatus, Lead } from '@awesome/shared/types/crm';
 
 export type BoardProps = {};
 

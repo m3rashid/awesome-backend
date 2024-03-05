@@ -1,6 +1,6 @@
 import DefaultPageContainer, {
   PageContainerProps,
-} from '@awesome/shared-web/components/pageContainer';
+} from '@awesome/shared/components/pageContainer';
 import RootContainer from './rootContainer';
 
 const PageContainer: React.FC<

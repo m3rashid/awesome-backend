@@ -2,8 +2,6 @@ import React from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { Body1Strong } from '@fluentui/react-components';
 
-import { LeadStatus } from '@awesome/shared/types/crm';
-
 import LeadCard from './leadCard';
 import useLeads from './useLeads';
 

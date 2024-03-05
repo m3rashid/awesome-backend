@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FluentUiProvider from '@awesome/shared-web/components/fluentUiProvider';
+import FluentUiProvider from '@awesome/shared/components/fluentUiProvider';
 
 const AppRoutes = React.lazy(() => import('../routes'));
 

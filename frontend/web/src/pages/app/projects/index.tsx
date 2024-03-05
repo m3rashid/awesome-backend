@@ -1,5 +1,6 @@
-import { useAuthValue } from '@awesome/shared/atoms/auth';
 import React from 'react';
+
+import { useAuthValue } from '@awesome/shared/atoms/auth';
 
 import PageContainer from '../../../components/pageContainer';
 

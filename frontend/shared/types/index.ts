@@ -1,1 +1,1 @@
-export type Platform = 'web' | 'mobile' | 'desktop';
+export type Platform = 'web' | 'desktop';

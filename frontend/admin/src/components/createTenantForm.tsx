@@ -1,4 +1,4 @@
-import BrandHeader from '@awesome/shared-web/components/brandHeader';
+import BrandHeader from '@awesome/shared/components/brandHeader';
 import {
   Button,
   Card,
@@ -7,7 +7,7 @@ import {
   Spinner,
 } from '@fluentui/react-components';
 import React from 'react';
-import useForm from '@awesome/shared-web/hooks/form';
+import useForm from '@awesome/shared/hooks/form';
 
 export type CreateTenantFormProps = {
   onSuccess?: () => void;

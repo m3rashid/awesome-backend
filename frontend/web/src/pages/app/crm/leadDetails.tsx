@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 
 import PageContainer from '../../../components/pageContainer';
 import { useParams } from 'react-router-dom';
-import { service } from '@awesome/shared-web/utils/service';
-import { Lead, LeadTask, LeadTimelineEvent } from '@awesome/shared/types/crm';
-import { PaginatedResponse } from '@awesome/shared/types/base';
+import { service } from '@awesome/shared/utils/service';
 
 const LeadDetails: React.FC = () => {
   const { leadId } = useParams();

@@ -1,8 +1,7 @@
-import { useAuthValue } from '@awesome/shared/atoms/auth';
 import { Button, Input, Spinner } from '@fluentui/react-components';
 import React from 'react';
 
-import useForm from '@awesome/shared-web/hooks/form';
+import useForm from '@awesome/shared/hooks/form';
 
 export type AddPostCommentProps = {
   postId: number;

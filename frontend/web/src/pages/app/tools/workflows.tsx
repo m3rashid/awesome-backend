@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PageContainer from '../../../components/pageContainer';
 import { Button } from '@fluentui/react-components';
-import { service } from '@awesome/shared-web/utils/service';
-import { PaginatedResponse } from '@awesome/shared/types/base';
-import { Workflow } from '@awesome/shared/types/workflow';
+import { service } from '@awesome/shared/utils/service';
 
 export type WorkflowsProps = {
   //

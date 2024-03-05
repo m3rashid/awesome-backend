@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+
 import { Tenant } from '@awesome/shared/types/host';
-import { service } from '@awesome/shared-web/utils/service';
+import Loader from '@awesome/shared/components/loader';
+import useLoading from '@awesome/shared/hooks/loading';
+import { service } from '@awesome/shared/utils/service';
+import PageContainer from '../components/pageContainer';
 import { useAuthValue } from '@awesome/shared/atoms/auth';
 import CreateTenantForm from '../components/createTenantForm';
-import useLoading from '@awesome/shared/hooks/loading';
-import Loader from '@awesome/shared-web/components/loader';
-import PageContainer from '../components/pageContainer';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();

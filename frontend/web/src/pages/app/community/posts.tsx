@@ -1,4 +1,4 @@
-import { useAuthValue } from '@awesome/shared/atoms/auth';
+import _ from 'lodash-es';
 import {
   Button,
   Card,
@@ -8,12 +8,13 @@ import {
   Textarea,
 } from '@fluentui/react-components';
 import { Add20Regular } from '@fluentui/react-icons';
-import _ from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 
+import useForm from '@awesome/shared/hooks/form';
+import { service } from '@awesome/shared/utils/service';
+import { useAuthValue } from '@awesome/shared/atoms/auth';
+
 import PostCard from '../../../components/atoms/postCard';
-import { service } from '@awesome/shared-web/utils/service';
-import useForm from '@awesome/shared-web/hooks/form';
 import PageContainer from '../../../components/pageContainer';
 
 const Posts: React.FC = () => {

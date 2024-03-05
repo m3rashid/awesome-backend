@@ -1,4 +1,3 @@
-import { useAuthValue } from '@awesome/shared/atoms/auth';
 import {
   Avatar,
   Body1,
@@ -19,7 +18,7 @@ import { emoticonToEmoji } from 'to-emoji';
 
 import PageContainer from '../../../components/pageContainer';
 import useWebSocketConnection from '../../../components/websockets/useConnection';
-import { service } from '@awesome/shared-web/utils/service';
+import { service } from '@awesome/shared/utils/service';
 
 const SingleChat: React.FC = () => {
   const { chatId } = useParams();

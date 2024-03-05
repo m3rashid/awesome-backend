@@ -1,4 +1,4 @@
-import { service } from '@awesome/shared-web/utils/service';
+import { service } from '@awesome/shared/utils/service';
 import {
   Avatar,
   Body1,
@@ -15,11 +15,9 @@ import {
   Option,
 } from '@fluentui/react-components';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Project } from '@awesome/shared/types/project';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { Delete20Regular, Search20Regular } from '@fluentui/react-icons';
-import { User } from '@awesome/shared/types/auth';
 import { debounce } from 'lodash-es';
 
 export type AddRemoveMembersToProjectProps = {

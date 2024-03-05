@@ -1,10 +1,10 @@
+import React from 'react';
 import { AreaChart } from '@fluentui/react-charting';
 import { Card, Skeleton, SkeletonItem, Text } from '@fluentui/react-components';
-import React from 'react';
 
-import WidgetContainer from '../../../components/dashboardBuilder/widgetContainer';
-import PageContainer from '../../../components/pageContainer';
 import useMetrics from '../../../hooks/serverMetrics';
+import PageContainer from '../../../components/pageContainer';
+import WidgetContainer from '../../../components/dashboardBuilder/widgetContainer';
 
 const ServerMetrics: React.FC = () => {
   const { error, metrics } = useMetrics();

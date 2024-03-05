@@ -1,11 +1,11 @@
-import { useAuthState } from '@awesome/shared/atoms/auth';
+import { useEffect, useRef, useState } from 'react';
+
+import handleServerMessage from './actions';
 import {
   ClientToServerMessageFormat,
   ServerActionType,
 } from '@awesome/shared/types/ws';
-import { useEffect, useRef, useState } from 'react';
-
-import handleServerMessage from './actions';
+import { useAuthState } from '@awesome/shared/atoms/auth';
 
 type WebSocketMessage = Omit<ClientToServerMessageFormat, 'token'>;
 

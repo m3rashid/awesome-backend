@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Footer from '../components/footer';
-import CommonHeader from '@awesome/shared-web/components/commonHeader';
+import CommonHeader from '@awesome/shared/components/commonHeader';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
